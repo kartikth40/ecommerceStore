@@ -34,6 +34,7 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoFocus
+            placeholder="Email"
           />
 
           <RegisterSubmit type="submit">Register</RegisterSubmit>
