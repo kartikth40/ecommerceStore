@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { auth } from '../../firebase'
 import { toast } from 'react-toastify'
 
-const RegisterComplete = ({ history }) => {
+const RegisterComplete = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const history = useHistory()
 
   useEffect(() => {
     setEmail(window.localStorage.getItem('emailForRegistration'))
@@ -15,7 +17,7 @@ const RegisterComplete = ({ history }) => {
     e.preventDefault()
     // validation
     if (!email || !password) {
-      toast.error('Enter the New Password is required')
+      toast.error('Email and Password fields cannot be empty.')
       return
     }
     if (password.length < 6) {

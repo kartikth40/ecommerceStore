@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import firebase from 'firebase'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav')
@@ -20,6 +21,14 @@ function Header() {
         <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
           <NavLink to="/">Home</NavLink>
         </NavItems>
+        <DropDownMenu>
+          <DropDownBtn>UserName</DropDownBtn>
+          <DropDownContent>
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+          </DropDownContent>
+        </DropDownMenu>
       </NavLeft>
 
       <NavRight>
@@ -61,5 +70,41 @@ const NavLink = styled(Link)`
   pointer-events: all;
   &:hover {
     border-color: red;
+  }
+`
+
+const DropDownBtn = styled.div`
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+`
+const DropDownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  & a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  & a:hover {
+    background-color: #f1f1f1;
+  }
+`
+const DropDownMenu = styled.div`
+  position: relative;
+  display: inline-block;
+  &:hover ${DropDownContent} {
+    display: block;
+  }
+  &:hover ${DropDownBtn} {
+    background-color: #3e8e41;
   }
 `
