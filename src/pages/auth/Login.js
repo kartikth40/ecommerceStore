@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import styled, { css } from 'styled-components'
-import { auth } from '../../firebase'
+import { auth, googleAuthProvider } from '../../firebase'
 import { toast } from 'react-toastify'
 
 const Login = () => {
@@ -20,12 +20,15 @@ const Login = () => {
 
     if (!email || password.length < 6) {
       toast.error('Email and Password should be valid.')
+      setLoading(false)
+      return
     }
 
     try {
       const result = await auth.signInWithEmailAndPassword(email, password)
       const { user } = result
       const idTokenResult = await user.getIdTokenResult()
+
       // login user
       dispatch({
         type: 'LOGGED_IN_USER',
@@ -36,33 +39,67 @@ const Login = () => {
       })
       history.push('/')
     } catch (error) {
+      if (error.code === 'auth/user-not-found') {
+        toast.error('Your Email or Password are incorrect.')
+      } else {
+        toast.error(error.message)
+      }
       console.log(error)
-      toast.error('error.message')
       setLoading(false)
     }
   }
 
+  const googleLogin = () => {
+    setLoading(true)
+    auth
+      .signInWithPopup(googleAuthProvider)
+      .then(async (result) => {
+        const { user } = result
+        const idTokenResult = await user.getIdTokenResult()
+
+        dispatch({
+          type: 'LOGGED_IN_USER',
+          payload: {
+            email: user.email,
+            token: idTokenResult.token,
+          },
+        })
+        history.push('/')
+      })
+      .catch((error) => {
+        setLoading(false)
+        console.log(error)
+        toast.error(error.message)
+      })
+  }
   return (
     <Container>
-      <LoginForm onSubmit={handleSubmit}>
-        <LoginInput
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoFocus
-          placeholder="Your Email"
-        />
-        <LoginInput
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Your Password"
-        />
-        <br />
-        <LoginSubmit disable={!email || password.length < 6} type="submit">
-          Login
-        </LoginSubmit>
-      </LoginForm>
+      {loading ? (
+        <h4>Loading...</h4>
+      ) : (
+        <LoginForm onSubmit={handleSubmit}>
+          <LoginInput
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoFocus
+            placeholder="Your Email"
+          />
+          <LoginInput
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Your Password"
+          />
+          <br />
+          <LoginSubmit disable={!email || password.length < 6} type="submit">
+            Login with Email
+          </LoginSubmit>
+          <LoginWithGoogle onClick={googleLogin} type="button">
+            Login with Google
+          </LoginWithGoogle>
+        </LoginForm>
+      )}
     </Container>
   )
 }
@@ -97,9 +134,11 @@ const LoginInput = styled.input`
 const LoginSubmit = styled.button`
   background-color: black;
   color: white;
+  width: 100%;
   display: block;
   font-size: 30px;
   padding: 10px 20px;
+  margin: 10px;
   border: none;
   transition: 250ms all;
   &:hover {
@@ -122,4 +161,7 @@ const LoginSubmit = styled.button`
         border-radius: 0;
       }
     `}
+`
+const LoginWithGoogle = styled(LoginSubmit)`
+  background-color: red;
 `
