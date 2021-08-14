@@ -47,32 +47,65 @@ const RegisterComplete = () => {
 
   return (
     <Container>
-      <Row>
-        <h4>Register Complete</h4>
+      <h4>Register Complete</h4>
 
-        <RegisterForm onSubmit={handleSubmit}>
-          <RegisterInput type="email" value={email} disabled />
-          <RegisterInput
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoFocus
-            placeholder="Password"
-          />
-          <br />
-          <RegisterSubmit type="submit">Complete Register</RegisterSubmit>
-        </RegisterForm>
-      </Row>
+      <RegisterForm onSubmit={handleSubmit}>
+        <RegisterInput type="email" value={email} disabled />
+        <RegisterInputPass
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoFocus
+          placeholder="Password"
+        />
+        <br />
+        <RegisterSubmit type="submit">Complete Register</RegisterSubmit>
+      </RegisterForm>
     </Container>
   )
 }
 
 export default RegisterComplete
-
 const Container = styled.div`
-  padding: 10px;
+  font-size: 50px;
+  min-height: 200px;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `
-const Row = styled.div``
-const RegisterForm = styled.form``
-const RegisterInput = styled.input``
-const RegisterSubmit = styled.button``
+const RegisterForm = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`
+const RegisterInput = styled.input`
+  width: 300px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  outline: none;
+`
+const RegisterInputPass = styled(RegisterInput)`
+  border-bottom: 3px black solid;
+`
+const RegisterSubmit = styled.button`
+  background-color: black;
+  color: white;
+  display: block;
+  font-size: 30px;
+  padding: 10px 20px;
+  border: none;
+  transition: 250ms all;
+  &:hover {
+    opacity: 0.85;
+    border-radius: 50px;
+  }
+  &:focus {
+    opacity: 0.5;
+    border-radius: 50px 50px 0 50px;
+  }
+`

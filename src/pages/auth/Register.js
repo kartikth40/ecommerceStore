@@ -5,8 +5,12 @@ import { toast } from 'react-toastify'
 
 const Register = () => {
   const [email, setEmail] = useState('')
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!email) {
+      toast.error('Email Field should not be empty.')
+    }
     const config = {
       url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
       handleCodeInApp: true,
@@ -25,21 +29,17 @@ const Register = () => {
 
   return (
     <Container>
-      <Row>
-        <h4>Register</h4>
-
-        <RegisterForm onSubmit={handleSubmit}>
-          <RegisterInput
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoFocus
-            placeholder="Email"
-          />
-
-          <RegisterSubmit type="submit">Register</RegisterSubmit>
-        </RegisterForm>
-      </Row>
+      <RegisterForm onSubmit={handleSubmit}>
+        <RegisterInput
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoFocus
+          placeholder="Your Email"
+        />
+        <br />
+        <RegisterSubmit type="submit">Register</RegisterSubmit>
+      </RegisterForm>
     </Container>
   )
 }
@@ -47,9 +47,43 @@ const Register = () => {
 export default Register
 
 const Container = styled.div`
-  padding: 10px;
+  font-size: 50px;
+  min-height: 200px;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `
-const Row = styled.div``
-const RegisterForm = styled.form``
-const RegisterInput = styled.input``
-const RegisterSubmit = styled.button``
+const RegisterForm = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`
+const RegisterInput = styled.input`
+  width: 300px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 3px solid black;
+`
+const RegisterSubmit = styled.button`
+  background-color: black;
+  color: white;
+  display: block;
+  font-size: 30px;
+  padding: 10px 20px;
+  border: none;
+  transition: 250ms all;
+  &:hover {
+    opacity: 0.85;
+    border-radius: 50px;
+  }
+  &:focus {
+    opacity: 0.5;
+    border-radius: 50px 50px 0 50px;
+  }
+`

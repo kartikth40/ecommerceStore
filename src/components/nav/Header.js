@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
+import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav')
+  const dispatch = useDispatch()
+  const history = useHistory()
   useEffect(() => {
     document
       .querySelectorAll('.nav-item')
@@ -14,7 +18,14 @@ function Header() {
   const handleClick = (e) => {
     setCurrent(e.target.parentElement.id)
   }
-
+  const logout = () => {
+    firebase.auth().signOut()
+    dispatch({
+      type: 'LOGOUT',
+      payload: null,
+    })
+    history.push('/login')
+  }
   return (
     <HeaderContainer>
       <NavLeft>
@@ -24,9 +35,9 @@ function Header() {
         <DropDownMenu>
           <DropDownBtn>UserName</DropDownBtn>
           <DropDownContent>
-            <a href="#">Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
+            <span>Link 1</span>
+            <span>Link 2</span>
+            <span onClick={logout}>LogOut</span>
           </DropDownContent>
         </DropDownMenu>
       </NavLeft>
@@ -52,33 +63,36 @@ const HeaderContainer = styled.div`
 
 const NavItems = styled.div`
   display: inline-block;
-  padding: 0.5rem;
-  margin: 0.5rem;
   pointer-events: none;
+  width: max-content;
 `
 const NavLeft = styled.div``
 const NavRight = styled.div`
   margin-left: auto;
 `
 const NavLink = styled(Link)`
+  padding: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  border: 2px solid black;
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
-  padding: 0.5rem;
   margin: 0.5rem;
-  border: 1px black solid;
-  border-radius: 10px;
   pointer-events: all;
   &:hover {
-    border-color: red;
+    background-color: black;
+    color: white;
   }
 `
 
-const DropDownBtn = styled.div`
-  background-color: #4caf50;
-  color: white;
-  padding: 16px;
+const DropDownBtn = styled.button`
+  background-color: white;
+  padding: 10px;
+  margin: 0 10px;
   font-size: 16px;
-  border: none;
+  font-weight: bold;
+  border: 2px solid black;
   cursor: pointer;
 `
 const DropDownContent = styled.div`
@@ -87,15 +101,18 @@ const DropDownContent = styled.div`
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border: 2px solid black;
+  cursor: pointer;
+
   z-index: 1;
-  & a {
+  & span {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
   }
-  & a:hover {
-    background-color: #f1f1f1;
+  & span:hover {
+    background-color: rgba(0, 0, 0, 0.2);
   }
 `
 const DropDownMenu = styled.div`
@@ -105,6 +122,7 @@ const DropDownMenu = styled.div`
     display: block;
   }
   &:hover ${DropDownBtn} {
-    background-color: #3e8e41;
+    background-color: black;
+    color: white;
   }
 `

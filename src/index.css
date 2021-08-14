@@ -1,4 +1,11 @@
-.selected {
-  color: red;
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+.selected > a {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.9);
   transform: scale(95%);
 }
