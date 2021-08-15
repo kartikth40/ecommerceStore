@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import firebase from 'firebase'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav')
+
   const dispatch = useDispatch()
+  const { user } = useSelector((state) => ({ ...state }))
   const history = useHistory()
+
   useEffect(() => {
     document
       .querySelectorAll('.nav-item')
@@ -32,23 +34,33 @@ function Header() {
         <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
           <NavLink to="/">Home</NavLink>
         </NavItems>
-        <DropDownMenu>
-          <DropDownBtn>UserName</DropDownBtn>
-          <DropDownContent>
-            <span>Link 1</span>
-            <span>Link 2</span>
-            <span onClick={logout}>LogOut</span>
-          </DropDownContent>
-        </DropDownMenu>
       </NavLeft>
-
       <NavRight>
-        <NavItems id="Register-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/register">Register</NavLink>
-        </NavItems>
-        <NavItems id="Login-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/login">Login</NavLink>
-        </NavItems>
+        {user && (
+          <DropDownMenu>
+            <DropDownBtn>{user.email && user.email.split('@')[0]}</DropDownBtn>
+            <DropDownContent>
+              <span>Link 1</span>
+              <span>Link 2</span>
+              <span onClick={logout}>LogOut</span>
+            </DropDownContent>
+          </DropDownMenu>
+        )}
+
+        {!user && (
+          <>
+            <NavItems
+              id="Register-nav"
+              className="nav-item"
+              onClick={handleClick}
+            >
+              <NavLink to="/register">Register</NavLink>
+            </NavItems>
+            <NavItems id="Login-nav" className="nav-item" onClick={handleClick}>
+              <NavLink to="/login">Login</NavLink>
+            </NavItems>
+          </>
+        )}
       </NavRight>
     </HeaderContainer>
   )
@@ -57,6 +69,8 @@ function Header() {
 export default Header
 
 const HeaderContainer = styled.div`
+  height: 50px;
+  margin: 10px;
   display: flex;
   align-items: center;
 `
@@ -89,7 +103,6 @@ const NavLink = styled(Link)`
 const DropDownBtn = styled.button`
   background-color: white;
   padding: 10px;
-  margin: 0 10px;
   font-size: 16px;
   font-weight: bold;
   border: 2px solid black;
@@ -98,6 +111,7 @@ const DropDownBtn = styled.button`
 const DropDownContent = styled.div`
   display: none;
   position: absolute;
+  right: 0;
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);

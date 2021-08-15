@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, Link } from 'react-router-dom'
 
 import styled, { css } from 'styled-components'
 import { auth, googleAuthProvider } from '../../firebase'
@@ -13,6 +13,14 @@ const Login = () => {
 
   const history = useHistory()
   const dispatch = useDispatch()
+
+  const { user } = useSelector((state) => ({ ...state }))
+
+  useEffect(() => {
+    if (user && user.token) {
+      history.push('/')
+    }
+  }, [user])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -98,6 +106,7 @@ const Login = () => {
           <LoginWithGoogle onClick={googleLogin} type="button">
             Login with Google
           </LoginWithGoogle>
+          <ForgotPassword to="/forgot/password">Forget Password</ForgotPassword>
         </LoginForm>
       )}
     </Container>
@@ -108,39 +117,48 @@ export default Login
 
 const Container = styled.div`
   font-size: 50px;
-  min-height: 200px;
-  height: 90vh;
+  min-height: 400px;
+  height: calc(100vh - 70px);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 `
 const LoginForm = styled.form`
+  width: 400px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
 `
 const LoginInput = styled.input`
-  width: 300px;
+  width: 90%;
   font-size: 20px;
   font-weight: bold;
   padding: 10px;
-  margin: 10px;
+  margin: 10px auto;
   border: none;
   outline: none;
   border: 3px solid black;
 `
+const ForgotPassword = styled(Link)`
+  width: 90%;
+  font-size: 20px;
+  margin: 10px auto;
+  text-align: center;
+  color: red;
+`
 const LoginSubmit = styled.button`
   background-color: black;
   color: white;
-  width: 100%;
+  width: 90%;
   display: block;
-  font-size: 30px;
+  font-size: 25px;
   padding: 10px 20px;
-  margin: 10px;
+  margin: 10px auto;
   border: none;
   transition: 250ms all;
+  cursor: pointer;
   &:hover {
     opacity: 0.85;
     border-radius: 50px;
@@ -154,7 +172,7 @@ const LoginSubmit = styled.button`
     disable &&
     css`
       opacity: 0.5;
-      cursor: not-allowed;
+      cursor: auto;
       &:hover,
       &:focus {
         opacity: 0.5;
