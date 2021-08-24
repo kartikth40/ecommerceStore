@@ -1,7 +1,7 @@
 const User = require('../models/user')
 
 exports.createOrUpdateUser = async (req, res) => {
-  const { name, picture, email } = req.user
+  const { name, picture, email } = req.user // req.user was validated and set by the middleware
   const user = await User.findOneAndUpdate(
     { email: email },
     { name: name || email.split('@')[0], picture: picture },

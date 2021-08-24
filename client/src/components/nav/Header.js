@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 
 function Header() {
-  const [current, setCurrent] = useState('Home-nav')
+  const [current, setCurrent] = useState('Home-nav') // currently selected nav item
 
-  const dispatch = useDispatch()
-  const { user } = useSelector((state) => ({ ...state }))
+  const dispatch = useDispatch() // dispatch state into redux
+  const { user } = useSelector((state) => ({ ...state })) // get state from redux
   const history = useHistory()
 
   useEffect(() => {
@@ -17,12 +17,14 @@ function Header() {
       .forEach((el) => el.classList.remove('selected'))
     document.querySelector(`#${current}`).classList.add('selected')
   }, [current])
+
   const handleClick = (e) => {
     setCurrent(e.target.parentElement.id)
   }
   const logout = () => {
-    firebase.auth().signOut()
+    firebase.auth().signOut() // firebase builtin function to logout user
     dispatch({
+      // changing the login state from redux too
       type: 'LOGOUT',
       payload: null,
     })

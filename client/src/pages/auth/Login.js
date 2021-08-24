@@ -15,7 +15,7 @@ const Login = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const { user } = useSelector((state) => ({ ...state }))
+  const { user } = useSelector((state) => ({ ...state })) // get user state
 
   useEffect(() => {
     if (user && user.token) {
