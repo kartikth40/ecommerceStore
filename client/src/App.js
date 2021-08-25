@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Header from './components/nav/Header'
 import RegisterComplete from './pages/auth/RegisterComplete'
 import ForgotPassword from './pages/auth/ForgotPassword'
+import History from './pages/user/History'
 
 import { auth } from './firebase'
 import { useDispatch } from 'react-redux'
@@ -64,6 +65,9 @@ const App = () => {
         </Route>
         <Route exact path="/forgot/password">
           <ForgotPassword />
+        </Route>
+        <Route exact path="/user/history">
+          <History />
         </Route>
       </Switch>
     </>

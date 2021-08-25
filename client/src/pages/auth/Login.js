@@ -15,6 +15,13 @@ const Login = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
+  const roleBasedRedirect = (res) => {
+    if (res.data.role === 'admin') {
+      history.push('/admin/dashboard')
+    } else {
+      history.push('/user/history')
+    }
+  }
   const { user } = useSelector((state) => ({ ...state })) // get user state
 
   useEffect(() => {
@@ -50,10 +57,11 @@ const Login = () => {
               id: res.data._id,
             },
           })
+          roleBasedRedirect(res)
         })
         .catch((err) => console.log(err.message))
 
-      history.push('/')
+      // history.push('/')
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         toast.error('Your Email or Password are incorrect.')
@@ -85,9 +93,11 @@ const Login = () => {
                 id: res.data._id,
               },
             })
+            roleBasedRedirect(res)
           })
           .catch((err) => console.log(err.message))
-        history.push('/')
+        //REDIRECT
+        // history.push('/')
       })
       .catch((error) => {
         setLoading(false)
