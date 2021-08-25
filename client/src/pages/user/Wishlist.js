@@ -2,16 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import UserNav from '../../components/nav/UserNav'
 
-const History = () => {
+const Wishlist = () => {
   return (
     <Container>
       <UserNav />
-      <Content>User History Page</Content>
+      <Content>User Wishlist Page</Content>
     </Container>
   )
 }
 
-export default History
+export default Wishlist
 
 const Container = styled.div`
   display: flex;
