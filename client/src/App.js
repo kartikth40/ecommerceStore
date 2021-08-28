@@ -8,10 +8,14 @@ import Home from './pages/Home'
 import Header from './components/nav/Header'
 import RegisterComplete from './pages/auth/RegisterComplete'
 import ForgotPassword from './pages/auth/ForgotPassword'
-import History from './pages/user/History'
+
 import UserRoute from './components/routes/UserRoute'
+import History from './pages/user/History'
 import Password from './pages/user/Password'
 import Wishlist from './pages/user/Wishlist'
+
+import AdminRoute from './components/routes/AdminRoute'
+import AdminDashboard from './pages/admin/AdminDashboard'
 
 import { auth } from './firebase'
 import { useDispatch } from 'react-redux'
@@ -69,6 +73,7 @@ const App = () => {
         <Route exact path="/forgot/password">
           <ForgotPassword />
         </Route>
+
         <UserRoute exact path="/user/history">
           <History />
         </UserRoute>
@@ -78,6 +83,10 @@ const App = () => {
         <UserRoute exact path="/user/wishlist">
           <Wishlist />
         </UserRoute>
+
+        <AdminRoute exact path="/admin/dashboard">
+          <AdminDashboard />
+        </AdminRoute>
       </Switch>
     </>
   )

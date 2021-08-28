@@ -25,3 +25,16 @@ export const currentUser = async (authtoken) => {
     }
   )
 }
+
+export const currentAdmin = async (authtoken) => {
+  return await axios.post(
+    // axios.post(postURL, body, headers)
+    `${process.env.REACT_APP_API}/current-admin`,
+    {},
+    {
+      headers: {
+        authtoken: authtoken,
+      },
+    }
+  )
+}
