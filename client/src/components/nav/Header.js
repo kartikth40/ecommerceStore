@@ -42,8 +42,16 @@ function Header() {
           <DropDownMenu>
             <DropDownBtn>{user.email && user.email.split('@')[0]}</DropDownBtn>
             <DropDownContent>
-              <span>Link 1</span>
-              <span>Link 2</span>
+              {user && user.role === 'subscriber' && (
+                <span onClick={() => history.push('/user/history')}>
+                  Dashboard
+                </span>
+              )}
+              {user && user.role === 'admin' && (
+                <span onClick={() => history.push('/admin/dashboard')}>
+                  Dashboard
+                </span>
+              )}
               <span onClick={logout}>LogOut</span>
             </DropDownContent>
           </DropDownMenu>
