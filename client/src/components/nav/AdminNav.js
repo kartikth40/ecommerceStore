@@ -2,19 +2,23 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const UserNav = () => {
+const AdminNav = () => {
   return (
     <Nav>
       <NavList>
-        <ListItem to="/user/history">History</ListItem>
+        <ListItem to="/admin/dashboard">Dashboard</ListItem>
+        <ListItem to="/admin/product">Product</ListItem>
+        <ListItem to="/admin/products">Products</ListItem>
+        <ListItem to="/admin/category">Category</ListItem>
+        <ListItem to="/admin/sub">Sub Category</ListItem>
+        <ListItem to="/admin/coupons">Coupons</ListItem>
         <ListItem to="/user/password">Password</ListItem>
-        <ListItem to="/user/wishlist">Wishlist</ListItem>
       </NavList>
     </Nav>
   )
 }
 
-export default UserNav
+export default AdminNav
 
 const Nav = styled.nav`
   height: calc(100vh - 70px - 2rem);
@@ -26,6 +30,7 @@ const Nav = styled.nav`
 const NavList = styled.ul``
 const ListItem = styled(Link)`
   display: flex;
+  font-size: 1.5rem;
   text-transform: uppercase;
   flex-direction: column;
   text-decoration: none;
