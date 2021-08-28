@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { auth } from '../../firebase'
 import { toast } from 'react-toastify'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { createOrUpdateUser } from '../../functions/auth'
 
 const RegisterComplete = () => {
@@ -11,7 +11,6 @@ const RegisterComplete = () => {
   const [password, setPassword] = useState('')
   const history = useHistory()
 
-  const { user } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
 
   useEffect(() => {

@@ -35,7 +35,6 @@ const Password = () => {
           onChange={(e) => setPassword(e.target.value)}
           autoFocus
           placeholder="Enter New Password"
-          autoFocus
           disabled={loading}
         />
         <br />

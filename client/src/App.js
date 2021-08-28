@@ -52,7 +52,7 @@ const App = () => {
 
     //cleanup
     return () => unsubscribe()
-  }, [])
+  }, [dispatch])
   return (
     <>
       <Header />

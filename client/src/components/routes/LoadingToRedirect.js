@@ -14,7 +14,7 @@ const LoadingToRedirect = () => {
     count === 0 && history.push('/login')
     //cleanup
     return () => clearInterval(interval)
-  }, [count])
+  }, [count, history])
 
   return <Container>Redirecting you in {count} seconds...</Container>
 }

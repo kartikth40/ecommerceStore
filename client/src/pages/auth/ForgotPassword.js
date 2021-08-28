@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { auth } from '../../firebase'
 import { toast } from 'react-toastify'
 
@@ -18,9 +18,9 @@ const ForgotPassword = () => {
     if (user && user.token) {
       history.push('/')
     }
-  }, [user])
+  }, [user, history])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
 
@@ -34,21 +34,24 @@ const ForgotPassword = () => {
       url: process.env.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL,
       handleCodeInApp: true,
     }
-    try {
-      const result = await auth.sendPasswordResetEmail(email, config)
-      setEmail('')
-      setLoading(false)
-      toast.success('Check your email for password reset link.')
-      history.push('/login')
-    } catch (error) {
-      if (error.code === 'auth/user-not-found') {
-        toast.error('Please enter a registered email.')
-      } else {
-        toast.error(error.message)
-      }
-      console.log(error)
-      setLoading(false)
-    }
+
+    auth
+      .sendPasswordResetEmail(email, config)
+      .then(() => {
+        setEmail('')
+        setLoading(false)
+        toast.success('Check your email for password reset link.')
+        history.push('/login')
+      })
+      .catch((error) => {
+        if (error.code === 'auth/user-not-found') {
+          toast.error('Please enter a registered email.')
+        } else {
+          toast.error(error.message)
+        }
+        console.log(error)
+        setLoading(false)
+      })
   }
 
   return (
