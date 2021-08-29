@@ -17,15 +17,21 @@ const UserNav = () => {
 export default UserNav
 
 const Nav = styled.nav`
+  width: 300px;
+  position: relative;
   height: calc(100vh - 70px - 2rem);
+  font-size: 2rem;
+`
+const NavList = styled.ul`
+  height: 80%;
   margin: 1rem;
   padding-right: 1rem;
-  font-size: 2rem;
   border-right: 1px black solid;
+  position: fixed;
 `
-const NavList = styled.ul``
 const ListItem = styled(Link)`
   display: flex;
+  font-size: 1.5rem;
   text-transform: uppercase;
   flex-direction: column;
   text-decoration: none;

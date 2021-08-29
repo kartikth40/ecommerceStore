@@ -12,6 +12,16 @@ import {
 const CategoryCreate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    loadCategories()
+  }, [categories])
+
+  const loadCategories = () =>
+    getCategories()
+      .then((c) => setCategories(c.data))
+      .catch((err) => console.log(err))
 
   const { user } = useSelector((state) => ({ ...state }))
 
@@ -37,7 +47,7 @@ const CategoryCreate = () => {
 
     return (
       <Form onSubmit={handleSubmit}>
-        <Label>Name</Label>
+        <Label>Name: </Label>
         <Input
           type="text"
           value={name}
@@ -45,7 +55,6 @@ const CategoryCreate = () => {
           autoFocus
           required
         />
-        <br />
         <Button>SAVE</Button>
       </Form>
     )
@@ -55,8 +64,13 @@ const CategoryCreate = () => {
     <Container>
       <AdminNav />
       <Content>
-        <Heading>Create Category</Heading>
+        <Heading>{loading ? <>loading...</> : <>Create Category</>}</Heading>
         {categoryForm()}
+        <CategoryList>
+          {categories.map((c) => {
+            return <CategoryListItem key={c._id}>{c.name}</CategoryListItem>
+          })}
+        </CategoryList>
       </Content>
     </Container>
   )
@@ -66,21 +80,61 @@ export default CategoryCreate
 
 const Container = styled.div`
   display: flex;
-  height: calc(100vh - 70px);
-  text-align: center;
+  // height: calc(100vh - 70px);
   font-weight: bold;
   font-size: 3rem;
 `
 const Content = styled.div`
   width: 100%;
   height: 100%;
+  margin: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `
 const Heading = styled.h3``
 const Form = styled.form``
-const Label = styled.label``
-const Input = styled.input``
-const Button = styled.button``
+const Label = styled.label`
+  margin-top: 2rem;
+  display: block;
+  font-size: 1rem;
+  font-weight: medium;
+`
+const Input = styled.input`
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 3px solid black;
+`
+const Button = styled.button`
+  background-color: black;
+  color: white;
+  display: block;
+  font-size: 30px;
+  padding: 10px 20px;
+  margin: 2rem 0;
+  border: none;
+  transition: 250ms all;
+  &:hover {
+    opacity: 0.85;
+    border-radius: 50px;
+  }
+  &:focus,
+  &:active {
+    opacity: 0.5;
+    border-radius: 50px 50px 0 50px;
+  }
+`
+const CategoryList = styled.div`
+  border: 1px solid black;
+  padding: 1rem;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: light;
+`
+const CategoryListItem = styled.div`
+  border: 1px solid black;
+  padding: 1rem;
+`
