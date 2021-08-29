@@ -29,7 +29,7 @@ const CategoryUpdate = () => {
       e.preventDefault()
       setLoading(true)
 
-      updateCategory({ name }, user.token)
+      updateCategory(slug, { name }, user.token)
         .then((res) => {
           setLoading(false)
           setName('')
