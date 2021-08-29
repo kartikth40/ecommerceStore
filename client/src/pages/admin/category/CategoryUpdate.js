@@ -1,57 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
-import {
-  createCategory,
-  getCategories,
-  removeCategory,
-} from '../../../functions/category'
+import { useParams } from 'react-router'
+import { updateCategory, getCategory } from '../../../functions/category'
 
-const CategoryCreate = () => {
+const CategoryUpdate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
-  const [categories, setCategories] = useState([])
+  const history = useHistory()
   const { user } = useSelector((state) => ({ ...state }))
+  const { slug } = useParams()
 
   useEffect(() => {
-    loadCategories()
-  }, [categories])
+    loadCategory()
+  }, [])
 
-  const loadCategories = () =>
-    getCategories()
-      .then((c) => setCategories(c.data))
+  const loadCategory = () =>
+    getCategory(slug)
+      .then((c) => setName(c.data.name))
       .catch((err) => console.log(err))
-
-  const handleRemove = async (slug) => {
-    if (window.confirm('Delete ?')) {
-      setLoading(true)
-      removeCategory(slug, user.token)
-        .then((res) => {
-          setLoading(false)
-          toast.error(`${res.data.name} deleted.`)
-        })
-        .catch((err) => {
-          if (err.response.status == 400) {
-            setLoading(false)
-            toast.error(err.response.data)
-          }
-        })
-    }
-  }
 
   const categoryForm = () => {
     const handleSubmit = (e) => {
       e.preventDefault()
       setLoading(true)
 
-      createCategory({ name }, user.token)
+      updateCategory({ name }, user.token)
         .then((res) => {
           setLoading(false)
           setName('')
-          toast.success(`"${res.data.name}" is created`)
+          toast.success(`"${res.data.name}" is updated`)
+          history.push('/admin/category')
         })
         .catch((err) => {
           setLoading(false)
@@ -81,10 +64,10 @@ const CategoryCreate = () => {
     <Container>
       <AdminNav />
       <Content>
-        <Heading>{loading ? <>loading...</> : <>Create a Category</>}</Heading>
+        <Heading>{loading ? <>loading...</> : <>Update Category</>}</Heading>
         {categoryForm()}
         <CategoryList>
-          {categories.map((c) => {
+          {/* {categories.map((c) => {
             return (
               <CategoryListItem key={c._id}>
                 <CategoryListItemOverlapped>
@@ -98,14 +81,14 @@ const CategoryCreate = () => {
                 </CategoryListItemOverlapped>
               </CategoryListItem>
             )
-          })}
+          })} */}
         </CategoryList>
       </Content>
     </Container>
   )
 }
 
-export default CategoryCreate
+export default CategoryUpdate
 
 const Container = styled.div`
   display: flex;
