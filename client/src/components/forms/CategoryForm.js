@@ -1,0 +1,58 @@
+import React from 'react'
+import styled from 'styled-components'
+
+const CategoryForm = ({ name, setName, handleSubmit }) => {
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Label>Name: </Label>
+      <Input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        autoFocus
+        required
+      />
+      <Button>SAVE</Button>
+    </Form>
+  )
+}
+
+export default CategoryForm
+
+const Form = styled.form``
+const Label = styled.label`
+  margin-top: 2rem;
+  display: block;
+  font-size: 1rem;
+  font-weight: medium;
+`
+const Input = styled.input`
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 3px solid black;
+`
+const Button = styled.button`
+  background-color: black;
+  background-image: linear-gradient(10deg, #000000 0%, #434343 74%);
+  color: white;
+  display: block;
+  font-size: 30px;
+  padding: 10px 20px;
+  margin: 2rem 0;
+  border: none;
+  border-radius: 10px;
+  transition: 250ms all;
+  &:hover {
+    opacity: 0.85;
+    border-radius: 50px;
+  }
+  &:focus,
+  &:active {
+    opacity: 0.5;
+    border-radius: 50px 50px 0 50px;
+  }
+`

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { updateCategory, getCategory } from '../../../functions/category'
+import CategoryForm from '../../../components/forms/CategoryForm'
 
 const CategoryUpdate = () => {
   const [name, setName] = useState('')
@@ -24,40 +25,24 @@ const CategoryUpdate = () => {
       .then((c) => setName(c.data.name))
       .catch((err) => console.log(err))
 
-  const categoryForm = () => {
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      setLoading(true)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setLoading(true)
 
-      updateCategory(slug, { name }, user.token)
-        .then((res) => {
-          setLoading(false)
-          setName('')
-          toast.success(`"${res.data.name}" is updated`)
-          history.push('/admin/category')
-        })
-        .catch((err) => {
-          setLoading(false)
-          console.log(err)
-          if (err.response.status == 400) {
-            toast.error(err.response.data)
-          }
-        })
-    }
-
-    return (
-      <Form onSubmit={handleSubmit}>
-        <Label>Name: </Label>
-        <Input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoFocus
-          required
-        />
-        <Button>SAVE</Button>
-      </Form>
-    )
+    updateCategory(slug, { name }, user.token)
+      .then((res) => {
+        setLoading(false)
+        setName('')
+        toast.success(`"${res.data.name}" is updated`)
+        history.push('/admin/category')
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log(err)
+        if (err.response.status == 400) {
+          toast.error(err.response.data)
+        }
+      })
   }
 
   return (
@@ -65,24 +50,12 @@ const CategoryUpdate = () => {
       <AdminNav />
       <Content>
         <Heading>{loading ? <>loading...</> : <>Update Category</>}</Heading>
-        {categoryForm()}
-        <CategoryList>
-          {/* {categories.map((c) => {
-            return (
-              <CategoryListItem key={c._id}>
-                <CategoryListItemOverlapped>
-                  <div>{c.name}</div>
-                  <div>
-                    <DeleteBTN onClick={() => handleRemove(c.slug)}>
-                      Delete
-                    </DeleteBTN>
-                    <EditBTN to={`/admin/category/${c.slug}`}>Edit</EditBTN>
-                  </div>
-                </CategoryListItemOverlapped>
-              </CategoryListItem>
-            )
-          })} */}
-        </CategoryList>
+        <CategoryForm
+          name={name}
+          setName={setName}
+          handleSubmit={handleSubmit}
+        />
+        <CategoryList></CategoryList>
       </Content>
     </Container>
   )
