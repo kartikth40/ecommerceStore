@@ -10,12 +10,15 @@ import {
   removeCategory,
 } from '../../../functions/category'
 import CategoryForm from '../../../components/forms/CategoryForm'
+import LocalSearch from '../../../components/forms/LocalSearch'
 
 const CategoryCreate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const { user } = useSelector((state) => ({ ...state }))
+  // searching / filtering
+  const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
     loadCategories()
@@ -35,7 +38,7 @@ const CategoryCreate = () => {
           toast.error(`${res.data.name} deleted.`)
         })
         .catch((err) => {
-          if (err.response.status == 400) {
+          if (err.response.status === 400) {
             setLoading(false)
             toast.error(err.response.data)
           }
@@ -56,10 +59,28 @@ const CategoryCreate = () => {
       .catch((err) => {
         setLoading(false)
         console.log(err)
-        if (err.response.status == 400) {
+        if (err.response.status === 400) {
           toast.error(err.response.data)
         }
       })
+  }
+
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
+
+  const showCategories = () => {
+    return categories.filter(searched(keyword)).map((c) => {
+      return (
+        <CategoryListItem key={c._id}>
+          <CategoryListItemOverlapped>
+            <div>{c.name}</div>
+            <div>
+              <DeleteBTN onClick={() => handleRemove(c.slug)}>Delete</DeleteBTN>
+              <EditBTN to={`/admin/category/${c.slug}`}>Edit</EditBTN>
+            </div>
+          </CategoryListItemOverlapped>
+        </CategoryListItem>
+      )
+    })
   }
 
   return (
@@ -72,23 +93,8 @@ const CategoryCreate = () => {
           setName={setName}
           handleSubmit={handleSubmit}
         />
-        <CategoryList>
-          {categories.map((c) => {
-            return (
-              <CategoryListItem key={c._id}>
-                <CategoryListItemOverlapped>
-                  <div>{c.name}</div>
-                  <div>
-                    <DeleteBTN onClick={() => handleRemove(c.slug)}>
-                      Delete
-                    </DeleteBTN>
-                    <EditBTN to={`/admin/category/${c.slug}`}>Edit</EditBTN>
-                  </div>
-                </CategoryListItemOverlapped>
-              </CategoryListItem>
-            )
-          })}
-        </CategoryList>
+        <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+        <CategoryList>{showCategories()}</CategoryList>
       </Content>
     </Container>
   )

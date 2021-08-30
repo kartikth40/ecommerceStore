@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const CategoryForm = ({ name, setName, handleSubmit }) => {
   return (
     <Form onSubmit={handleSubmit}>
-      <Label>Name: </Label>
+      <Label>New Category Name: </Label>
       <Input
         type="text"
         value={name}
