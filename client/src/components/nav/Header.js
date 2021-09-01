@@ -88,11 +88,13 @@ export default Header
 
 const HeaderContainer = styled.div`
   height: 50px;
-  margin: 10px;
   position: relative;
 `
 const MainContainer = styled.div`
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
   width: calc(100% - 20px);
+  padding: 10px;
   position: fixed;
   display: flex;
   align-items: center;

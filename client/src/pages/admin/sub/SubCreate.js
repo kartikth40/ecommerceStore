@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
@@ -8,11 +7,15 @@ import { getCategories } from '../../../functions/category'
 import { createSub, getSubs, removeSub } from '../../../functions/sub'
 import CategoryForm from '../../../components/forms/CategoryForm'
 import LocalSearch from '../../../components/forms/LocalSearch'
+import ListOfElements from '../../../components/forms/ListOfElements'
+
+import { Container, Content } from '../AdminDashboard'
 
 const SubCreate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
+  const [subs, setSubs] = useState([])
   const { user } = useSelector((state) => ({ ...state }))
   const [category, setCategory] = useState('')
   // searching / filtering
@@ -20,11 +23,17 @@ const SubCreate = () => {
 
   useEffect(() => {
     loadCategories()
-  }, [])
+    loadSubs()
+  }, [subs])
 
   const loadCategories = () =>
     getCategories()
       .then((c) => setCategories(c.data))
+      .catch((err) => console.log(err))
+
+  const loadSubs = () =>
+    getSubs()
+      .then((c) => setSubs(c.data))
       .catch((err) => console.log(err))
 
   const handleRemove = async (slug) => {
@@ -63,6 +72,23 @@ const SubCreate = () => {
       })
   }
 
+  const parentCategorySelector = () => (
+    <>
+      <Label>Parent category :</Label>
+      <Select onChange={(e) => setCategory(e.target.value)}>
+        <Option>select one</Option>
+        {categories.length &&
+          categories.map((c) => {
+            return (
+              <Option key={c._id} value={c._id}>
+                {c.name}
+              </Option>
+            )
+          })}
+      </Select>
+    </>
+  )
+
   return (
     <Container>
       <AdminNav />
@@ -70,23 +96,19 @@ const SubCreate = () => {
         <Heading>
           {loading ? <>loading...</> : <>Create sub Category</>}
         </Heading>
-        <CategorySelection>
-          <Label>Parent category :</Label>
-          <Select onChange={(e) => setCategory(e.target.value)}>
-            {categories.length &&
-              categories.map((c) => {
-                return (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                )
-              })}
-          </Select>
-        </CategorySelection>
+        <CategorySelection>{parentCategorySelector()}</CategorySelection>
         <CategoryForm
           name={name}
           setName={setName}
           handleSubmit={handleSubmit}
+        />
+        <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+        <ListOfElements
+          elements={subs}
+          keyword={keyword}
+          edit={true}
+          del={true}
+          handleRemove={handleRemove}
         />
       </Content>
     </Container>
@@ -95,19 +117,7 @@ const SubCreate = () => {
 
 export default SubCreate
 
-const Container = styled.div`
-  display: flex;
-  font-weight: bold;
-  font-size: 3rem;
-`
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: 2rem;
-  display: flex;
-  flex-direction: column;
-`
-const Heading = styled.h3``
+const Heading = styled.h4``
 const CategorySelection = styled.div``
 const Label = styled.label`
   margin-top: 2rem;

@@ -8,6 +8,8 @@ import { useParams } from 'react-router'
 import { updateCategory, getCategory } from '../../../functions/category'
 import CategoryForm from '../../../components/forms/CategoryForm'
 
+import { Container, Content } from '../AdminDashboard'
+
 const CategoryUpdate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
@@ -53,7 +55,6 @@ const CategoryUpdate = () => {
           setName={setName}
           handleSubmit={handleSubmit}
         />
-        <CategoryList></CategoryList>
       </Content>
     </Container>
   )
@@ -61,26 +62,4 @@ const CategoryUpdate = () => {
 
 export default CategoryUpdate
 
-const Container = styled.div`
-  display: flex;
-  // height: calc(100vh - 70px);
-  font-weight: bold;
-  font-size: 3rem;
-`
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: 2rem;
-  display: flex;
-  flex-direction: column;
-`
-const Heading = styled.h3``
-const CategoryList = styled.div`
-  border-radius: 20px;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: light;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-`
+const Heading = styled.h4``
