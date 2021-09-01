@@ -4,25 +4,23 @@ import styled from 'styled-components'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
-import {
-  createCategory,
-  getCategories,
-  removeCategory,
-} from '../../../functions/category'
+import { getCategories } from '../../../functions/category'
+import { createSub, getSubs, removeSub } from '../../../functions/sub'
 import CategoryForm from '../../../components/forms/CategoryForm'
 import LocalSearch from '../../../components/forms/LocalSearch'
 
-const CategoryCreate = () => {
+const SubCreate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const { user } = useSelector((state) => ({ ...state }))
+  const [category, setCategory] = useState('')
   // searching / filtering
   const [keyword, setKeyword] = useState('')
 
   useEffect(() => {
     loadCategories()
-  }, [categories])
+  }, [])
 
   const loadCategories = () =>
     getCategories()
@@ -32,7 +30,7 @@ const CategoryCreate = () => {
   const handleRemove = async (slug) => {
     if (window.confirm('Delete ?')) {
       setLoading(true)
-      removeCategory(slug, user.token)
+      removeSub(slug, user.token)
         .then((res) => {
           setLoading(false)
           toast.error(`${res.data.name} deleted.`)
@@ -50,7 +48,7 @@ const CategoryCreate = () => {
     e.preventDefault()
     setLoading(true)
 
-    createCategory({ name }, user.token)
+    createSub({ name, parent: category }, user.token)
       .then((res) => {
         setLoading(false)
         setName('')
@@ -65,42 +63,37 @@ const CategoryCreate = () => {
       })
   }
 
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
-
-  const showCategories = () => {
-    return categories.filter(searched(keyword)).map((c) => {
-      return (
-        <CategoryListItem key={c._id}>
-          <CategoryListItemOverlapped>
-            <div>{c.name}</div>
-            <div>
-              <DeleteBTN onClick={() => handleRemove(c.slug)}>Delete</DeleteBTN>
-              <EditBTN to={`/admin/category/${c.slug}`}>Edit</EditBTN>
-            </div>
-          </CategoryListItemOverlapped>
-        </CategoryListItem>
-      )
-    })
-  }
-
   return (
     <Container>
       <AdminNav />
       <Content>
-        <Heading>{loading ? <>loading...</> : <>Create a Category</>}</Heading>
+        <Heading>
+          {loading ? <>loading...</> : <>Create sub Category</>}
+        </Heading>
+        <CategorySelection>
+          <Label>Parent category :</Label>
+          <Select onChange={(e) => setCategory(e.target.value)}>
+            {categories.length &&
+              categories.map((c) => {
+                return (
+                  <Option key={c._id} value={c._id}>
+                    {c.name}
+                  </Option>
+                )
+              })}
+          </Select>
+        </CategorySelection>
         <CategoryForm
           name={name}
           setName={setName}
           handleSubmit={handleSubmit}
         />
-        <LocalSearch keyword={keyword} setKeyword={setKeyword} />
-        <CategoryList>{showCategories()}</CategoryList>
       </Content>
     </Container>
   )
 }
 
-export default CategoryCreate
+export default SubCreate
 
 const Container = styled.div`
   display: flex;
@@ -115,47 +108,20 @@ const Content = styled.div`
   flex-direction: column;
 `
 const Heading = styled.h3``
-const CategoryList = styled.div`
-  border-radius: 20px;
-  text-align: left;
+const CategorySelection = styled.div``
+const Label = styled.label`
+  margin-top: 2rem;
+  display: block;
   font-size: 1rem;
-  font-weight: light;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  font-weight: medium;
 `
-const CategoryListItem = styled.div`
+const Select = styled.select`
   width: 100%;
-  height: 3rem;
-`
-const CategoryListItemOverlapped = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  background-image: linear-gradient(10deg, #000000 0%, #434343 74%);
-  color: white;
-  border-radius: 20px 20px 0 0;
-  height: 7rem;
-  padding: 1rem;
-  position: absolute;
-  left: 0;
-  right: 0;
-`
-const DeleteBTN = styled.button`
-  padding: 5px;
-  color: rgb(255, 150, 150);
-  background: transparent;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
   border: none;
-  font-size: 1rem;
-  font-weight: light;
-  cursor: pointer;
+  outline: none;
+  border-bottom: 3px solid black;
 `
-const EditBTN = styled(Link)`
-  text-decoration: none;
-  padding: 5px;
-  color: rgb(255, 150, 150);
-  background: transparent;
-  font-size: 1rem;
-  font-weight: light;
-`
+const Option = styled.option``
