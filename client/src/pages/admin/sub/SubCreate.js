@@ -5,11 +5,12 @@ import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { getCategories } from '../../../functions/category'
 import { createSub, getSubs, removeSub } from '../../../functions/sub'
-import CategoryForm from '../../../components/forms/CategoryForm'
+import SimpleInputForm from '../../../components/forms/SimpleInputForm'
 import LocalSearch from '../../../components/forms/LocalSearch'
 import ListOfElements from '../../../components/forms/ListOfElements'
 
 import { Container, Content } from '../AdminDashboard'
+import DropDownSelector from '../../../components/forms/DropDownSelector'
 
 const SubCreate = () => {
   const [name, setName] = useState('')
@@ -72,23 +73,6 @@ const SubCreate = () => {
       })
   }
 
-  const parentCategorySelector = () => (
-    <>
-      <Label>Parent category :</Label>
-      <Select onChange={(e) => setCategory(e.target.value)}>
-        <Option>select one</Option>
-        {categories.length &&
-          categories.map((c) => {
-            return (
-              <Option key={c._id} value={c._id}>
-                {c.name}
-              </Option>
-            )
-          })}
-      </Select>
-    </>
-  )
-
   return (
     <Container>
       <AdminNav />
@@ -96,10 +80,16 @@ const SubCreate = () => {
         <Heading>
           {loading ? <>loading...</> : <>Create sub Category</>}
         </Heading>
-        <CategorySelection>{parentCategorySelector()}</CategorySelection>
-        <CategoryForm
-          name={name}
-          setName={setName}
+        <DropDownSelector
+          label="Select a category"
+          setValue={setCategory}
+          elements={categories}
+          menuItem="name"
+        />
+        <SimpleInputForm
+          label="Name"
+          value={name}
+          setValue={setName}
           handleSubmit={handleSubmit}
         />
         <LocalSearch keyword={keyword} setKeyword={setKeyword} />
@@ -118,20 +108,3 @@ const SubCreate = () => {
 export default SubCreate
 
 const Heading = styled.h4``
-const CategorySelection = styled.div``
-const Label = styled.label`
-  margin-top: 2rem;
-  display: block;
-  font-size: 1rem;
-  font-weight: medium;
-`
-const Select = styled.select`
-  width: 100%;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 10px;
-  border: none;
-  outline: none;
-  border-bottom: 3px solid black;
-`
-const Option = styled.option``

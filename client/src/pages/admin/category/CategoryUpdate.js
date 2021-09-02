@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { updateCategory, getCategory } from '../../../functions/category'
-import CategoryForm from '../../../components/forms/CategoryForm'
+import SimpleInputForm from '../../../components/forms/SimpleInputForm'
 
 import { Container, Content } from '../AdminDashboard'
 
@@ -50,9 +50,10 @@ const CategoryUpdate = () => {
       <AdminNav />
       <Content>
         <Heading>{loading ? <>loading...</> : <>Update Category</>}</Heading>
-        <CategoryForm
-          name={name}
-          setName={setName}
+        <SimpleInputForm
+          label="Name"
+          value={name}
+          setValue={setName}
           handleSubmit={handleSubmit}
         />
       </Content>

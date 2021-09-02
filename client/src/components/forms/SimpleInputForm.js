@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const CategoryForm = ({ name, setName, handleSubmit }) => {
+const SimpleInputForm = ({ label, value, setValue, handleSubmit }) => {
   return (
     <Form onSubmit={handleSubmit}>
-      <Label>Name :</Label>
+      <Label>{label} :</Label>
       <Input
         type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
         autoFocus
         required
       />
@@ -17,7 +17,7 @@ const CategoryForm = ({ name, setName, handleSubmit }) => {
   )
 }
 
-export default CategoryForm
+export default SimpleInputForm
 
 const Form = styled.form``
 const Label = styled.label`

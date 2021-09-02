@@ -8,7 +8,7 @@ import {
   getCategories,
   removeCategory,
 } from '../../../functions/category'
-import CategoryForm from '../../../components/forms/CategoryForm'
+import SimpleInputForm from '../../../components/forms/SimpleInputForm'
 import LocalSearch from '../../../components/forms/LocalSearch'
 import ListOfElements from '../../../components/forms/ListOfElements'
 
@@ -72,9 +72,10 @@ const CategoryCreate = () => {
       <AdminNav />
       <Content>
         <Heading>{loading ? <>loading...</> : <>Create a Category</>}</Heading>
-        <CategoryForm
-          name={name}
-          setName={setName}
+        <SimpleInputForm
+          label="Name"
+          value={name}
+          setValue={setName}
           handleSubmit={handleSubmit}
         />
         <LocalSearch keyword={keyword} setKeyword={setKeyword} />
