@@ -6,15 +6,26 @@ import { useSelector } from 'react-redux'
 import { createProduct } from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import { Container, Content, Heading } from '../AdminDashboard'
+import { getCategories } from '../../../functions/category'
 
 const ProductCreate = () => {
   const { user } = useSelector((state) => ({ ...state }))
   const history = useHistory()
 
+  useEffect(() => {
+    loadCategories()
+  }, [])
+
+  const loadCategories = () =>
+    getCategories()
+      .then((c) => setValues({ ...values, categories: c.data }))
+      .catch((err) => console.log(err))
+
   const [values, setValues] = useState({
     title: '',
     description: '',
     price: '',
+    categories: [],
     category: '',
     subs: [],
     shipping: '',

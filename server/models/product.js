@@ -28,10 +28,10 @@ const productSchema = new mongoose.Schema(
       requried: true,
       maxlength: 32,
     },
-    // category: {
-    //   type: ObjectId,
-    //   ref: 'Category',
-    // },
+    category: {
+      type: ObjectId,
+      ref: 'Category',
+    },
     // subs: [
     //   {
     //     type: ObjectId,

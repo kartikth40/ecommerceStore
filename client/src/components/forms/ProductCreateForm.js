@@ -71,6 +71,15 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
           elements={values.brands}
         />
       </FormGroup>
+      <FormGroup>
+        <DropDownSelector
+          label="category"
+          name="category"
+          onChangeHandler={handleChange}
+          elements={values.categories}
+          menuItem="name"
+        />
+      </FormGroup>
 
       <Button>SAVE</Button>
     </Form>
