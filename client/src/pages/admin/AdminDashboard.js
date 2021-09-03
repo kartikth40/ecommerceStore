@@ -6,7 +6,9 @@ const AdminDashboard = () => {
   return (
     <Container>
       <AdminNav />
-      <Content>Admin Dashboard</Content>
+      <Content>
+        <Heading>Admin Dashboard</Heading>
+      </Content>
     </Container>
   )
 }
@@ -25,4 +27,5 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
 `
-export { Container, Content }
+const Heading = styled.h6``
+export { Container, Content, Heading }

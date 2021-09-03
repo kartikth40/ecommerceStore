@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
@@ -9,7 +8,7 @@ import SimpleInputForm from '../../../components/forms/SimpleInputForm'
 import LocalSearch from '../../../components/forms/LocalSearch'
 import ListOfElements from '../../../components/forms/ListOfElements'
 
-import { Container, Content } from '../AdminDashboard'
+import { Container, Content, Heading } from '../AdminDashboard'
 import DropDownSelector from '../../../components/forms/DropDownSelector'
 
 const SubCreate = () => {
@@ -106,5 +105,3 @@ const SubCreate = () => {
 }
 
 export default SubCreate
-
-const Heading = styled.h4``

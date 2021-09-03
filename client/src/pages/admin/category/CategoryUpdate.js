@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
 import { useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
@@ -8,7 +7,7 @@ import { useParams } from 'react-router'
 import { updateCategory, getCategory } from '../../../functions/category'
 import SimpleInputForm from '../../../components/forms/SimpleInputForm'
 
-import { Container, Content } from '../AdminDashboard'
+import { Container, Content, Heading } from '../AdminDashboard'
 
 const CategoryUpdate = () => {
   const [name, setName] = useState('')
@@ -62,5 +61,3 @@ const CategoryUpdate = () => {
 }
 
 export default CategoryUpdate
-
-const Heading = styled.h4``
