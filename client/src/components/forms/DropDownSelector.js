@@ -1,16 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const DropDownSelector = ({ label, setValue, elements, menuItem }) => {
+const DropDownSelector = ({
+  label,
+  name,
+  onChangeHandler,
+  elements,
+  menuItem,
+}) => {
   return (
     <>
       <Label>{label} :</Label>
-      <Select onChange={(e) => setValue(e.target.value)}>
-        <Option>select one</Option>
+      <Select name={name} onChange={onChangeHandler}>
+        <Option>Please Select</Option>
         {elements.length &&
           elements.map((c) => {
             return (
-              <Option key={c._id} value={c._id}>
+              <Option key={c._id ? c._id : c} value={c._id ? c._id : c}>
                 {menuItem ? c[menuItem] : c}
               </Option>
             )

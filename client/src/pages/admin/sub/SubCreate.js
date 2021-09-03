@@ -82,7 +82,7 @@ const SubCreate = () => {
         </Heading>
         <DropDownSelector
           label="Select a category"
-          setValue={setCategory}
+          onChangeHandler={(e) => setCategory(e.target.value)}
           elements={categories}
           menuItem="name"
         />

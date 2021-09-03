@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
@@ -9,6 +10,9 @@ import { Container, Content } from '../AdminDashboard'
 import DropDownSelector from '../../../components/forms/DropDownSelector'
 
 const ProductCreate = () => {
+  const { user } = useSelector((state) => ({ ...state }))
+  const history = useHistory()
+
   const [values, setValues] = useState({
     title: '',
     description: '',
@@ -26,9 +30,20 @@ const ProductCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    createProduct(values, user.token)
+      .then((res) => {
+        toast.success(`"${res.data.title}" is created`)
+        history.push('/admin/dashboard')
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error(err.response.data.err)
+      })
   }
 
-  const handleChange = (e) => {}
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value })
+  }
 
   return (
     <Container>
@@ -40,6 +55,7 @@ const ProductCreate = () => {
             <Label>title :</Label>
             <Input
               type="text"
+              name="title"
               value={values.title}
               onChange={handleChange}
               autoFocus
@@ -50,6 +66,7 @@ const ProductCreate = () => {
             <Label>description :</Label>
             <Input
               type="text"
+              name="description"
               value={values.description}
               onChange={handleChange}
               required
@@ -59,6 +76,7 @@ const ProductCreate = () => {
             <Label>price :</Label>
             <Input
               type="number"
+              name="price"
               value={values.price}
               onChange={handleChange}
               required
@@ -67,7 +85,8 @@ const ProductCreate = () => {
           <FormGroup>
             <DropDownSelector
               label="Select a Shipment type"
-              setValue={handleChange}
+              name="shipping"
+              onChangeHandler={handleChange}
               elements={['No', 'Yes']}
             />
           </FormGroup>
@@ -75,6 +94,7 @@ const ProductCreate = () => {
             <Label>quantity :</Label>
             <Input
               type="number"
+              name="quantity"
               value={values.quantity}
               onChange={handleChange}
               required
@@ -83,14 +103,16 @@ const ProductCreate = () => {
           <FormGroup>
             <DropDownSelector
               label="color"
-              setValue={handleChange}
+              name="color"
+              onChangeHandler={handleChange}
               elements={values.colors}
             />
           </FormGroup>
           <FormGroup>
             <DropDownSelector
               label="brand"
-              setValue={handleChange}
+              name="brand"
+              onChangeHandler={handleChange}
               elements={values.brands}
             />
           </FormGroup>
