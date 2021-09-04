@@ -12,7 +12,7 @@ const DropDownSelector = ({
     <>
       <Label>{label} :</Label>
       <Select name={name} onChange={onChangeHandler}>
-        <Option>Please Select</Option>
+        <Option>Select...</Option>
         {elements.length &&
           elements.map((c) => {
             return (

@@ -1,13 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import Select from 'react-select'
 import DropDownSelector from './DropDownSelector'
 
-const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
+const ProductCreateForm = ({
+  handleChange,
+  handleCategoryChange,
+  handleSubmit,
+  values,
+  setValues,
+  subOptions,
+  showSub,
+}) => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        <Label>title :</Label>
+        <Label>Title :</Label>
         <Input
           type="text"
           name="title"
@@ -18,7 +26,7 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label>description :</Label>
+        <Label>Description :</Label>
         <Input
           type="text"
           name="description"
@@ -28,7 +36,7 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label>price :</Label>
+        <Label>Price :</Label>
         <Input
           type="number"
           name="price"
@@ -46,7 +54,7 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label>quantity :</Label>
+        <Label>Quantity :</Label>
         <Input
           type="number"
           name="quantity"
@@ -57,7 +65,7 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
       </FormGroup>
       <FormGroup>
         <DropDownSelector
-          label="color"
+          label="Color"
           name="color"
           onChangeHandler={handleChange}
           elements={values.colors}
@@ -65,7 +73,7 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
       </FormGroup>
       <FormGroup>
         <DropDownSelector
-          label="brand"
+          label="Brand"
           name="brand"
           onChangeHandler={handleChange}
           elements={values.brands}
@@ -73,14 +81,29 @@ const ProductCreateForm = ({ handleChange, handleSubmit, values }) => {
       </FormGroup>
       <FormGroup>
         <DropDownSelector
-          label="category"
+          label="Category"
           name="category"
-          onChangeHandler={handleChange}
+          onChangeHandler={handleCategoryChange}
           elements={values.categories}
           menuItem="name"
         />
       </FormGroup>
-
+      <FormGroup>
+        <Label>Sub Category: </Label>
+        <StyledSelect
+          isMulti
+          name="subs"
+          value={values.subs}
+          options={[
+            { value: 'ocean1', label: 'Ocean' },
+            { value: 'blue', label: 'Blue' },
+            { value: 'purple', label: 'Purple' },
+          ]}
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          onChange={(value) => setValues({ ...values, subs: value })}
+        />
+      </FormGroup>
       <Button>SAVE</Button>
     </Form>
   )
@@ -125,4 +148,13 @@ const Button = styled.button`
     opacity: 0.5;
     border-radius: 50px 50px 0 50px;
   }
+`
+const StyledSelect = styled(Select)`
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid black;
 `

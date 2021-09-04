@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { createProduct } from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import { Container, Content, Heading } from '../AdminDashboard'
-import { getCategories } from '../../../functions/category'
+import { getCategories, getCategorySubs } from '../../../functions/category'
 
 const ProductCreate = () => {
   const { user } = useSelector((state) => ({ ...state }))
@@ -37,6 +37,9 @@ const ProductCreate = () => {
     brand: '',
   })
 
+  const [subOptions, setSubOptions] = useState([])
+  const [showSub, setShowSub] = useState(false)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     createProduct(values, user.token)
@@ -54,6 +57,19 @@ const ProductCreate = () => {
     setValues({ ...values, [e.target.name]: e.target.value })
   }
 
+  const handleCategoryChange = (e) => {
+    e.preventDefault()
+    setValues({ ...values, category: e.target.value })
+    getCategorySubs(e.target.value)
+      .then((res) => {
+        setSubOptions(res.data)
+      })
+      .catch((err) => {
+        toast.error(err)
+        console.log(err)
+      })
+  }
+
   return (
     <Container>
       <AdminNav />
@@ -61,9 +77,14 @@ const ProductCreate = () => {
         <Heading>Product Create Form</Heading>
         <ProductCreateForm
           handleChange={handleChange}
+          handleCategoryChange={handleCategoryChange}
           handleSubmit={handleSubmit}
           values={values}
+          setValues={setValues}
+          subOptions={subOptions}
+          showSub={showSub}
         />
+        {JSON.stringify(values.subs)}
       </Content>
     </Container>
   )
