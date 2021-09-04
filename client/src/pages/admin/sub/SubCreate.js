@@ -94,6 +94,7 @@ const SubCreate = () => {
         <LocalSearch keyword={keyword} setKeyword={setKeyword} />
         <ListOfElements
           elements={subs}
+          elementName="sub"
           keyword={keyword}
           edit={true}
           del={true}

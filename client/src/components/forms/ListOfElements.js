@@ -2,7 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const ListOfCategories = ({ elements, keyword, edit, del, handleRemove }) => {
+const ListOfCategories = ({
+  elementName,
+  elements,
+  keyword,
+  edit,
+  del,
+  handleRemove,
+}) => {
   const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
   const getAllElements = () =>
     elements.filter(searched(keyword)).map((c) => {
@@ -16,7 +23,9 @@ const ListOfCategories = ({ elements, keyword, edit, del, handleRemove }) => {
                   Delete
                 </DeleteBTN>
               )}
-              {edit && <EditBTN to={`/admin/category/${c.slug}`}>Edit</EditBTN>}
+              {edit && (
+                <EditBTN to={`/admin/${elementName}/${c.slug}`}>Edit</EditBTN>
+              )}
             </div>
           </CategoryListItemOverlapped>
         </CategoryListItem>

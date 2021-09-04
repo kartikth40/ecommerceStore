@@ -80,6 +80,7 @@ const CategoryCreate = () => {
         <LocalSearch keyword={keyword} setKeyword={setKeyword} />
         <ListOfElements
           elements={categories}
+          elementName="category"
           keyword={keyword}
           edit={true}
           del={true}
