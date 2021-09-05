@@ -12,13 +12,12 @@ const ProductCreateForm = ({
   subOptions,
   showSub,
 }) => {
-  const ok = () => {
-    return [
-      { value: 'ocean1', label: 'Ocean' },
-      { value: 'blue', label: 'Blue' },
-      { value: 'purple', label: 'Purple' },
-    ]
+  const getSubOptions = () => {
+    return subOptions.map((s) => {
+      return { value: `${s._id}`, label: `${s.name}` }
+    })
   }
+  const getAllSubs = (valObj) => valObj.map((v) => v.value)
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
@@ -95,18 +94,22 @@ const ProductCreateForm = ({
           menuItem="name"
         />
       </FormGroup>
-      <FormGroup>
-        <Label>Sub Category: </Label>
-        <StyledSelect
-          isMulti
-          name="subs"
-          value={values.subs}
-          options={ok()}
-          closeMenuOnSelect={false}
-          hideSelectedOptions={false}
-          onChange={(value) => setValues({ ...values, subs: value })}
-        />
-      </FormGroup>
+      {showSub && (
+        <FormGroup>
+          <Label>Sub Category: </Label>
+          <StyledSelect
+            isMulti
+            name="subs"
+            options={subOptions ? getSubOptions() : []}
+            closeMenuOnSelect={false}
+            hideSelectedOptions={false}
+            onChange={(value) =>
+              setValues({ ...values, subs: getAllSubs(value) })
+            }
+          />
+        </FormGroup>
+      )}
+
       <Button>SAVE</Button>
     </Form>
   )
@@ -154,10 +157,9 @@ const Button = styled.button`
 `
 const StyledSelect = styled(Select)`
   width: 100%;
+  margin: 10px 0;
   font-size: 20px;
   font-weight: bold;
-  padding: 10px;
   border: none;
   outline: none;
-  border-bottom: 2px solid black;
 `

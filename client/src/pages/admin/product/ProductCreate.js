@@ -59,7 +59,7 @@ const ProductCreate = () => {
 
   const handleCategoryChange = (e) => {
     e.preventDefault()
-    setValues({ ...values, category: e.target.value })
+    setValues({ ...values, subs: [], category: e.target.value })
     getCategorySubs(e.target.value)
       .then((res) => {
         setSubOptions(res.data)
@@ -68,6 +68,7 @@ const ProductCreate = () => {
         toast.error(err)
         console.log(err)
       })
+    setShowSub(true)
   }
 
   return (
