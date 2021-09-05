@@ -141,6 +141,7 @@ const Login = () => {
 export default Login
 
 const Container = styled.div`
+  margin-top: 70px;
   font-size: 50px;
   min-height: 400px;
   height: calc(100vh - 70px);

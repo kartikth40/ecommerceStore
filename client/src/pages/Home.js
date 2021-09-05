@@ -12,6 +12,7 @@ const Home = () => {
 export default Home
 
 const Container = styled.div`
+  margin-top: 70px;
   text-align: center;
   font-weight: bold;
   font-size: 3rem;

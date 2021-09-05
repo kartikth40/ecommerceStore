@@ -16,6 +16,7 @@ const AdminDashboard = () => {
 export default AdminDashboard
 
 const Container = styled.div`
+  margin-top: 70px;
   display: flex;
   font-weight: bold;
   font-size: 3rem;

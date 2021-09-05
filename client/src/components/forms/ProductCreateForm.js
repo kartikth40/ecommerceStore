@@ -12,6 +12,13 @@ const ProductCreateForm = ({
   subOptions,
   showSub,
 }) => {
+  const ok = () => {
+    return [
+      { value: 'ocean1', label: 'Ocean' },
+      { value: 'blue', label: 'Blue' },
+      { value: 'purple', label: 'Purple' },
+    ]
+  }
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
@@ -94,11 +101,7 @@ const ProductCreateForm = ({
           isMulti
           name="subs"
           value={values.subs}
-          options={[
-            { value: 'ocean1', label: 'Ocean' },
-            { value: 'blue', label: 'Blue' },
-            { value: 'purple', label: 'Purple' },
-          ]}
+          options={ok()}
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
           onChange={(value) => setValues({ ...values, subs: value })}

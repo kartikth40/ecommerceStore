@@ -32,54 +32,46 @@ function Header() {
   }
   return (
     <HeaderContainer>
-      <MainContainer>
-        <NavLeft>
-          <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
-            <NavLink to="/">Home</NavLink>
-          </NavItems>
-        </NavLeft>
-        <NavRight>
-          {user && (
-            <DropDownMenu>
-              <DropDownBtn>
-                {user.email && user.email.split('@')[0]}
-              </DropDownBtn>
-              <DropDownContent>
-                {user && user.role === 'subscriber' && (
-                  <span onClick={() => history.push('/user/history')}>
-                    Dashboard
-                  </span>
-                )}
-                {user && user.role === 'admin' && (
-                  <span onClick={() => history.push('/admin/dashboard')}>
-                    Dashboard
-                  </span>
-                )}
-                <span onClick={logout}>LogOut</span>
-              </DropDownContent>
-            </DropDownMenu>
-          )}
+      <NavLeft>
+        <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
+          <NavLink to="/">Home</NavLink>
+        </NavItems>
+      </NavLeft>
+      <NavRight>
+        {user && (
+          <DropDownMenu>
+            <DropDownBtn>{user.email && user.email.split('@')[0]}</DropDownBtn>
+            <DropDownContent>
+              {user && user.role === 'subscriber' && (
+                <span onClick={() => history.push('/user/history')}>
+                  Dashboard
+                </span>
+              )}
+              {user && user.role === 'admin' && (
+                <span onClick={() => history.push('/admin/dashboard')}>
+                  Dashboard
+                </span>
+              )}
+              <span onClick={logout}>LogOut</span>
+            </DropDownContent>
+          </DropDownMenu>
+        )}
 
-          {!user && (
-            <>
-              <NavItems
-                id="Register-nav"
-                className="nav-item"
-                onClick={handleClick}
-              >
-                <NavLink to="/register">Register</NavLink>
-              </NavItems>
-              <NavItems
-                id="Login-nav"
-                className="nav-item"
-                onClick={handleClick}
-              >
-                <NavLink to="/login">Login</NavLink>
-              </NavItems>
-            </>
-          )}
-        </NavRight>
-      </MainContainer>
+        {!user && (
+          <>
+            <NavItems
+              id="Register-nav"
+              className="nav-item"
+              onClick={handleClick}
+            >
+              <NavLink to="/register">Register</NavLink>
+            </NavItems>
+            <NavItems id="Login-nav" className="nav-item" onClick={handleClick}>
+              <NavLink to="/login">Login</NavLink>
+            </NavItems>
+          </>
+        )}
+      </NavRight>
     </HeaderContainer>
   )
 }
@@ -87,15 +79,13 @@ function Header() {
 export default Header
 
 const HeaderContainer = styled.div`
-  height: 50px;
-  position: relative;
-`
-const MainContainer = styled.div`
+  height: 70px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
-  width: calc(100% - 20px);
+  width: 100%;
   padding: 10px;
   position: fixed;
+  top: 0;
   display: flex;
   align-items: center;
 `

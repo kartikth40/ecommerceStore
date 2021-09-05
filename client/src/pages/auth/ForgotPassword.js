@@ -79,6 +79,7 @@ const ForgotPassword = () => {
 export default ForgotPassword
 
 const Container = styled.div`
+  margin-top: 70px;
   font-size: 50px;
   min-height: 200px;
   height: 50vh;

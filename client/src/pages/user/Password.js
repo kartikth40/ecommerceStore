@@ -64,6 +64,7 @@ const Password = () => {
 
 export default Password
 const Container = styled.div`
+  margin-top: 70px;
   display: flex;
   height: calc(100vh - 70px);
 `

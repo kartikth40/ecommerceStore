@@ -14,6 +14,7 @@ const Wishlist = () => {
 export default Wishlist
 
 const Container = styled.div`
+  margin-top: 70px;
   display: flex;
 `
 const Content = styled.div`

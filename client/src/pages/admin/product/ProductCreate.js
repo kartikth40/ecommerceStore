@@ -84,7 +84,6 @@ const ProductCreate = () => {
           subOptions={subOptions}
           showSub={showSub}
         />
-        {JSON.stringify(values.subs)}
       </Content>
     </Container>
   )
