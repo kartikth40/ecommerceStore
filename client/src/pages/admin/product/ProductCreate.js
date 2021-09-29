@@ -59,7 +59,8 @@ const ProductCreate = () => {
 
   const handleCategoryChange = (e) => {
     e.preventDefault()
-    setValues({ ...values, subs: [], category: e.target.value })
+    setValues({ ...values, subs: [], category: e.target.value }) //fix this afterwards
+
     getCategorySubs(e.target.value)
       .then((res) => {
         setSubOptions(res.data)
