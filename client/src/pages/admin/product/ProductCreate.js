@@ -7,6 +7,7 @@ import { createProduct } from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import { Container, Content, Heading } from '../AdminDashboard'
 import { getCategories, getCategorySubs } from '../../../functions/category'
+import FileUpload from '../../../components/forms/FileUpload'
 
 const ProductCreate = () => {
   const { user } = useSelector((state) => ({ ...state }))
@@ -77,6 +78,9 @@ const ProductCreate = () => {
       <AdminNav />
       <Content>
         <Heading>Product Create Form</Heading>
+        <div>
+          <FileUpload />
+        </div>
         <ProductCreateForm
           handleChange={handleChange}
           handleCategoryChange={handleCategoryChange}
