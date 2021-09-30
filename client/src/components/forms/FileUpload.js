@@ -53,6 +53,16 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 
   return (
     <Container>
+      <Images>
+        {values.images &&
+          values.images.map((image) => {
+            return (
+              <ImageContainer>
+                <Img src={image.url} />
+              </ImageContainer>
+            )
+          })}
+      </Images>
       <StyledLabel>
         Choose files
         <StyledInput
@@ -70,6 +80,29 @@ const FileUpload = ({ values, setValues, setLoading }) => {
 export default FileUpload
 
 const Container = styled.div``
+const Images = styled.div``
+const ImageContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  &:after {
+    content: 'x';
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+  }
+`
+const Img = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: 10px;
+`
 const StyledLabel = styled.label`
   background-color: black;
   background-image: linear-gradient(10deg, #000000 0%, #434343 74%);
