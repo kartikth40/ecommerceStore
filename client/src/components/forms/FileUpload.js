@@ -1,10 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+import styled, { keyframes } from 'styled-components'
 import Resizer from 'react-image-file-resizer'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 
-const FileUpload = ({ values, setValues, setLoading }) => {
+const FileUpload = ({ values, setValues }) => {
+  const [loading, setLoading] = useState(false)
+
   const { user } = useSelector((state) => ({ ...state }))
   const fileUploadAndResize = (e) => {
     // resize
@@ -51,13 +53,45 @@ const FileUpload = ({ values, setValues, setLoading }) => {
     // set url to images[] in parent component state
   }
 
+  const handleImageRemove = (public_id) => {
+    setLoading(true)
+    axios
+      .post(
+        `${process.env.REACT_APP_API}/removeimages`,
+        { public_id },
+        {
+          headers: {
+            authtoken: user ? user.token : '',
+          },
+        }
+      )
+      .then((res) => {
+        console.log('success')
+        setLoading(false)
+        const { images } = values
+        let filterImages = images.filter((item) => {
+          return item.public_id !== public_id
+        })
+        setValues({ ...values, images: filterImages })
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+  }
+
   return (
     <Container>
       <Images>
         {values.images &&
           values.images.map((image) => {
             return (
-              <ImageContainer>
+              <ImageContainer key={image.public_id}>
+                <DltBtn onClick={() => handleImageRemove(image.public_id)}>
+                  <Loader>X</Loader>
+                  {/* {loading ? <Loader>X</Loader> : <div>X</div>} */}
+                </DltBtn>
+                {/* {loading && <Loader />} */}
                 <Img src={image.url} />
               </ImageContainer>
             )
@@ -82,26 +116,70 @@ export default FileUpload
 const Container = styled.div``
 const Images = styled.div``
 const ImageContainer = styled.div`
-  position: relative;
-  display: inline-block;
-  &:after {
-    content: 'x';
-    font-size: 20px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-  }
-`
-const Img = styled.img`
   width: 100px;
   height: 100px;
-  object-fit: cover;
   margin: 10px;
+  position: relative;
+  display: inline-block;
+  border: 2px solid black;
+`
+const DltBtn = styled.button`
+  font-size: 15px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: white 2px solid;
+  cursor: pointer;
+  background: red;
+  color: white;
+  transition: all 0.25s;
+
+  &:focus {
+    transform: translate(50%, -50%) scale(1.5);
+  }
+`
+const loadingAnime = keyframes`
+  0% {
+    transform: rotate(0);
+    // width: 10px;
+    // height: 40px;
+  }
+  // 25% {
+  //   width: 10px;
+  //   height: 10px;
+  // }
+  // 50% {
+  //   width: 40px;
+  //   height: 10px;
+  // }
+  // 75% {
+  //   width: 10px;
+  //   height: 10px;
+  // }
+  100% {
+    transform: rotate(360deg);
+    // width: 10px;
+    // height: 40px;
+  }
+`
+const Loader = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  transform-origin: center;
+  animation: ${loadingAnime} 1s ease-in forwards infinite;
+`
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `
 const StyledLabel = styled.label`
   background-color: black;

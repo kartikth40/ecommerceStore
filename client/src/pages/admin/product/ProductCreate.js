@@ -40,7 +40,6 @@ const ProductCreate = () => {
 
   const [subOptions, setSubOptions] = useState([])
   const [showSub, setShowSub] = useState(false)
-  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -80,11 +79,7 @@ const ProductCreate = () => {
       <Content>
         <Heading>Product Create Form</Heading>
         <div>
-          <FileUpload
-            values={values}
-            setValues={setValues}
-            setLoading={setLoading}
-          />
+          <FileUpload values={values} setValues={setValues} />
         </div>
         <ProductCreateForm
           handleChange={handleChange}
