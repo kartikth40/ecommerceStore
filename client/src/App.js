@@ -22,6 +22,7 @@ import SubCreate from './pages/admin/sub/SubCreate'
 import SubUpdate from './pages/admin/sub/SubUpdate'
 
 import ProductCreate from './pages/admin/product/ProductCreate'
+import AllProducts from './pages/admin/product/AllProducts'
 
 import { auth } from './firebase'
 import { useDispatch } from 'react-redux'
@@ -107,6 +108,9 @@ const App = () => {
         </AdminRoute>
         <AdminRoute exact path="/admin/product">
           <ProductCreate />
+        </AdminRoute>
+        <AdminRoute exact path="/admin/products">
+          <AllProducts />
         </AdminRoute>
       </Switch>
     </>

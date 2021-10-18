@@ -1,43 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import AdminNav from '../../components/nav/AdminNav'
-import { getProductsByCount } from '../../functions/product'
-import AdminProductCard from '../../components/cards/AdminProductCard'
 
 const AdminDashboard = () => {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    loadAllProducts()
-  }, [])
-
-  const loadAllProducts = () => {
-    setLoading(true)
-    getProductsByCount(100)
-      .then((res) => {
-        setProducts(res.data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.log(err)
-        setLoading(false)
-      })
-  }
   return (
     <Container>
       <AdminNav />
       <Content>
-        {loading ? (
-          <Heading>loading...</Heading>
-        ) : (
-          <Heading>Admin Dashboard</Heading>
-        )}
-        <ProductsContainer>
-          {products.map((product) => (
-            <AdminProductCard product={product} key={product._id} />
-          ))}
-        </ProductsContainer>
+        <Heading>Admin Dashboard</Heading>
       </Content>
     </Container>
   )
@@ -60,10 +30,5 @@ const Content = styled.div`
   flex-direction: column;
 `
 const Heading = styled.h2``
-const ProductsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-`
+
 export { Container, Content, Heading }
