@@ -53,7 +53,7 @@ const ProductCreateForm = ({
       </FormGroup>
       <FormGroup>
         <DropDownSelector
-          label="Select a Shipment type"
+          label="Shipping"
           name="shipping"
           onChangeHandler={handleChange}
           elements={['No', 'Yes']}

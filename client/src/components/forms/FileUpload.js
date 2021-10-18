@@ -88,10 +88,8 @@ const FileUpload = ({ values, setValues }) => {
             return (
               <ImageContainer key={image.public_id}>
                 <DltBtn onClick={() => handleImageRemove(image.public_id)}>
-                  <Loader>X</Loader>
-                  {/* {loading ? <Loader>X</Loader> : <div>X</div>} */}
+                  {loading ? <Loader>X</Loader> : <div>X</div>}
                 </DltBtn>
-                {/* {loading && <Loader />} */}
                 <Img src={image.url} />
               </ImageContainer>
             )
@@ -144,37 +142,23 @@ const DltBtn = styled.button`
 `
 const loadingAnime = keyframes`
   0% {
-    transform: rotate(0);
-    // width: 10px;
-    // height: 40px;
+    transform:translate(-50%, -50%) rotate(0);
   }
-  // 25% {
-  //   width: 10px;
-  //   height: 10px;
-  // }
-  // 50% {
-  //   width: 40px;
-  //   height: 10px;
-  // }
-  // 75% {
-  //   width: 10px;
-  //   height: 10px;
-  // }
+
   100% {
-    transform: rotate(360deg);
-    // width: 10px;
-    // height: 40px;
+    transform:translate(-50%, -50%) rotate(360deg);
   }
 `
 const Loader = styled.div`
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 10px;
   height: 10px;
-  transform-origin: center;
-  animation: ${loadingAnime} 1s ease-in forwards infinite;
+  transform-origin: bottom;
+
+  animation: ${loadingAnime} 1s linear forwards infinite;
 `
 const Img = styled.img`
   width: 100%;
