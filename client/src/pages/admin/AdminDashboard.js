@@ -60,5 +60,10 @@ const Content = styled.div`
   flex-direction: column;
 `
 const Heading = styled.h2``
-const ProductsContainer = styled.div``
+const ProductsContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+`
 export { Container, Content, Heading }
