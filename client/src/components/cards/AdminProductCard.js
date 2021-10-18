@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import laptop from '../../images/laptop.jpg'
 
-const AdminProductCard = ({ product }) => {
-  const { title, description, images } = product
+const AdminProductCard = ({ product, handleRemove }) => {
+  const { title, description, images, slug } = product
   return (
     <Card>
       <Cover>
@@ -18,7 +18,7 @@ const AdminProductCard = ({ product }) => {
         description.length > 40 ? '...' : ''
       }`}</Desc>
       <Buttons>
-        <DeleteBTN onClick={() => {}}>Delete</DeleteBTN>
+        <DeleteBTN onClick={() => handleRemove(slug)}>Delete</DeleteBTN>
         <EditBTN to={'a'}>Edit</EditBTN>
       </Buttons>
     </Card>

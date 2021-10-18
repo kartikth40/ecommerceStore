@@ -3,10 +3,15 @@ import styled from 'styled-components'
 import AdminNav from '../../../components/nav/AdminNav'
 import { getProductsByCount } from '../../../functions/product'
 import AdminProductCard from '../../../components/cards/AdminProductCard'
+import { removeProduct } from '../../../functions/product'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const AllProducts = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
+
+  const { user } = useSelector((state) => ({ ...state }))
 
   useEffect(() => {
     loadAllProducts()
@@ -24,6 +29,23 @@ const AllProducts = () => {
         setLoading(false)
       })
   }
+
+  const handleRemove = (slug) => {
+    if (window.confirm('Delete ?')) {
+      removeProduct(slug, user.token)
+        .then((res) => {
+          loadAllProducts()
+          toast.error(`${res.data.title} is deleted`)
+          console.log(res.data)
+        })
+        .catch((err) => {
+          if (err.response.status === 400) {
+            toast.error(err.response.data)
+          }
+          console.log(err)
+        })
+    }
+  }
   return (
     <Container>
       <AdminNav />
@@ -31,7 +53,11 @@ const AllProducts = () => {
         {loading ? <Heading>loading...</Heading> : <Heading>Products</Heading>}
         <ProductsContainer>
           {products.map((product) => (
-            <AdminProductCard product={product} key={product._id} />
+            <AdminProductCard
+              product={product}
+              key={product._id}
+              handleRemove={handleRemove}
+            />
           ))}
         </ProductsContainer>
       </Content>
