@@ -19,7 +19,7 @@ const AdminProductCard = ({ product, handleRemove }) => {
       }`}</Desc>
       <Buttons>
         <DeleteBTN onClick={() => handleRemove(slug)}>Delete</DeleteBTN>
-        <EditBTN to={'a'}>Edit</EditBTN>
+        <EditBTN to={`/admin/product/${slug}`}>Edit</EditBTN>
       </Buttons>
     </Card>
   )
