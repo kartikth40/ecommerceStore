@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const DropDownSelector = ({
+  value,
   label,
   name,
   onChangeHandler,
@@ -11,7 +12,7 @@ const DropDownSelector = ({
   return (
     <>
       <Label>{label} :</Label>
-      <Select name={name} onChange={onChangeHandler}>
+      <Select value={value} name={name} onChange={onChangeHandler}>
         <Option>Select...</Option>
         {elements.length &&
           elements.map((c) => {

@@ -4,20 +4,22 @@ import Select from 'react-select'
 import DropDownSelector from './DropDownSelector'
 
 const ProductUpdateForm = ({
+  categories,
   handleChange,
   handleSubmit,
   values,
   setValues,
-  // subOptions,
-  // showSub,
-  // handleCategoryChange,
+  subOptions,
+  handleCategoryChange,
+  arrayOfSubs,
+  setArrayOfSubs,
 }) => {
-  // const getSubOptions = () => {
-  //   return subOptions.map((s) => {
-  //     return { value: `${s._id}`, label: `${s.name}` }
-  //   })
-  // }
-  // const getAllSubs = (valObj) => valObj.map((v) => v.value)
+  const getSubOptions = () => {
+    return subOptions.map((s) => {
+      return { value: `${s._id}`, label: `${s.name}` }
+    })
+  }
+  console.log(arrayOfSubs)
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
@@ -53,6 +55,7 @@ const ProductUpdateForm = ({
       </FormGroup>
       <FormGroup>
         <DropDownSelector
+          value={values.shipping}
           label="Shipping"
           name="shipping"
           onChangeHandler={handleChange}
@@ -71,6 +74,7 @@ const ProductUpdateForm = ({
       </FormGroup>
       <FormGroup>
         <DropDownSelector
+          value={values.color}
           label="Color"
           name="color"
           onChangeHandler={handleChange}
@@ -79,36 +83,35 @@ const ProductUpdateForm = ({
       </FormGroup>
       <FormGroup>
         <DropDownSelector
+          value={values.brand}
           label="Brand"
           name="brand"
           onChangeHandler={handleChange}
           elements={values.brands}
         />
       </FormGroup>
-      {/* <FormGroup>
+      <FormGroup>
         <DropDownSelector
+          value={values.category ? values.category._id : 'Select...'}
           label="Category"
           name="category"
           onChangeHandler={handleCategoryChange}
-          elements={values.categories}
+          elements={categories}
           menuItem="name"
         />
       </FormGroup>
-      {showSub && (
-        <FormGroup>
-          <Label>Sub Category: </Label>
-          <StyledSelect
-            isMulti
-            name="subs"
-            options={subOptions ? getSubOptions() : []}
-            closeMenuOnSelect={false}
-            hideSelectedOptions={false}
-            onChange={(value) =>
-              setValues({ ...values, subs: getAllSubs(value) })
-            }
-          />
-        </FormGroup>
-      )} */}
+      <FormGroup>
+        <Label>Sub Category: </Label>
+
+        <StyledSelect
+          isMulti
+          name="subs"
+          options={subOptions ? getSubOptions() : []}
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          onChange={(value) => setArrayOfSubs(value)}
+        />
+      </FormGroup>
 
       <Button>SAVE</Button>
     </Form>
