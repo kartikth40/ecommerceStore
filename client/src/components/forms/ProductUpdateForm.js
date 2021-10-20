@@ -8,10 +8,8 @@ const ProductUpdateForm = ({
   handleChange,
   handleSubmit,
   values,
-  setValues,
   subOptions,
   handleCategoryChange,
-  arrayOfSubs,
   setArrayOfSubs,
 }) => {
   const getSubOptions = () => {
@@ -19,7 +17,6 @@ const ProductUpdateForm = ({
       return { value: `${s._id}`, label: `${s.name}` }
     })
   }
-  console.log(arrayOfSubs)
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
@@ -102,7 +99,6 @@ const ProductUpdateForm = ({
       </FormGroup>
       <FormGroup>
         <Label>Sub Category: </Label>
-
         <StyledSelect
           isMulti
           name="subs"

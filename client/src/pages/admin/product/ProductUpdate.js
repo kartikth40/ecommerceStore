@@ -79,14 +79,8 @@ const ProductUpdate = () => {
         toast.error(err)
         console.log(err)
       })
-
-    //if user clicks back to the original category show its sub category in default
-    if (values.category._id === e.target.value) {
-      loadProduct()
-    } else {
-      // clear subs
-      setArrayOfSubs([])
-    }
+    // clear subs
+    setArrayOfSubs([])
   }
 
   return (
@@ -94,6 +88,10 @@ const ProductUpdate = () => {
       <AdminNav />
       <Content>
         <Heading>Product Edit Form</Heading>
+        {JSON.stringify(values)}
+        <div>
+          <FileUpload values={values} setValues={setValues} />
+        </div>
         <ProductUpdateForm
           handleChange={handleChange}
           handleSubmit={handleSubmit}
