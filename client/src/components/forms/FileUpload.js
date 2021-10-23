@@ -96,7 +96,7 @@ const FileUpload = ({ values, setValues }) => {
           })}
       </Images>
       <StyledLabel>
-        Choose files
+        CHOOSE FILES
         <StyledInput
           type="file"
           multiple
@@ -116,10 +116,12 @@ const Images = styled.div``
 const ImageContainer = styled.div`
   width: 100px;
   height: 100px;
-  margin: 10px;
+  margin: 30px;
   position: relative;
   display: inline-block;
+  padding: 5px;
   border: 2px solid black;
+  border-radius: 20px;
 `
 const DltBtn = styled.button`
   font-size: 15px;
@@ -164,25 +166,26 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 20px;
 `
 const StyledLabel = styled.label`
-  background-color: black;
-  background-image: linear-gradient(10deg, #000000 0%, #434343 74%);
-  color: white;
+  background-color: transparent;
+  color: black;
   display: block;
   font-size: 30px;
+  width: max-content;
   padding: 10px 20px;
-  margin: 2rem 0;
-  border: none;
+  margin-bottom: 2rem;
+  border: 2px solid black;
   border-radius: 10px;
   transition: 250ms all;
   &:hover {
-    opacity: 0.85;
+    opacity: 0.5;
     border-radius: 50px;
   }
   &:focus,
   &:active {
-    opacity: 0.5;
+    opacity: 0.25;
     border-radius: 50px 50px 0 50px;
   }
 `

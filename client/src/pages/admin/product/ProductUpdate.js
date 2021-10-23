@@ -88,7 +88,6 @@ const ProductUpdate = () => {
       <AdminNav />
       <Content>
         <Heading>Product Edit Form</Heading>
-        {JSON.stringify(values)}
         <div>
           <FileUpload values={values} setValues={setValues} />
         </div>
@@ -103,6 +102,7 @@ const ProductUpdate = () => {
           arrayOfSubs={arrayOfSubs}
           setArrayOfSubs={setArrayOfSubs}
         />
+        {JSON.stringify(values)}
       </Content>
     </Container>
   )
