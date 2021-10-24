@@ -4,9 +4,7 @@ import Resizer from 'react-image-file-resizer'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 
-const FileUpload = ({ values, setValues }) => {
-  const [loading, setLoading] = useState(false)
-
+const FileUpload = ({ values, setValues, loading, setLoading }) => {
   const { user } = useSelector((state) => ({ ...state }))
   const fileUploadAndResize = (e) => {
     // resize

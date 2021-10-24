@@ -40,15 +40,20 @@ const ProductCreate = () => {
 
   const [subOptions, setSubOptions] = useState([])
   const [showSub, setShowSub] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setLoading(true)
+
     createProduct(values, user.token)
       .then((res) => {
+        setLoading(false)
         toast.success(`"${res.data.title}" is created`)
         history.push('/admin/dashboard')
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err)
         toast.error(err.response.data.err)
       })
@@ -82,6 +87,7 @@ const ProductCreate = () => {
           <FileUpload values={values} setValues={setValues} />
         </div>
         <ProductCreateForm
+          loading={loading}
           handleChange={handleChange}
           handleCategoryChange={handleCategoryChange}
           handleSubmit={handleSubmit}

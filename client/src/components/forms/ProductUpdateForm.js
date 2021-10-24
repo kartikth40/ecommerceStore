@@ -4,12 +4,14 @@ import Select from 'react-select'
 import DropDownSelector from './DropDownSelector'
 
 const ProductUpdateForm = ({
+  loading,
   categories,
   handleChange,
   handleSubmit,
   values,
   subOptions,
   handleCategoryChange,
+  arrayOfSubs,
   setArrayOfSubs,
 }) => {
   const getSubOptions = () => {
@@ -99,17 +101,18 @@ const ProductUpdateForm = ({
       </FormGroup>
       <FormGroup>
         <Label>Sub Category: </Label>
+        {}
         <StyledSelect
           isMulti
           name="subs"
           options={subOptions ? getSubOptions() : []}
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
-          onChange={(value) => setArrayOfSubs(value)}
+          onChange={(value) => setArrayOfSubs(value.map((v) => v.value))}
         />
+        current subs - {values.subs.map((sub) => `${sub.name}, `)}
       </FormGroup>
-
-      <Button>SAVE</Button>
+      {loading ? <Button>SAVING...</Button> : <Button>SAVE</Button>}
     </Form>
   )
 }
@@ -148,7 +151,6 @@ const Button = styled.button`
     opacity: 0.85;
     border-radius: 50px;
   }
-  &:focus,
   &:active {
     opacity: 0.5;
     border-radius: 50px 50px 0 50px;

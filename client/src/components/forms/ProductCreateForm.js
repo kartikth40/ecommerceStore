@@ -4,6 +4,7 @@ import Select from 'react-select'
 import DropDownSelector from './DropDownSelector'
 
 const ProductCreateForm = ({
+  loading,
   handleChange,
   handleCategoryChange,
   handleSubmit,
@@ -110,7 +111,7 @@ const ProductCreateForm = ({
         </FormGroup>
       )}
 
-      <Button>SAVE</Button>
+      {loading ? <Button>SAVING...</Button> : <Button>SAVE</Button>}
     </Form>
   )
 }
@@ -149,7 +150,6 @@ const Button = styled.button`
     opacity: 0.85;
     border-radius: 50px;
   }
-  &:focus,
   &:active {
     opacity: 0.5;
     border-radius: 50px 50px 0 50px;

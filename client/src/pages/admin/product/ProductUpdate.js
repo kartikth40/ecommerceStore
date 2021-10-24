@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
-import { getProduct } from '../../../functions/product'
+import { getProduct, updateProduct } from '../../../functions/product'
 import { Container, Content, Heading } from '../AdminDashboard'
 import { getCategories, getCategorySubs } from '../../../functions/category'
 import FileUpload from '../../../components/forms/FileUpload'
@@ -25,9 +25,12 @@ const ProductUpdate = () => {
     brand: '',
   })
 
+  const history = useHistory()
+
   const [subOptions, setSubOptions] = useState([])
   const [categories, setCategories] = useState([])
   const [arrayOfSubs, setArrayOfSubs] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const { user } = useSelector((state) => ({ ...state }))
   //router
@@ -62,6 +65,22 @@ const ProductUpdate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setLoading(true)
+
+    //all values are in values but not subs
+    values.subs = arrayOfSubs
+
+    updateProduct(slug, values, user.token)
+      .then((res) => {
+        setLoading(false)
+        toast.success(`${res.data.title} is updated.`)
+        history.push('/admin/products')
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log(err.response.data.err)
+        toast.error(err.response.data.err)
+      })
   }
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value })
@@ -87,11 +106,21 @@ const ProductUpdate = () => {
     <Container>
       <AdminNav />
       <Content>
-        <Heading>Product Edit Form</Heading>
+        {loading ? (
+          <Heading>Loading...</Heading>
+        ) : (
+          <Heading>Product Edit Form</Heading>
+        )}
         <div>
-          <FileUpload values={values} setValues={setValues} />
+          <FileUpload
+            values={values}
+            setValues={setValues}
+            loading={loading}
+            setLoading={setLoading}
+          />
         </div>
         <ProductUpdateForm
+          loading={loading}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           categories={categories}
@@ -102,7 +131,6 @@ const ProductUpdate = () => {
           arrayOfSubs={arrayOfSubs}
           setArrayOfSubs={setArrayOfSubs}
         />
-        {JSON.stringify(values)}
       </Content>
     </Container>
   )
