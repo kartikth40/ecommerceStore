@@ -100,3 +100,4 @@ const EditBTN = styled(Link)`
   }
 `
 export default AdminProductCard
+export { Card, Cover, Title, Desc, Buttons, DeleteBTN, EditBTN }
