@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { getProductsByCount } from '../functions/product'
 import ProductCard from '../components/cards/ProductCard'
 import Jumbotron from '../components/cards/Jumbotron'
+import LoadingCard from '../components/cards/LoadingCard'
 
 const Home = () => {
   const [products, setProducts] = useState([])
@@ -33,13 +34,18 @@ const Home = () => {
       </JumboHeading>
       <Content>
         <ProductsContainer>
-          {products.map((product) => (
-            <ProductCard
-              product={product}
-              key={product._id}
-              // handleRemove={handleRemove}
-            />
-          ))}
+          {loading ? (
+            <LoadingCard count={6} />
+          ) : (
+            products.map((product) => (
+              <ProductCard
+                product={product}
+                key={product._id}
+                loading={loading}
+                // handleRemove={handleRemove}
+              />
+            ))
+          )}
         </ProductsContainer>
       </Content>
     </Container>
@@ -58,6 +64,7 @@ const JumboHeading = styled.div`
   width: 100%;
   font-size: 5rem;
   margin-bottom: 2rem;
+  color: red;
 `
 const Content = styled.div`
   width: 70vw;

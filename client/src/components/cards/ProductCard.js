@@ -9,6 +9,7 @@ import {
   EditBTN,
 } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
+import Skeleton from './Skeleton'
 
 const ProductCard = ({ product }) => {
   const { title, description, images, slug } = product
