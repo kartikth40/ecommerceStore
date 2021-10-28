@@ -25,18 +25,14 @@ const ProductCard = ({ product }) => {
         description.length > 40 ? '...' : ''
       }`}</Desc>
       <Buttons>
-        <DeleteBTN
-          onClick={
-            () => {}
-            // handleRemove(slug)
-          }
-        >
-          Delete
-        </DeleteBTN>
-        <EditBTN to={`/admin/product/${slug}`}>Edit</EditBTN>
+        <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
+        <ViewProductBTN to={`/product/${slug}`}>View Product</ViewProductBTN>
       </Buttons>
     </Card>
   )
 }
 
 export default ProductCard
+
+const ViewProductBTN = EditBTN // same layout
+const AddToCartBTN = DeleteBTN // same layout

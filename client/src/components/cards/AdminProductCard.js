@@ -36,7 +36,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 `
 const Cover = styled.div`
   height: 200px;
@@ -56,6 +56,7 @@ const Title = styled.div`
 `
 const Desc = styled.div`
   margin: 10px;
+  color: rgba(0, 0, 0, 0.5);
 `
 const Buttons = styled.div`
   height: 100%;
@@ -63,41 +64,41 @@ const Buttons = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  & button,
+  & a {
+    background-color: black;
+    background-image: linear-gradient(10deg, #000000 0%, #434343 80%);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    transition: 0.15s all;
+    &:hover {
+      opacity: 0.85;
+    }
+    &:active {
+      opacity: 0.5;
+    }
+  }
 `
 const DeleteBTN = styled.button`
   padding: 5px;
   margin: 10px;
   border: none;
-  color: rgb(255, 150, 150);
-  background: transparent;
+  color: rgb(255, 255, 255);
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.15s all;
-  &:hover {
-    transform: scale(1.1);
-  }
-  &:active,
-  &:focus {
-    transform: scale(0.9);
-  }
 `
 const EditBTN = styled(Link)`
   text-decoration: none;
   padding: 5px;
   margin: 10px;
-  color: rgb(255, 150, 150);
-  background: transparent;
+  color: rgb(255, 255, 255);
   font-size: 1rem;
   font-weight: light;
-  transition: 0.15s all;
-  &:hover {
-    transform: scale(1.1);
-  }
-  &:active,
-  &:focus {
-    transform: scale(0.9);
-  }
 `
 export default AdminProductCard
 export { Card, Cover, Title, Desc, Buttons, DeleteBTN, EditBTN }
