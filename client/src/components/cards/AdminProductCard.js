@@ -14,8 +14,8 @@ const AdminProductCard = ({ product, handleRemove }) => {
         />
       </Cover>
       <Title>{title}</Title>
-      <Desc>{`${description && description.substring(0, 40)}${
-        description.length > 40 ? '...' : ''
+      <Desc>{`${description && description.substring(0, 60)}${
+        description.length > 60 ? '...' : ''
       }`}</Desc>
       <Buttons>
         <DeleteBTN onClick={() => handleRemove(slug)}>Delete</DeleteBTN>
@@ -26,23 +26,21 @@ const AdminProductCard = ({ product, handleRemove }) => {
 }
 
 const Card = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  margin-top: 50px;
-  margin-right: 20px;
+  margin: 50px 10px 0 10px;
   width: 300px;
-  height: 400px;
+  height: 320px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 `
 const Cover = styled.div`
-  height: 200px;
+  height: 150px;
   width: 300px;
   border-radius: 10px;
-  margin-bottom: 20px;
   & img {
     padding: 10px;
     width: 100%;
@@ -56,7 +54,9 @@ const Title = styled.div`
 `
 const Desc = styled.div`
   margin: 10px;
+  height: 20px;
   color: rgba(0, 0, 0, 0.5);
+  text-align: left;
 `
 const Buttons = styled.div`
   height: 100%;

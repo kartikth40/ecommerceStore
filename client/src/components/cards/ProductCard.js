@@ -9,7 +9,6 @@ import {
   EditBTN,
 } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
-import Skeleton from './Skeleton'
 
 const ProductCard = ({ product }) => {
   const { title, description, images, slug } = product
@@ -22,12 +21,12 @@ const ProductCard = ({ product }) => {
         />
       </Cover>
       <Title>{title}</Title>
-      <Desc>{`${description && description.substring(0, 40)}${
-        description.length > 40 ? '...' : ''
+      <Desc>{`${description && description.substring(0, 60)}${
+        description.length > 60 ? '...' : ''
       }`}</Desc>
       <Buttons>
-        <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
         <ViewProductBTN to={`/product/${slug}`}>View Product</ViewProductBTN>
+        <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
       </Buttons>
     </Card>
   )
