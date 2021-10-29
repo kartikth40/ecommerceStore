@@ -41,7 +41,7 @@ const Container = styled.div`
 const Cover = styled.div`
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: 150px;
   width: calc(300px - 20px);
   border-radius: 10px;
   margin: 10px;

@@ -12,14 +12,14 @@ const Home = () => {
           textArray={['Latest Products', 'New Arrivals', 'Best Sellers']}
         />
       </JumboHeading>
-      <Content>
+      <Section>
         <SubHeading>New Arrivals</SubHeading>
         <NewArrivals />
-      </Content>
-      <Content>
+      </Section>
+      <Section>
         <SubHeading>Best Sellers</SubHeading>
         <BestSellers />
-      </Content>
+      </Section>
     </Container>
   )
 }
@@ -39,7 +39,7 @@ const JumboHeading = styled.div`
   color: red;
 `
 
-const Content = styled.div`
+const Section = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 20px;
   width: 85vw;

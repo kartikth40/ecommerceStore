@@ -12,14 +12,15 @@ const {
   read,
   update,
   list,
+  productsCount,
 } = require('../controllers/product')
 
 router.post('/product', authCheck, adminCheck, create) // (getURL, middleware, controller)
-router.get('/products/:count', listAll)
-router.delete('/product/:slug', authCheck, adminCheck, remove)
-router.get('/product/:slug', read)
-router.put('/product/:slug', authCheck, adminCheck, adminCheck, update)
-
 router.post('/products', list)
+router.get('/products/total', productsCount)
+router.get('/products/:count', listAll)
+router.get('/product/:slug', read)
+router.delete('/product/:slug', authCheck, adminCheck, remove)
+router.put('/product/:slug', authCheck, adminCheck, adminCheck, update)
 
 module.exports = router

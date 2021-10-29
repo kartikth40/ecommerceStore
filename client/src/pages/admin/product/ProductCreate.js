@@ -33,7 +33,7 @@ const ProductCreate = () => {
     quantity: '',
     images: [],
     colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
-    brands: ['Apple', 'Microsoft', 'Samsung', 'Lenovo', 'Asus'],
+    brands: ['Apple', 'Microsoft', 'Samsung', 'Lenovo', 'Asus', 'Dell', 'HP'],
     color: '',
     brand: '',
   })
@@ -84,7 +84,12 @@ const ProductCreate = () => {
       <Content>
         <Heading>Product Create Form</Heading>
         <div>
-          <FileUpload values={values} setValues={setValues} />
+          <FileUpload
+            values={values}
+            setValues={setValues}
+            loading={loading}
+            setLoading={setLoading}
+          />
         </div>
         <ProductCreateForm
           loading={loading}

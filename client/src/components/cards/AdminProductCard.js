@@ -14,8 +14,8 @@ const AdminProductCard = ({ product, handleRemove }) => {
         />
       </Cover>
       <Title>{title}</Title>
-      <Desc>{`${description && description.substring(0, 60)}${
-        description.length > 60 ? '...' : ''
+      <Desc>{`${description && description.substring(0, 50)}${
+        description.length > 50 ? '...' : ''
       }`}</Desc>
       <Buttons>
         <DeleteBTN onClick={() => handleRemove(slug)}>Delete</DeleteBTN>
