@@ -1,19 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Pagination = ({ productsPerPage, totaProducts, Paginate }) => {
+const Pagination = ({
+  currentPage,
+  productsPerPage,
+  totaProducts,
+  Paginate,
+}) => {
   let pageNumbers = []
   for (let i = 0; i < Math.ceil(totaProducts / productsPerPage); i++) {
     pageNumbers.push(i + 1)
   }
 
+  const goToPrevPage = () => {
+    Paginate(currentPage - 1)
+  }
+
+  const goToNextPage = () => {
+    Paginate(currentPage + 1)
+  }
+
   return (
     <Container>
-      <PrevButton>Prev</PrevButton>
+      <PrevButton onClick={goToPrevPage}>Prev</PrevButton>
       {pageNumbers.map((number) => (
         <Button onClick={() => Paginate(number)}>{number}</Button>
       ))}
-      <NextButton>Next</NextButton>
+      <NextButton onClick={goToNextPage}>Next</NextButton>
     </Container>
   )
 }

@@ -21,7 +21,7 @@ const NewArrivals = () => {
 
   const loadAllProducts = () => {
     setLoading(true)
-    // sort, order, limit
+    // sort, order, page
     getProducts('createdAt', 'desc', page).then((res) => {
       setProducts(res.data)
       setLoading(false)
@@ -29,6 +29,7 @@ const NewArrivals = () => {
   }
 
   const Paginate = (number) => {
+    if (number <= 0 || number > productsCount / 3) return
     setPage(number)
   }
 
@@ -48,6 +49,7 @@ const NewArrivals = () => {
         )}
       </ProductsContainer>
       <Pagination
+        currentPage={page}
         productsPerPage={3}
         totaProducts={productsCount}
         Paginate={Paginate}
