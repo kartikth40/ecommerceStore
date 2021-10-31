@@ -24,7 +24,12 @@ const Pagination = ({
     <Container>
       <PrevButton onClick={goToPrevPage}>Prev</PrevButton>
       {pageNumbers.map((number) => (
-        <Button onClick={() => Paginate(number)}>{number}</Button>
+        <Button
+          selected={number === currentPage}
+          onClick={() => Paginate(number)}
+        >
+          {number}
+        </Button>
       ))}
       <NextButton onClick={goToNextPage}>Next</NextButton>
     </Container>
@@ -37,7 +42,6 @@ const Container = styled.div`
   margin: 1rem 0;
   width: 100%;
   height: 50px;
-  background: yellow;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,6 +51,19 @@ const Button = styled.button`
   height: 30px;
   padding: 5px;
   margin: 5px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  background-color: ${(props) =>
+    props.selected ? 'rgba(0, 0, 0, 1)' : 'rgba(255, 255, 255, 0.9)'};
+  color: ${(props) =>
+    props.selected ? 'rgba(255, 255, 255, 1)' : 'rgba(0,0,0,1)'};
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 1);
+    color: rgba(255, 255, 255, 1);
+  }
 `
 const PrevButton = styled(Button)`
   width: max-content;

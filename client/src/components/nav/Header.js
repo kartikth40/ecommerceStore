@@ -80,12 +80,13 @@ export default Header
 
 const HeaderContainer = styled.div`
   height: 70px;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 1);
   border-radius: 10px;
   width: 100%;
   padding: 10px;
   position: fixed;
   top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
 `

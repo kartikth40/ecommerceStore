@@ -31,6 +31,8 @@ import { useEffect } from 'react'
 // currentUser function takes token of the user id token and sends the user info to the backend server
 import { currentUser } from './functions/auth'
 
+import Product from './pages/Product'
+
 const App = () => {
   const dispatch = useDispatch()
   // to check firebase auth state
@@ -116,6 +118,10 @@ const App = () => {
         <AdminRoute exact path="/admin/product/:slug">
           <ProductUpdate />
         </AdminRoute>
+
+        <UserRoute exact path="/product/:slug">
+          <Product />
+        </UserRoute>
       </Switch>
     </>
   )
