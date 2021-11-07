@@ -4,9 +4,10 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 import { Buttons, CardButton, ButtonWithLink } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
+import ProductInfo from './ProductInfo'
 
 const SingleProduct = ({ product }) => {
-  const { title, description, images, slug } = product
+  const { title, images } = product
 
   return (
     <Container>
@@ -21,10 +22,10 @@ const SingleProduct = ({ product }) => {
           </CustomCarousel>
         </CarouselContainer>
         <ProductInfoContainer>
-          <ProductTitle>{product.title}</ProductTitle>
-          <ProductInfo>Info</ProductInfo>
+          <ProductTitle>{title}</ProductTitle>
+          <ProductInfo product={product} />
           <InfoButtons>
-            <WishListBTN to={`/product/${slug}`}>Add To Wishlist</WishListBTN>
+            <WishListBTN to={`/product`}>Add To Wishlist</WishListBTN>
             <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
           </InfoButtons>
         </ProductInfoContainer>
@@ -63,12 +64,11 @@ const ProductInfoContainer = styled.div`
   margin: 1rem;
 `
 const ProductTitle = styled.div`
-  font-size: 1rem;
+  font-size: 40px;
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
   font-weight: bold;
   text-align: center;
-`
-const ProductInfo = styled.div`
-  height: 80%;
 `
 const InfoButtons = styled(Buttons)`
   height: max-content;
