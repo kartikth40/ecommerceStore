@@ -83,7 +83,7 @@ const Buttons = styled.div`
     }
   }
 `
-const DeleteBTN = styled.button`
+const CardButton = styled.button`
   padding: 5px;
   margin: 10px;
   border: none;
@@ -92,7 +92,8 @@ const DeleteBTN = styled.button`
   font-weight: bold;
   cursor: pointer;
 `
-const EditBTN = styled(Link)`
+const DeleteBTN = CardButton
+const ButtonWithLink = styled(Link)`
   text-decoration: none;
   padding: 5px;
   margin: 10px;
@@ -100,5 +101,6 @@ const EditBTN = styled(Link)`
   font-size: 1rem;
   font-weight: light;
 `
+const EditBTN = ButtonWithLink
 export default AdminProductCard
-export { Card, Cover, Title, Desc, Buttons, DeleteBTN, EditBTN }
+export { Card, Cover, Title, Desc, Buttons, CardButton, ButtonWithLink }

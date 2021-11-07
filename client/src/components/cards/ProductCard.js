@@ -5,8 +5,8 @@ import {
   Title,
   Desc,
   Buttons,
-  DeleteBTN,
-  EditBTN,
+  ButtonWithLink,
+  CardButton,
 } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
 
@@ -34,5 +34,5 @@ const ProductCard = ({ product }) => {
 
 export default ProductCard
 
-const ViewProductBTN = EditBTN // same layout
-const AddToCartBTN = DeleteBTN // same layout
+const ViewProductBTN = ButtonWithLink // same layout
+const AddToCartBTN = CardButton // same layout

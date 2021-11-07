@@ -12,3 +12,28 @@
   background-color: rgba(0, 0, 0, 0.9);
   transform: scale(95%);
 }
+
+.slider img {
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.thumb {
+  height: 60px !important;
+  width: 60px !important;
+}
+.thumb img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.carousel .control-dots .dot {
+  border: 2px solid black;
+  box-shadow: none !important;
+  width: 15px !important;
+  height: 15px !important;
+}
+.carousel .carousel-status {
+  font-size: 15px !important;
+}
