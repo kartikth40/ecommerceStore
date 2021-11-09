@@ -7,7 +7,7 @@ import laptop from '../../images/laptop.jpg'
 import ProductInfo from './ProductInfo'
 
 const SingleProduct = ({ product }) => {
-  const { title, images } = product
+  const { title, images, description } = product
 
   return (
     <Container>
@@ -28,6 +28,7 @@ const SingleProduct = ({ product }) => {
             <WishListBTN to={`/product`}>Add To Wishlist</WishListBTN>
             <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
           </InfoButtons>
+          <Description>{description && description}</Description>
         </ProductInfoContainer>
       </TopSection>
     </Container>
@@ -60,8 +61,8 @@ const CustomCarousel = styled(Carousel)``
 const ProductInfoContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.9);
   width: 40%;
-  height: 100%;
   margin: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 `
 const ProductTitle = styled.div`
   font-size: 40px;
@@ -75,3 +76,9 @@ const InfoButtons = styled(Buttons)`
 `
 const WishListBTN = ButtonWithLink
 const AddToCartBTN = CardButton
+
+const Description = styled.div`
+  width: 100%;
+  padding: 30px 10px;
+  text-align: center;
+`

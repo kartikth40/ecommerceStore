@@ -13,6 +13,7 @@ const {
   update,
   list,
   productsCount,
+  productStar,
 } = require('../controllers/product')
 
 router.post('/product', authCheck, adminCheck, create) // (getURL, middleware, controller)
@@ -23,4 +24,6 @@ router.get('/product/:slug', read)
 router.delete('/product/:slug', authCheck, adminCheck, remove)
 router.put('/product/:slug', authCheck, adminCheck, adminCheck, update)
 
+//rating
+router.put('/product/star/:productId', authCheck, productStar)
 module.exports = router

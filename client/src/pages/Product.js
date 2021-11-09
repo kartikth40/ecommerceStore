@@ -21,7 +21,9 @@ const Product = () => {
       <ProductDesc>
         <SingleProduct product={product} />
       </ProductDesc>
-      <RelatedProducts>Related Products</RelatedProducts>
+      <RelatedProducts>
+        <RPTitle>Related Products</RPTitle>
+      </RelatedProducts>
     </Container>
   )
 }
@@ -35,4 +37,19 @@ const ProductDesc = styled.div`
   width: 100%;
   padding: 3rem;
 `
-const RelatedProducts = styled.div``
+const RelatedProducts = styled.div`
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  width: 85vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: flex;
+  font-size: 1rem;
+  flex-direction: column;
+`
+const RPTitle = styled.h1`
+  text-decoration: underline;
+  text-align: center;
+`
