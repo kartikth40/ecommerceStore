@@ -88,7 +88,7 @@ const CardButton = styled.button`
   margin: 10px;
   border: none;
   color: rgb(255, 255, 255);
-  font-size: 1rem;
+  font-size: 10px;
   font-weight: bold;
   cursor: pointer;
 `
@@ -98,8 +98,8 @@ const ButtonWithLink = styled(Link)`
   padding: 5px;
   margin: 10px;
   color: rgb(255, 255, 255);
-  font-size: 1rem;
-  font-weight: light;
+  font-size: 10px;
+  font-weight: bold;
 `
 const EditBTN = ButtonWithLink
 export default AdminProductCard

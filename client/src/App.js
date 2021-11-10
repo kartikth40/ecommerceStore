@@ -119,9 +119,9 @@ const App = () => {
           <ProductUpdate />
         </AdminRoute>
 
-        <UserRoute exact path="/product/:slug">
+        <Route exact path="/product/:slug">
           <Product />
-        </UserRoute>
+        </Route>
       </Switch>
     </>
   )
