@@ -2,12 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { Buttons, CardButton, ButtonWithLink } from './AdminProductCard'
+import { Buttons, ButtonWithLink, CardButton } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
 import ProductInfo from './ProductInfo'
+import StarRatings from 'react-star-ratings'
+
+import RatingButton from '../buttons/RatingButton'
 
 const SingleProduct = ({ product }) => {
-  const { title, images, description } = product
+  const { title, images, description, _id } = product
 
   return (
     <Container>
@@ -23,10 +26,19 @@ const SingleProduct = ({ product }) => {
         </CarouselContainer>
         <ProductInfoContainer>
           <ProductTitle>{title}</ProductTitle>
+          <StarRatingsContainer>
+            <StarRatings
+              name={_id}
+              numberOfStars={5}
+              rating={2}
+              starRatedColor="red"
+            />
+          </StarRatingsContainer>
           <ProductInfo product={product} />
           <InfoButtons>
             <WishListBTN to={`/product`}>Add To Wishlist</WishListBTN>
             <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
+            <RatingButton _id={_id} />
           </InfoButtons>
           <Description>{description && description}</Description>
         </ProductInfoContainer>
@@ -41,9 +53,7 @@ const Container = styled.div``
 const TopSection = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 70vh;
-  min-height: 80vh;
+  align-items: flex-start;
 `
 const CarouselContainer = styled.div`
   background-color: white;
@@ -76,7 +86,9 @@ const InfoButtons = styled(Buttons)`
 `
 const WishListBTN = ButtonWithLink
 const AddToCartBTN = CardButton
-
+const StarRatingsContainer = styled.div`
+  text-align: center;
+`
 const Description = styled.div`
   width: 100%;
   padding: 30px 10px;
