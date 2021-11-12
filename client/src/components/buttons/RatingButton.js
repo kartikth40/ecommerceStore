@@ -13,10 +13,17 @@ const RatingButton = ({ _id }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleClick = () => {
-    if (!user)
+    if (!user){
       history.push({ pathname: '/login', state: { from: `/product/${slug}` } })
-    if (modalVisible) setModalVisible(false)
-    else setModalVisible(true)
+    }
+    else if (user && user.token) {
+      if(modalVisible) {
+        setModalVisible(false)
+        }
+      else {
+        setModalVisible(true)
+      }
+    } 
   }
 
   return (

@@ -12,22 +12,9 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
+  const { user } = useSelector((state) => ({ ...state })) // get user state
   const history = useHistory()
   const dispatch = useDispatch()
-
-  const roleBasedRedirect = (res) => {
-    // check if intended - if user wants to go to the same page after a login
-    let intended = history.location.state
-    if (intended) history.push(intended.from)
-    else {
-      if (res.data.role === 'admin') {
-        history.push('/admin/dashboard')
-      } else {
-        history.push('/user/history')
-      }
-    }
-  }
-  const { user } = useSelector((state) => ({ ...state })) // get user state
 
   useEffect(() => {
     let intended = history.location.state
@@ -39,6 +26,24 @@ const Login = () => {
       }
     }
   }, [user, history])
+
+
+  const roleBasedRedirect = (res) => {
+    // check if intended - if user wants to go to the same page after a login
+    let intended = history.location.state
+    if (intended){
+      history.push(intended.from)
+    } 
+    else {
+      if (res.data.role === 'admin') {
+        history.push('/admin/dashboard')
+      } else {
+        history.push('/user/history')
+      }
+    }
+  }
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()
