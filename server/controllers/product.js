@@ -1,4 +1,5 @@
 const Product = require('../models/product')
+const User = require('../models/user')
 const slugify = require('slugify')
 
 exports.create = async (req, res) => {
@@ -95,6 +96,7 @@ exports.productStar = async (req, res) => {
   const product = await Product.findById(req.params.productId).exec()
   const user = await User.findOne({ email: req.user.email }).exec()
   const { star } = req.body
+  console.log('STARRRRRRR - ', star)
 
   //who is updating
   //check if currently logged in user have already added rating to this product
@@ -111,7 +113,7 @@ exports.productStar = async (req, res) => {
       },
       { new: true }
     ).exec()
-    console.log('ratingsAdded', ratingAdded)
+    // console.log('ratingsAdded', ratingAdded)
     res.json(ratingAdded)
   } else {
     //if user have already left rating, update it
@@ -122,7 +124,7 @@ exports.productStar = async (req, res) => {
       { $set: { 'ratings.$.star': star } },
       { new: true }
     ).exec()
-    console.log('ratingUpdated', ratingUpdated)
+    // console.log('ratingUpdated', ratingUpdated)
     res.json(ratingUpdated)
   }
 }

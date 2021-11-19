@@ -9,7 +9,7 @@ import StarRatings from 'react-star-ratings'
 
 import RatingButton from '../buttons/RatingButton'
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product
 
   return (
@@ -30,7 +30,7 @@ const SingleProduct = ({ product }) => {
             <StarRatings
               name={_id}
               numberOfStars={5}
-              rating={2}
+              rating={star}
               starRatedColor="red"
             />
           </StarRatingsContainer>
@@ -38,7 +38,7 @@ const SingleProduct = ({ product }) => {
           <InfoButtons>
             <WishListBTN to={`/product`}>Add To Wishlist</WishListBTN>
             <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
-            <RatingButton _id={_id} />
+            <RatingButton _id={_id} onStarClick={onStarClick} star={star} />
           </InfoButtons>
           <Description>{description && description}</Description>
         </ProductInfoContainer>

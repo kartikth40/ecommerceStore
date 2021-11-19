@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { getProduct } from '../functions/product'
 import { useParams } from 'react-router'
+import { useSelector } from 'react-redux'
 import SingleProduct from '../components/cards/SingleProduct'
+import { productStar } from '../functions/product'
 
 const Product = () => {
   const [product, setProduct] = useState({})
+  const [star, setStar] = useState(0)
   const { slug } = useParams()
+
+  //redux
+  const { user } = useSelector((user) => ({ ...user }))
 
   useEffect(() => {
     loadSingleProduct()
@@ -15,11 +21,22 @@ const Product = () => {
   const loadSingleProduct = () => {
     getProduct(slug).then((res) => setProduct(res.data))
   }
-  console.log(product)
+  const onStarClick = (newRating, name) => {
+    setStar(newRating)
+    console.log(star)
+    productStar(name, star, user.token).then((res) => {
+      console.log('rating clicked', res.data)
+      // loadSingleProduct()
+    })
+  }
   return (
     <Container>
       <ProductDesc>
-        <SingleProduct product={product} />
+        <SingleProduct
+          product={product}
+          onStarClick={onStarClick}
+          star={star}
+        />
       </ProductDesc>
       <RelatedProducts>
         <RPTitle>Related Products</RPTitle>

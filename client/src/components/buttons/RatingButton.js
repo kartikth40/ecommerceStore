@@ -6,24 +6,22 @@ import { CardButton } from '../cards/AdminProductCard'
 import RatingModal from '../modal/RatingModal'
 import { useHistory, useParams } from 'react-router'
 
-const RatingButton = ({ _id }) => {
+const RatingButton = ({ _id, onStarClick, star }) => {
   const { user } = useSelector((state) => ({ ...state }))
   const history = useHistory()
   const { slug } = useParams()
   const [modalVisible, setModalVisible] = useState(false)
 
   const handleClick = () => {
-    if (!user){
+    if (!user) {
       history.push({ pathname: '/login', state: { from: `/product/${slug}` } })
-    }
-    else if (user && user.token) {
-      if(modalVisible) {
+    } else if (user && user.token) {
+      if (modalVisible) {
         setModalVisible(false)
-        }
-      else {
+      } else {
         setModalVisible(true)
       }
-    } 
+    }
   }
 
   return (
@@ -38,10 +36,8 @@ const RatingButton = ({ _id }) => {
         <StarRatings
           name={_id}
           numberOfStars={5}
-          rating={2}
-          changeRating={(newRating, name) => {
-            console.log('newRating', newRating, 'name', name)
-          }}
+          rating={star}
+          changeRating={onStarClick}
           isSelectable={true}
           starRatedColor="red"
         />
