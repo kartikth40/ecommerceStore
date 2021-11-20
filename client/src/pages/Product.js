@@ -24,7 +24,7 @@ const Product = () => {
   const onStarClick = (newRating, name) => {
     setStar(newRating)
     console.log(star)
-    productStar(name, star, user.token).then((res) => {
+    productStar(name, newRating, user.token).then((res) => {
       console.log('rating clicked', res.data)
       // loadSingleProduct()
     })

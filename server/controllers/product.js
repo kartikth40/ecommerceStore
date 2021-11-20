@@ -96,7 +96,6 @@ exports.productStar = async (req, res) => {
   const product = await Product.findById(req.params.productId).exec()
   const user = await User.findOne({ email: req.user.email }).exec()
   const { star } = req.body
-  console.log('STARRRRRRR - ', star)
 
   //who is updating
   //check if currently logged in user have already added rating to this product
