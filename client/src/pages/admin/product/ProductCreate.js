@@ -14,13 +14,12 @@ const ProductCreate = () => {
   const history = useHistory()
 
   useEffect(() => {
+    const loadCategories = () =>
+      getCategories()
+        .then((c) => setValues({ ...values, categories: c.data }))
+        .catch((err) => console.log(err))
     loadCategories()
   }, [])
-
-  const loadCategories = () =>
-    getCategories()
-      .then((c) => setValues({ ...values, categories: c.data }))
-      .catch((err) => console.log(err))
 
   const [values, setValues] = useState({
     title: '',

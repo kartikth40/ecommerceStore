@@ -6,7 +6,7 @@ const LoadingCard = ({ count }) => {
   let cards = []
   for (let i = 0; i < count; i++) {
     cards.push(
-      <Card>
+      <Card key={i}>
         <Skeleton type="cover" />
         <Skeleton type="title" />
         <Skeleton type="desc" />

@@ -15,12 +15,12 @@ const Product = () => {
   const { user } = useSelector((user) => ({ ...user }))
 
   useEffect(() => {
+    const loadSingleProduct = () => {
+      getProduct(slug).then((res) => setProduct(res.data))
+    }
     loadSingleProduct()
   }, [slug])
 
-  const loadSingleProduct = () => {
-    getProduct(slug).then((res) => setProduct(res.data))
-  }
   const onStarClick = (newRating, name) => {
     setStar(newRating)
     console.log(star)

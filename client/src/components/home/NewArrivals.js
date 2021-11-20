@@ -12,21 +12,20 @@ const NewArrivals = () => {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
+    const loadAllProducts = () => {
+      setLoading(true)
+      // sort, order, page
+      getProducts('createdAt', 'desc', page).then((res) => {
+        setProducts(res.data)
+        setLoading(false)
+      })
+    }
     loadAllProducts()
   }, [page])
 
   useEffect(() => {
     getProductsCount().then((res) => setProductsCount(res.data))
   }, [])
-
-  const loadAllProducts = () => {
-    setLoading(true)
-    // sort, order, page
-    getProducts('createdAt', 'desc', page).then((res) => {
-      setProducts(res.data)
-      setLoading(false)
-    })
-  }
 
   const Paginate = (number) => {
     if (number <= 0 || number > productsCount / 3) return

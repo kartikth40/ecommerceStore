@@ -37,26 +37,26 @@ const ProductUpdate = () => {
   const { slug } = useParams()
 
   useEffect(() => {
+    const loadProduct = () => {
+      getProduct(slug).then((product) => {
+        //load single product
+        setValues({ ...values, ...product.data })
+        //load single product category subs
+        getCategorySubs(product.data.category._id).then((res) => {
+          setSubOptions(res.data) // on first load
+        })
+        //prepare array of sub ids to show as default of values in subs select input
+        let arr = []
+        product.data.subs.forEach((s) => {
+          arr.push(s)
+        })
+        setArrayOfSubs((prev) => arr)
+      })
+    }
     loadProduct()
     loadCategories()
   }, [])
 
-  const loadProduct = () => {
-    getProduct(slug).then((product) => {
-      //load single product
-      setValues({ ...values, ...product.data })
-      //load single product category subs
-      getCategorySubs(product.data.category._id).then((res) => {
-        setSubOptions(res.data) // on first load
-      })
-      //prepare array of sub ids to show as default of values in subs select input
-      let arr = []
-      product.data.subs.map((s) => {
-        arr.push(s)
-      })
-      setArrayOfSubs((prev) => arr)
-    })
-  }
   const loadCategories = () => {
     getCategories()
       .then((c) => setCategories(c.data))

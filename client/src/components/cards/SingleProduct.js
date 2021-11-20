@@ -18,9 +18,12 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         <CarouselContainer>
           <CustomCarousel showArrows={true} autoPlay infiniteLoop>
             {images && images.length ? (
-              images && images.map((i) => <img src={i.url} key={i.public_id} />)
+              images &&
+              images.map((i) => (
+                <img src={i.url} alt="carousel" key={i.public_id} />
+              ))
             ) : (
-              <img src={laptop} />
+              <img src={laptop} alt="default carousel" />
             )}
           </CustomCarousel>
         </CarouselContainer>

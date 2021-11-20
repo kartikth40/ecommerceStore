@@ -25,6 +25,7 @@ const Pagination = ({
       <PrevButton onClick={goToPrevPage}>Prev</PrevButton>
       {pageNumbers.map((number) => (
         <Button
+          key={number}
           selected={number === currentPage}
           onClick={() => Paginate(number)}
         >

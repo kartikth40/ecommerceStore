@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
       <Cover>
         <img
           src={images && images.length ? images[0].url : laptop}
-          alt="cover image"
+          alt="cover"
         />
       </Cover>
       <Title>{title}</Title>
