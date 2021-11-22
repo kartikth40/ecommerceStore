@@ -21,9 +21,17 @@ const Product = () => {
     loadSingleProduct()
   }, [slug])
 
+  useEffect(() => {
+    if (product.ratings && user) {
+      let existingRatingObject = product.ratings.find(
+        (ele) => ele.postedBy.toString() === user.id.toString()
+      )
+      existingRatingObject && setStar(existingRatingObject.star)
+    }
+  }, [product])
+
   const onStarClick = (newRating, name) => {
     setStar(newRating)
-    console.log(star)
     productStar(name, newRating, user.token).then((res) => {
       console.log('rating clicked', res.data)
       // loadSingleProduct()

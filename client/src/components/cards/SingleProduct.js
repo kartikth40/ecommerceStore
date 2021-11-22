@@ -28,7 +28,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
           </CustomCarousel>
         </CarouselContainer>
         <ProductInfoContainer>
-          <ProductTitle>{title}</ProductTitle>
+          <ProductTitle>{title ? title : 'Loading...'}</ProductTitle>
           <StarRatingsContainer>
             <StarRatings
               name={_id}

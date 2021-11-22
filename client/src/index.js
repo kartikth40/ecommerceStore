@@ -9,6 +9,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux' // provides redux store
 import { composeWithDevTools } from 'redux-devtools-extension'
 import rootReducer from './reducers'
+import ScrollToTop from './components/app/ScrollToTop'
 
 //store
 const store = createStore(rootReducer, composeWithDevTools())
@@ -17,6 +18,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+        <ScrollToTop />
         <App />
       </BrowserRouter>
     </Provider>
