@@ -28,7 +28,7 @@ const Product = () => {
       )
       existingRatingObject && setStar(existingRatingObject.star)
     }
-  }, [product])
+  }, [product, user])
 
   const onStarClick = (newRating, name) => {
     setStar(newRating)

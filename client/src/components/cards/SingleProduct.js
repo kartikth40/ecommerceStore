@@ -8,9 +8,12 @@ import ProductInfo from './ProductInfo'
 import StarRatings from 'react-star-ratings'
 
 import RatingButton from '../buttons/RatingButton'
+import getAverageRatings from '../../functions/getAverageRatings'
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product
+
+  const [avgRating, noOfUsers] = getAverageRatings(product)
 
   return (
     <Container>
@@ -33,7 +36,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             <StarRatings
               name={_id}
               numberOfStars={5}
-              rating={star}
+              rating={avgRating}
               starRatedColor="red"
             />
           </StarRatingsContainer>

@@ -10,7 +10,7 @@ const ProductInfo = ({ product }) => {
       <Li>
         <Left>Price</Left>{' '}
         <Right>
-          <CurrencySymbol>&#8377; </CurrencySymbol> {price ? price : '-----'}
+          <CurrencySymbol>&#8377; </CurrencySymbol> {price ? price : '-'}
         </Right>
       </Li>
       <Li>
@@ -21,7 +21,7 @@ const ProductInfo = ({ product }) => {
               {category.name}
             </StyledLink>
           ) : (
-            <div> loading... </div>
+            <div> - </div>
           )}
         </Right>
       </Li>
@@ -37,26 +37,24 @@ const ProductInfo = ({ product }) => {
               )
             })
           ) : (
-            <div> loading... </div>
+            <div> - </div>
           )}
         </Right>
       </Li>
       <Li>
-        <Left>Shipping</Left>{' '}
-        <Right>{shipping ? shipping : 'loading...'}</Right>
+        <Left>Shipping</Left> <Right>{shipping ? shipping : '-'}</Right>
       </Li>
       <Li>
-        <Left>Color</Left> <Right>{color ? color : 'loading...'}</Right>
+        <Left>Color</Left> <Right>{color ? color : '-'}</Right>
       </Li>
       <Li>
-        <Left>Brand</Left> <Right>{brand ? brand : 'loading...'}</Right>
+        <Left>Brand</Left> <Right>{brand ? brand : '-'}</Right>
       </Li>
       <Li>
-        <Left>Available</Left>{' '}
-        <Right>{quantity ? quantity : 'loading...'}</Right>
+        <Left>Available</Left> <Right>{quantity ? quantity : '-'}</Right>
       </Li>
       <Li>
-        <Left>Sold</Left> <Right>{sold ? sold : 'loading...'}</Right>
+        <Left>Sold</Left> <Right>{sold ? sold : '-'}</Right>
       </Li>
     </Ul>
   )
