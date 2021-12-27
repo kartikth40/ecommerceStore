@@ -28,5 +28,5 @@ router.put('/product/:slug', authCheck, adminCheck, adminCheck, update)
 //rating
 router.put('/product/star/:productId', authCheck, productStar)
 //related
-router.put('/product/related/:productId', listRelated)
+router.get('/product/related/:productId', listRelated)
 module.exports = router

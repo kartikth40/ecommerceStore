@@ -5,18 +5,26 @@ import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import SingleProduct from '../components/cards/SingleProduct'
 import { productStar } from '../functions/product'
+import { getRelated } from '../functions/product'
+import ProductCard from '../components/cards/ProductCard'
 
 const Product = () => {
+  const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState({})
   const [star, setStar] = useState(0)
   const { slug } = useParams()
+  const [related, setRelated] = useState({})
 
   //redux
   const { user } = useSelector((user) => ({ ...user }))
 
   useEffect(() => {
     const loadSingleProduct = () => {
-      getProduct(slug).then((res) => setProduct(res.data))
+      getProduct(slug).then((res) => {
+        setProduct(res.data)
+        //load related
+        getRelated(res.data._id).then((res) => setRelated(res.data))
+      })
     }
     loadSingleProduct()
   }, [slug])
@@ -37,6 +45,7 @@ const Product = () => {
       // loadSingleProduct()
     })
   }
+
   return (
     <Container>
       <ProductDesc>
@@ -48,6 +57,17 @@ const Product = () => {
       </ProductDesc>
       <RelatedProducts>
         <RPTitle>Related Products</RPTitle>
+        {related.length ? (
+          related.map((product) => (
+            <ProductCard
+              product={product}
+              key={product._id}
+              loading={loading}
+            />
+          ))
+        ) : (
+          <NoProdFound>No related products found!</NoProdFound>
+        )}
       </RelatedProducts>
     </Container>
   )
@@ -58,6 +78,13 @@ export default Product
 const Container = styled.div`
   margin-top: 70px;
 `
+const NoProdFound = styled.div`
+  margin: 40px 0;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  text-align: center;
+`
 const ProductDesc = styled.div`
   width: 100%;
   padding: 3rem;
@@ -67,7 +94,7 @@ const RelatedProducts = styled.div`
   border-radius: 20px;
   width: 85vw;
   max-width: 100vw;
-  min-height: 100vh;
+  // min-height: 100vh;
   margin: 2rem auto;
   padding: 2rem;
   display: flex;
