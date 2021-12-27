@@ -14,6 +14,7 @@ const {
   list,
   productsCount,
   productStar,
+  listRelated,
 } = require('../controllers/product')
 
 router.post('/product', authCheck, adminCheck, create) // (getURL, middleware, controller)
@@ -26,4 +27,6 @@ router.put('/product/:slug', authCheck, adminCheck, adminCheck, update)
 
 //rating
 router.put('/product/star/:productId', authCheck, productStar)
+//related
+router.put('/product/related/:productId', listRelated)
 module.exports = router

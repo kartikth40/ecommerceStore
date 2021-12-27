@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// solve some pagination problems
+
 const Pagination = ({
   currentPage,
   productsPerPage,
