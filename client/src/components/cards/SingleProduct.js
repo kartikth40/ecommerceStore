@@ -37,9 +37,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
               name={_id}
               numberOfStars={5}
               rating={avgRating}
-              starRatedColor="red"
+              starRatedColor="#ffca03"
             />
+            <RatingCountContainer>{`(${noOfUsers})`}</RatingCountContainer>
           </StarRatingsContainer>
+          ``
           <ProductInfo product={product} />
           <InfoButtons>
             <WishListBTN to={`/product`}>Add To Wishlist</WishListBTN>
@@ -93,8 +95,10 @@ const InfoButtons = styled(Buttons)`
 const WishListBTN = ButtonWithLink
 const AddToCartBTN = CardButton
 const StarRatingsContainer = styled.div`
-  text-align: center;
+  display: flex;
+  justify-content: center;
 `
+const RatingCountContainer = styled.div``
 const Description = styled.div`
   width: 100%;
   padding: 30px 10px;
