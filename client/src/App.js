@@ -25,6 +25,8 @@ import ProductCreate from './pages/admin/product/ProductCreate'
 import AllProducts from './pages/admin/product/AllProducts'
 import ProductUpdate from './pages/admin/product/ProductUpdate'
 
+import CategoryHome from './pages/category/CategoryHome'
+
 import { auth } from './firebase'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
@@ -121,6 +123,9 @@ const App = () => {
 
         <Route exact path="/product/:slug">
           <Product />
+        </Route>
+        <Route exact path="/category/:slug">
+          <CategoryHome />
         </Route>
       </Switch>
     </>
