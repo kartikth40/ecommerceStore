@@ -17,7 +17,7 @@ const ProductInfo = ({ product }) => {
         <Left>Category</Left>{' '}
         <Right>
           {category ? (
-            <StyledLink to={`category/${category.slug}`}>
+            <StyledLink to={`/category/${category.slug}`}>
               {category.name}
             </StyledLink>
           ) : (
