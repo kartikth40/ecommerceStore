@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getCategory } from '../../functions/category'
+import { getSub } from '../../functions/sub'
 import styled from 'styled-components'
 import ProductCard from '../../components/cards/ProductCard'
 
-const CategoryHome = () => {
-  const [category, setCategory] = useState({})
+const SubHome = () => {
+  const [sub, setSub] = useState({})
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -13,9 +13,9 @@ const CategoryHome = () => {
 
   useEffect(() => {
     setLoading(true)
-    getCategory(slug).then((res) => {
+    getSub(slug).then((res) => {
       console.log(res.data)
-      setCategory(res.data.category)
+      setSub(res.data.sub)
       setProducts(res.data.products)
       setLoading(false)
     })
@@ -29,7 +29,7 @@ const CategoryHome = () => {
         ) : (
           <div>
             {products.length} {products.length > 1 ? 'Products' : 'Product'} in{' '}
-            <CategoryName>{category.name} </CategoryName>
+            <SubName>{sub.name} </SubName>
           </div>
         )}
       </Heading>
@@ -47,7 +47,7 @@ const CategoryHome = () => {
   )
 }
 
-export default CategoryHome
+export default SubHome
 
 const Container = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
@@ -68,7 +68,7 @@ const Heading = styled.div`
   font-size: 2rem;
   color: rgba(0, 0, 0);
 `
-const CategoryName = styled.span`
+const SubName = styled.span`
   font-weight: bold;
 `
 const ProductsContainer = styled.div`

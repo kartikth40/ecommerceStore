@@ -1,43 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { getCategories } from '../../functions/category'
+import { getSubs } from '../../functions/sub'
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState([])
+const SubList = () => {
+  const [subs, setSubs] = useState([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
-    getCategories().then((cat) => {
-      setCategories(cat.data)
+    getSubs().then((sub) => {
+      setSubs(sub.data)
       setLoading(false)
     })
   }, [])
 
-  const showCategories = () =>
-    categories
-      .sort((cat1, cat2) => {
-        let a = cat1.name.toLowerCase()
-        let b = cat2.name.toLowerCase()
+  const showSubs = () =>
+    subs
+      .sort((sub1, sub2) => {
+        let a = sub1.name.toLowerCase()
+        let b = sub2.name.toLowerCase()
         if (a < b) return -1
         if (a > b) return 1
         return 0
       })
-      .map((cat) => (
-        <CategoryButton key={cat._id} to={`/category/${cat.slug}`}>
-          {cat.name}
-        </CategoryButton>
+      .map((sub) => (
+        <SubButton key={sub._id} to={`/sub/${sub.slug}`}>
+          {sub.name}
+        </SubButton>
       ))
 
   return (
     <Container>
-      {loading ? <LoadingText>loading...</LoadingText> : showCategories()}
+      {loading ? <LoadingText>loading...</LoadingText> : showSubs()}
     </Container>
   )
 }
 
-export default CategoryList
+export default SubList
 
 const Container = styled.div`
   font-size: 50px;
@@ -48,15 +48,15 @@ const Container = styled.div`
   margin-top: 20px;
 `
 const LoadingText = styled.div``
-const CategoryButton = styled(Link)`
+const SubButton = styled(Link)`
   flex-grow: 1;
   text-decoration: none;
   font-weight: bold;
-  font-size: 50px;
+  font-size: 20px;
   width: max-content;
   background-color: white;
   color: black;
-  padding: 50px;
+  padding: 20px;
   margin: 5px;
   border-radius: 5px;
   border: none;

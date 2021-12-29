@@ -4,6 +4,7 @@ import Jumbotron from '../components/cards/Jumbotron'
 import BestSellers from '../components/home/BestSellers'
 import NewArrivals from '../components/home/NewArrivals'
 import CategoryList from '../components/category/CategoryList'
+import SubList from '../components/sub/SubList'
 
 const Home = () => {
   return (
@@ -24,6 +25,10 @@ const Home = () => {
       <Section>
         <SubHeading>Categories</SubHeading>
         <CategoryList />
+      </Section>
+      <Section>
+        <SubHeading>Sub Categories</SubHeading>
+        <SubList />
       </Section>
     </Container>
   )

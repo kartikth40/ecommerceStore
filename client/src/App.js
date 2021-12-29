@@ -34,6 +34,7 @@ import { useEffect } from 'react'
 import { currentUser } from './functions/auth'
 
 import Product from './pages/Product'
+import SubHome from './pages/sub/SubHome'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -126,6 +127,9 @@ const App = () => {
         </Route>
         <Route exact path="/category/:slug">
           <CategoryHome />
+        </Route>
+        <Route exact path="/sub/:slug">
+          <SubHome />
         </Route>
       </Switch>
     </>
