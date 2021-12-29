@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Jumbotron from '../components/cards/Jumbotron'
 import BestSellers from '../components/home/BestSellers'
 import NewArrivals from '../components/home/NewArrivals'
+import CategoryList from '../components/category/CategoryList'
 
 const Home = () => {
   return (
@@ -19,6 +20,10 @@ const Home = () => {
       <Section>
         <SubHeading>Best Sellers</SubHeading>
         <BestSellers />
+      </Section>
+      <Section>
+        <SubHeading>Categories</SubHeading>
+        <CategoryList />
       </Section>
     </Container>
   )

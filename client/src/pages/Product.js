@@ -55,20 +55,22 @@ const Product = () => {
           star={star}
         />
       </ProductDesc>
-      <RelatedProducts>
+      <RelatedProductsContainer>
         <RPTitle>Related Products</RPTitle>
-        {related.length ? (
-          related.map((product) => (
-            <ProductCard
-              product={product}
-              key={product._id}
-              loading={loading}
-            />
-          ))
-        ) : (
-          <NoProdFound>No related products found!</NoProdFound>
-        )}
-      </RelatedProducts>
+        <RelatedProducts>
+          {related.length ? (
+            related.map((product) => (
+              <ProductCard
+                product={product}
+                key={product._id}
+                loading={loading}
+              />
+            ))
+          ) : (
+            <NoProdFound>No related products found!</NoProdFound>
+          )}
+        </RelatedProducts>
+      </RelatedProductsContainer>
     </Container>
   )
 }
@@ -89,17 +91,22 @@ const ProductDesc = styled.div`
   width: 100%;
   padding: 3rem;
 `
-const RelatedProducts = styled.div`
+const RelatedProductsContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 20px;
   width: 85vw;
   max-width: 100vw;
-  // min-height: 100vh;
   margin: 2rem auto;
   padding: 2rem;
   display: flex;
   font-size: 1rem;
   flex-direction: column;
+`
+const RelatedProducts = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
 `
 const RPTitle = styled.h1`
   text-decoration: underline;
