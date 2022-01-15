@@ -15,6 +15,7 @@ const {
   productsCount,
   productStar,
   listRelated,
+  searchFilters,
 } = require('../controllers/product')
 
 router.post('/product', authCheck, adminCheck, create) // (getURL, middleware, controller)
@@ -29,4 +30,7 @@ router.put('/product/:slug', authCheck, adminCheck, adminCheck, update)
 router.put('/product/star/:productId', authCheck, productStar)
 //related
 router.get('/product/related/:productId', listRelated)
+// search
+router.post('/search/filters', searchFilters)
+
 module.exports = router
