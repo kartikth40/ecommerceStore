@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, Link } from 'react-router-dom'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import firebase from 'firebase'
+import Search from '../forms/Search'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav') // currently selected nav item
@@ -10,13 +11,22 @@ function Header() {
   const dispatch = useDispatch() // dispatch state into redux
   const { user } = useSelector((state) => ({ ...state })) // get state from redux
   const history = useHistory()
+  const location = useLocation()
 
   useEffect(() => {
+    let path = location.pathname
+    if (path !== '/' && !path.includes('/shop')) {
+      setCurrent('no-nav')
+    }
+    if (path === '/') setCurrent('Home-nav')
+    if (path.includes('/shop')) setCurrent('Shop-nav')
+
     document
       .querySelectorAll('.nav-item')
       .forEach((el) => el.classList.remove('selected'))
-    document.querySelector(`#${current}`).classList.add('selected')
-  }, [current])
+    if (current !== 'no-nav')
+      document.querySelector(`#${current}`).classList.add('selected')
+  }, [current, location])
 
   const handleClick = (e) => {
     setCurrent(e.target.parentElement.id)
@@ -36,8 +46,14 @@ function Header() {
         <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
           <NavLink to="/">Home</NavLink>
         </NavItems>
+        <NavItems id="Shop-nav" className="nav-item" onClick={handleClick}>
+          <NavLink to="/shop">Shop</NavLink>
+        </NavItems>
       </NavLeft>
       <NavRight>
+        <SearchBar>
+          <Search />
+        </SearchBar>
         {user && (
           <DropDownMenu>
             <DropDownBtn>{user.email && user.email.split('@')[0]}</DropDownBtn>
@@ -94,8 +110,12 @@ const NavItems = styled.div`
   pointer-events: none;
   width: max-content;
 `
-const NavLeft = styled.div``
+const NavLeft = styled.div`
+  display: flex;
+`
 const NavRight = styled.div`
+  display: flex;
+  align-items: flex-end;
   margin-left: auto;
 `
 const NavLink = styled(Link)`
@@ -153,4 +173,10 @@ const DropDownMenu = styled.div`
     background-color: black;
     color: white;
   }
+`
+const SearchBar = styled.div`
+  margin: 0 0.5rem;
+  height: 100%;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid black;
 `
