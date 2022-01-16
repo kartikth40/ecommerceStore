@@ -15,17 +15,25 @@ function Header() {
 
   useEffect(() => {
     let path = location.pathname
-    if (path !== '/' && !path.includes('/shop')) {
+    if (
+      path !== '/' &&
+      !path.includes('/shop') &&
+      !path.includes('/register') &&
+      !path.includes('/login')
+    ) {
       setCurrent('no-nav')
     }
     if (path === '/') setCurrent('Home-nav')
     if (path.includes('/shop')) setCurrent('Shop-nav')
+    if (path.includes('/register')) setCurrent('Register-nav')
+    if (path.includes('/login')) setCurrent('Login-nav')
 
     document
       .querySelectorAll('.nav-item')
       .forEach((el) => el.classList.remove('selected'))
-    if (current !== 'no-nav')
+    if (current !== 'no-nav' && document.querySelector(`#${current}`)) {
       document.querySelector(`#${current}`).classList.add('selected')
+    }
   }, [current, location])
 
   const handleClick = (e) => {
@@ -119,6 +127,7 @@ const NavRight = styled.div`
   margin-left: auto;
 `
 const NavLink = styled(Link)`
+  display: inline-block;
   padding: 10px;
   font-weight: bold;
   font-size: 16px;
@@ -128,9 +137,10 @@ const NavLink = styled(Link)`
   color: inherit;
   margin: 0.5rem;
   pointer-events: all;
+  transition: 0.1s all;
   &:hover {
-    background-color: black;
-    color: white;
+    border-radius: 7px;
+    transform: scale(1.1);
   }
 `
 
