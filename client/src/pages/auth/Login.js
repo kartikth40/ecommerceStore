@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components'
 import { auth, googleAuthProvider } from '../../firebase'
 import { toast } from 'react-toastify'
 import { createOrUpdateUser } from '../../functions/auth'
+import { FaGoogle, FaEnvelope } from 'react-icons/fa'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -135,10 +136,12 @@ const Login = () => {
           />
           <br />
           <LoginSubmit disable={!email || password.length < 6} type="submit">
-            Login with Email
+            <EmailIcon />
+            <span>Login</span>
           </LoginSubmit>
           <LoginWithGoogle onClick={googleLogin} type="button">
-            Login with Google
+            <GoogleIcon />
+            <span>Login</span>
           </LoginWithGoogle>
           <ForgotPassword to="/forgot/password">Forget Password</ForgotPassword>
         </LoginForm>
@@ -187,13 +190,19 @@ const LoginSubmit = styled.button`
   background-color: black;
   color: white;
   width: 90%;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 25px;
+  font-weight: light;
   padding: 10px 20px;
   margin: 10px auto;
   border: none;
   transition: 250ms all;
   cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1rem;
+
   &:hover {
     opacity: 0.85;
     border-radius: 50px;
@@ -217,4 +226,10 @@ const LoginSubmit = styled.button`
 `
 const LoginWithGoogle = styled(LoginSubmit)`
   background-color: red;
+`
+const EmailIcon = styled(FaEnvelope)`
+  margin-right: 40px;
+`
+const GoogleIcon = styled(FaGoogle)`
+  margin-right: 40px;
 `

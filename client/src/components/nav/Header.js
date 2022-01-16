@@ -4,6 +4,8 @@ import { useHistory, useLocation, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import firebase from 'firebase'
 import Search from '../forms/Search'
+import { AiOutlineUserAdd, AiOutlineUser } from 'react-icons/ai'
+import { FaHome, FaShoppingBag } from 'react-icons/fa'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav') // currently selected nav item
@@ -31,7 +33,11 @@ function Header() {
     document
       .querySelectorAll('.nav-item')
       .forEach((el) => el.classList.remove('selected'))
-    if (current !== 'no-nav' && document.querySelector(`#${current}`)) {
+    if (
+      current !== 'no-nav' &&
+      current &&
+      document.querySelector(`#${current}`)
+    ) {
       document.querySelector(`#${current}`).classList.add('selected')
     }
   }, [current, location])
@@ -52,10 +58,16 @@ function Header() {
     <HeaderContainer>
       <NavLeft>
         <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/">
+            <HomeIcon />
+            <span>Home</span>
+          </NavLink>
         </NavItems>
         <NavItems id="Shop-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/shop">Shop</NavLink>
+          <NavLink to="/shop">
+            <ShopIcon />
+            <span>Shop</span>
+          </NavLink>
         </NavItems>
       </NavLeft>
       <NavRight>
@@ -88,10 +100,16 @@ function Header() {
               className="nav-item"
               onClick={handleClick}
             >
-              <NavLink to="/register">Register</NavLink>
+              <NavLink to="/register">
+                <RegisterIcon />
+                <span>Register</span>
+              </NavLink>
             </NavItems>
             <NavItems id="Login-nav" className="nav-item" onClick={handleClick}>
-              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/login">
+                <LoginIcon />
+                <span>Login</span>
+              </NavLink>
             </NavItems>
           </>
         )}
@@ -127,7 +145,8 @@ const NavRight = styled.div`
   margin-left: auto;
 `
 const NavLink = styled(Link)`
-  display: inline-block;
+  display: flex;
+  align-items: center;
   padding: 10px;
   font-weight: bold;
   font-size: 16px;
@@ -189,4 +208,16 @@ const SearchBar = styled.div`
   height: 100%;
   padding-bottom: 0.3rem;
   border-bottom: 2px solid black;
+`
+const HomeIcon = styled(FaHome)`
+  margin-right: 5px;
+`
+const ShopIcon = styled(FaShoppingBag)`
+  margin-right: 5px;
+`
+const RegisterIcon = styled(AiOutlineUserAdd)`
+  margin-right: 5px;
+`
+const LoginIcon = styled(AiOutlineUser)`
+  margin-right: 5px;
 `
