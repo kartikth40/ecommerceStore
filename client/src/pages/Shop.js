@@ -3,10 +3,13 @@ import styled from 'styled-components'
 import { getProductsByCount, getProductsByFilter } from '../functions/product'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
+import SideFilterMenu from '../components/forms/SideFilterMenu'
 
 const Shop = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
+
+  const [lessThanPrice, setLessThanPrice] = useState(0)
 
   let { search } = useSelector((state) => ({ ...state }))
   const { text } = search
@@ -39,9 +42,11 @@ const Shop = () => {
     })
   }
 
+  // load products based on price range
+
   return (
     <Container>
-      <SideFilterMenu>side filter menu</SideFilterMenu>
+      <SideFilterMenu setLessThanPrice={setLessThanPrice} />
       <ProductsContainer>
         {loading ? (
           <Heading>Loading...</Heading>
@@ -70,9 +75,7 @@ const Container = styled.div`
   margin-top: 70px;
   display: flex;
 `
-const SideFilterMenu = styled.div`
-  width: 300px;
-`
+
 const ProductsContainer = styled.div`
   width: calc(100vw - 300px);
   height: 100%;
