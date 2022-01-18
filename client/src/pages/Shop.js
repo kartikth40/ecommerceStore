@@ -10,6 +10,7 @@ const Shop = () => {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [cat, setCat] = useState([])
+  const [star, setStar] = useState(0)
   const [loading, setLoading] = useState(false)
 
   const [price, setPrice] = useState(0)
@@ -71,6 +72,8 @@ const Shop = () => {
         categories={categories}
         setCat={setCat}
         cat={cat}
+        star={star}
+        setStar={setStar}
       />
       <ProductsContainer>
         {loading ? (

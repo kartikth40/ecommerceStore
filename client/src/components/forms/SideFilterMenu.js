@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import StarRatings from 'react-star-ratings'
 
 const SideFilterMenu = ({
   price,
@@ -9,6 +10,8 @@ const SideFilterMenu = ({
   categories,
   setCat,
   cat,
+  star,
+  setStar,
 }) => {
   const formatPrice = (price) => {
     if (price < 100000) {
@@ -22,10 +25,14 @@ const SideFilterMenu = ({
 
   const handleSlider = (e) => {
     setPrice(e.target.value)
+
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
+
+    setCat([])
+
     setOk((prev) => !prev)
   }
 
@@ -34,7 +41,7 @@ const SideFilterMenu = ({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
-    setPrice(0)
+    setPrice(0) // resetting
     let inTheState = [...cat]
     let justChecked = e.target.value
     let foundInTheState = inTheState.indexOf(justChecked)
@@ -48,11 +55,22 @@ const SideFilterMenu = ({
     setCat(inTheState)
   }
 
+  const handleStarClick = (num) => {
+    setStar(num)
+  }
+
   return (
     <Container>
       <FilterHeading>Filters</FilterHeading>
       <PriceFilter>
-        <StyledHeading>Price</StyledHeading>
+        <StyledHeading>
+          Price
+          <PriceTag>
+            under
+            <CurrencySymbol>&#8377; </CurrencySymbol>
+            <Price className="price">{formatPrice(price)}</Price>
+          </PriceTag>
+        </StyledHeading>
         <Range>
           <PriceRangeInput
             type="range"
@@ -62,30 +80,46 @@ const SideFilterMenu = ({
             value={price}
             onChange={(value) => handleSlider(value)}
           />
-          <PriceTag>
-            under
-            <CurrencySymbol>&#8377; </CurrencySymbol>
-            <Price className="price">{formatPrice(price)}</Price>
-          </PriceTag>
         </Range>
       </PriceFilter>
       <CategoryFilter>
         <StyledHeading>Category</StyledHeading>
         <CategoriesList>
-          {categories.map((cat) => (
-            <CategorySelect key={cat._id}>
+          {categories.map((c) => (
+            <CategorySelect key={c._id}>
               <Checkbox
                 type="checkbox"
-                id={cat._id}
-                value={cat._id}
+                id={c._id}
+                value={c._id}
                 className="categories"
                 onChange={handleCheck}
+                checked={cat.includes(c._id)}
               />
-              <Label for={cat._id}>{cat.name}</Label>
+              <Label for={c._id}>{c.name}</Label>
             </CategorySelect>
           ))}
         </CategoriesList>
       </CategoryFilter>
+      <StarsFilter>
+        <StyledHeading>
+          Ratings
+          <StarsTag>
+            under
+            <Stars>{star}</Stars>
+            stars
+          </StarsTag>
+        </StyledHeading>
+        <StarRatings
+          // name={_id}
+          numberOfStars={5}
+          rating={star}
+          changeRating={handleStarClick}
+          isSelectable={true}
+          starRatedColor="red"
+          starDimension="35px"
+          starSpacing="2px"
+        />
+      </StarsFilter>
     </Container>
   )
 }
@@ -103,10 +137,12 @@ const FilterHeading = styled.h2`
   font-weight: bold;
   margin-bottom: 20px;
 `
-const StyledHeading = styled.h3``
+const StyledHeading = styled.h3`
+  position: relative;
+  margin-bottom: 10px;
+`
 const PriceFilter = styled.div``
 const Range = styled.div`
-  position: relative;
   width: 200px;
 `
 const PriceRangeInput = styled.input`
@@ -117,14 +153,16 @@ const PriceTag = styled.span`
   justify-content: center;
   align-items: center;
   position: absolute;
-  padding: 5px;
-  left: 50%;
-  font-weight: bold;
-  transform: translate(-50%, 10px);
+  padding: 5px 10px;
+  right: 0;
+  font-size: 15px;
+  font-weight: light;
+  transform: translateY(-100%);
   width: max-content;
   min-width: 50px;
-  height: 30px;
+  height: 20px;
   border: 1px solid black;
+  border-radius: 20px;
 `
 const CurrencySymbol = styled.span`
   margin-inline: 5px;
@@ -132,7 +170,7 @@ const CurrencySymbol = styled.span`
 const Price = styled.span``
 
 const CategoryFilter = styled.div`
-  margin-top: 50px;
+  margin-top: 15px;
 `
 const CategoriesList = styled.div``
 const CategorySelect = styled.div``
@@ -140,3 +178,12 @@ const Checkbox = styled.input`
   margin: 5px;
 `
 const Label = styled.label``
+
+const StarsFilter = styled.div`
+  margin-top: 15px;
+  position: relative;
+`
+const StarsTag = styled(PriceTag)``
+const Stars = styled.span`
+  margin-inline: 5px;
+`
