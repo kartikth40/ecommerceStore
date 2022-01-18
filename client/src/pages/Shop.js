@@ -9,8 +9,10 @@ const Shop = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const [lessThanPrice, setLessThanPrice] = useState(0)
+  const [price, setPrice] = useState(0)
+  const [ok, setOk] = useState(false)
 
+  const dispatch = useDispatch()
   let { search } = useSelector((state) => ({ ...state }))
   const { text } = search
 
@@ -43,10 +45,16 @@ const Shop = () => {
   }
 
   // load products based on price range
+  useEffect(() => {
+    const delayed = setTimeout(() => {
+      fetchProducts({ price })
+    }, 300)
+    return () => clearTimeout(delayed)
+  }, [ok])
 
   return (
     <Container>
-      <SideFilterMenu setLessThanPrice={setLessThanPrice} />
+      <SideFilterMenu setPrice={setPrice} dispatch={dispatch} setOk={setOk} />
       <ProductsContainer>
         {loading ? (
           <Heading>Loading...</Heading>

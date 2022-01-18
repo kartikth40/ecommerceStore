@@ -170,8 +170,8 @@ const handlePrice = async (req, res, price) => {
   try {
     let products = await Product.find({
       price: {
-        $gte: price[0],
-        $lte: price[1],
+        // $gte: price[0],
+        $lte: price,
       },
     })
       .populate('category', '_id name')
@@ -187,17 +187,13 @@ const handlePrice = async (req, res, price) => {
 
 exports.searchFilters = async (req, res) => {
   const { query, price } = req.body
-
-  if (!query) {
-    await getAllProducts(req, res)
-  }
-  if (query && query.length > 0) {
-    console.log('QUERY -->', query)
-    await handleQuery(req, res, query)
-  }
-
-  if (price) {
+  if (parseInt(price)) {
     console.log('PRICE -->', price)
     await handlePrice(req, res, price)
+  } else if (query && query.length > 0) {
+    console.log('QUERY -->', query)
+    await handleQuery(req, res, query)
+  } else {
+    await getAllProducts(req, res)
   }
 }

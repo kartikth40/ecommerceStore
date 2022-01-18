@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-const SideFilterMenu = ({ setLessThanPrice }) => {
+const SideFilterMenu = ({ setPrice, dispatch, setOk }) => {
   const setPriceTag = (e) => {
     let price = e.target.value
-    setLessThanPrice(price)
+    setPrice(price)
     if (price < 100000) {
       price = price / 1000 + ' K'
     } else {
       price = price / 100000 + ' L'
     }
     document.querySelector('.price').innerText = price
+  }
+
+  const handleSlider = (value) => {
+    setPriceTag(value)
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    })
+    setOk((prev) => !prev)
   }
 
   return (
@@ -24,7 +33,7 @@ const SideFilterMenu = ({ setLessThanPrice }) => {
             min="0"
             max="500000"
             step="1000"
-            onChange={(value) => setPriceTag(value)}
+            onChange={(value) => handleSlider(value)}
           />
           <PriceTag>
             under
