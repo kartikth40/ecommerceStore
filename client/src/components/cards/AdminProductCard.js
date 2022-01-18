@@ -31,7 +31,7 @@ const Card = styled.div`
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   margin: 50px 10px 0 10px;
   width: 300px;
-  height: 320px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

@@ -7,6 +7,8 @@ import laptop from '../../images/laptop.jpg'
 import ProductInfo from './ProductInfo'
 import StarRatings from 'react-star-ratings'
 
+import { FaShoppingBag, FaClipboardCheck, FaStar } from 'react-icons/fa'
+
 import RatingButton from '../buttons/RatingButton'
 import getAverageRatings from '../../functions/getAverageRatings'
 
@@ -45,8 +47,12 @@ const SingleProduct = ({ product, onStarClick, star }) => {
           </StarRatingsContainer>
           <ProductInfo product={product} />
           <InfoButtons>
-            <WishListBTN to={`/product`}>Add To Wishlist</WishListBTN>
-            <AddToCartBTN onClick={() => {}}>Add To Cart</AddToCartBTN>
+            <WishListBTN to={`/product`}>
+              <WishListIcon /> Add To Wishlist
+            </WishListBTN>
+            <AddToCartBTN onClick={() => {}}>
+              <CartIcon /> Add To Cart
+            </AddToCartBTN>
             <RatingButton _id={_id} onStarClick={onStarClick} star={star} />
           </InfoButtons>
           <Description>{description && description}</Description>
@@ -93,8 +99,16 @@ const ProductTitle = styled.div`
 const InfoButtons = styled(Buttons)`
   height: max-content;
 `
-const WishListBTN = ButtonWithLink
-const AddToCartBTN = CardButton
+const WishListBTN = styled(ButtonWithLink)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const AddToCartBTN = styled(CardButton)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 const StarRatingsContainer = styled.div`
   margin-top: 20px;
   display: flex;
@@ -107,4 +121,12 @@ const Description = styled.div`
   width: 100%;
   padding: 30px 10px;
   text-align: center;
+`
+const WishListIcon = styled(FaClipboardCheck)`
+  font-size: 15px;
+  margin-right: 5px;
+`
+const CartIcon = styled(FaShoppingBag)`
+  font-size: 15px;
+  margin-right: 5px;
 `

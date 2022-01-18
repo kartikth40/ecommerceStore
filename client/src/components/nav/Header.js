@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import Search from '../forms/Search'
 import { AiOutlineUserAdd, AiOutlineUser } from 'react-icons/ai'
 import { FaHome, FaShoppingBag } from 'react-icons/fa'
+import { TiUser } from 'react-icons/ti'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav') // currently selected nav item
@@ -76,7 +77,10 @@ function Header() {
         </SearchBar>
         {user && (
           <DropDownMenu>
-            <DropDownBtn>{user.email && user.email.split('@')[0]}</DropDownBtn>
+            <DropDownBtn>
+              <UserIcon />
+              {user.email && user.email.split('@')[0]}
+            </DropDownBtn>
             <DropDownContent>
               {user && user.role === 'subscriber' && (
                 <span onClick={() => history.push('/user/history')}>
@@ -164,6 +168,9 @@ const NavLink = styled(Link)`
 `
 
 const DropDownBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   padding: 10px;
   font-size: 16px;
@@ -219,5 +226,8 @@ const RegisterIcon = styled(AiOutlineUserAdd)`
   margin-right: 5px;
 `
 const LoginIcon = styled(AiOutlineUser)`
+  margin-right: 5px;
+`
+const UserIcon = styled(TiUser)`
   margin-right: 5px;
 `

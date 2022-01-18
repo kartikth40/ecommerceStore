@@ -5,6 +5,7 @@ import StarRatings from 'react-star-ratings'
 import { CardButton } from '../cards/AdminProductCard'
 import RatingModal from '../modal/RatingModal'
 import { useHistory, useParams } from 'react-router'
+import { FaStar } from 'react-icons/fa'
 
 const RatingButton = ({ _id, onStarClick, star }) => {
   const { user } = useSelector((state) => ({ ...state }))
@@ -27,6 +28,7 @@ const RatingButton = ({ _id, onStarClick, star }) => {
   return (
     <BtnContainer onClick={() => handleClick()}>
       <RatingTitle>
+        <RatingIcon />
         {user ? 'Leave a rating' : 'Login to leave rating'}
       </RatingTitle>
       <RatingModal
@@ -50,4 +52,13 @@ export default RatingButton
 
 const BtnContainer = CardButton
 
-const RatingTitle = styled.div``
+const RatingTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const RatingIcon = styled(FaStar)`
+  font-size: 15px;
+  margin-right: 5px;
+`
