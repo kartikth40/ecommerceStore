@@ -4,9 +4,12 @@ import { getProductsByCount, getProductsByFilter } from '../functions/product'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
 import SideFilterMenu from '../components/forms/SideFilterMenu'
+import { getCategories } from '../functions/category'
 
 const Shop = () => {
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
+  const [cat, setCat] = useState([])
   const [loading, setLoading] = useState(false)
 
   const [price, setPrice] = useState(0)
@@ -18,6 +21,7 @@ const Shop = () => {
 
   useEffect(() => {
     loadAllProducts()
+    getCategories().then((res) => setCategories(res.data))
   }, [])
 
   useEffect(() => {
@@ -52,9 +56,22 @@ const Shop = () => {
     return () => clearTimeout(delayed)
   }, [ok])
 
+  // load products based on categories selected
+  useEffect(() => {
+    fetchProducts({ category: cat })
+  }, [cat])
+
   return (
     <Container>
-      <SideFilterMenu setPrice={setPrice} dispatch={dispatch} setOk={setOk} />
+      <SideFilterMenu
+        price={price}
+        setPrice={setPrice}
+        dispatch={dispatch}
+        setOk={setOk}
+        categories={categories}
+        setCat={setCat}
+        cat={cat}
+      />
       <ProductsContainer>
         {loading ? (
           <Heading>Loading...</Heading>

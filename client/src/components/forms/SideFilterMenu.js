@@ -1,25 +1,51 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-const SideFilterMenu = ({ setPrice, dispatch, setOk }) => {
-  const setPriceTag = (e) => {
-    let price = e.target.value
-    setPrice(price)
+const SideFilterMenu = ({
+  price,
+  setPrice,
+  dispatch,
+  setOk,
+  categories,
+  setCat,
+  cat,
+}) => {
+  const formatPrice = (price) => {
     if (price < 100000) {
       price = price / 1000 + ' K'
     } else {
       price = price / 100000 + ' L'
     }
-    document.querySelector('.price').innerText = price
+
+    return price
   }
 
-  const handleSlider = (value) => {
-    setPriceTag(value)
+  const handleSlider = (e) => {
+    setPrice(e.target.value)
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
     setOk((prev) => !prev)
+  }
+
+  const handleCheck = (e) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    })
+    setPrice(0)
+    let inTheState = [...cat]
+    let justChecked = e.target.value
+    let foundInTheState = inTheState.indexOf(justChecked)
+
+    if (foundInTheState === -1) {
+      inTheState.push(justChecked)
+    } else {
+      inTheState.splice(foundInTheState, 1)
+    }
+
+    setCat(inTheState)
   }
 
   return (
@@ -33,15 +59,33 @@ const SideFilterMenu = ({ setPrice, dispatch, setOk }) => {
             min="0"
             max="500000"
             step="1000"
+            value={price}
             onChange={(value) => handleSlider(value)}
           />
           <PriceTag>
             under
             <CurrencySymbol>&#8377; </CurrencySymbol>
-            <Price className="price">0</Price>
+            <Price className="price">{formatPrice(price)}</Price>
           </PriceTag>
         </Range>
       </PriceFilter>
+      <CategoryFilter>
+        <StyledHeading>Category</StyledHeading>
+        <CategoriesList>
+          {categories.map((cat) => (
+            <CategorySelect key={cat._id}>
+              <Checkbox
+                type="checkbox"
+                id={cat._id}
+                value={cat._id}
+                className="categories"
+                onChange={handleCheck}
+              />
+              <Label for={cat._id}>{cat.name}</Label>
+            </CategorySelect>
+          ))}
+        </CategoriesList>
+      </CategoryFilter>
     </Container>
   )
 }
@@ -86,3 +130,13 @@ const CurrencySymbol = styled.span`
   margin-inline: 5px;
 `
 const Price = styled.span``
+
+const CategoryFilter = styled.div`
+  margin-top: 50px;
+`
+const CategoriesList = styled.div``
+const CategorySelect = styled.div``
+const Checkbox = styled.input`
+  margin: 5px;
+`
+const Label = styled.label``
