@@ -30,7 +30,8 @@ const Modal = styled.div`
   width: max-content;
   bottom: 0;
   right: 0;
-  transform: translate(-50%, -50%);
+  z-index: 20;
+  transform: translateY(-50%);
   overflow: hidden;
   &:hover {
     border: 2px solid rgba(255, 0, 0, 1);

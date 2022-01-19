@@ -5,11 +5,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import ProductCard from '../components/cards/ProductCard'
 import SideFilterMenu from '../components/forms/SideFilterMenu'
 import { getCategories } from '../functions/category'
+import { getSubs } from '../functions/sub'
 
 const Shop = () => {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [cat, setCat] = useState([])
+  const [subs, setSubs] = useState([])
+  const [sub, setSub] = useState([])
   const [star, setStar] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -23,12 +26,19 @@ const Shop = () => {
   useEffect(() => {
     loadAllProducts()
     getCategories().then((res) => setCategories(res.data))
+    getSubs().then((res) => setSubs(res.data))
   }, [])
 
   useEffect(() => {
     const delayed = setTimeout(() => {
       fetchProducts({ query: text })
     }, 300)
+    if (text.length) {
+      setPrice(0)
+      setStar(0)
+      setCat([]) // resetting
+    }
+
     return () => clearTimeout(delayed)
   }, [text])
 
@@ -57,14 +67,10 @@ const Shop = () => {
     return () => clearTimeout(delayed)
   }, [ok])
 
-  // load products based on categories selected
-  useEffect(() => {
-    fetchProducts({ category: cat })
-  }, [cat])
-
   return (
     <Container>
       <SideFilterMenu
+        fetchProducts={fetchProducts}
         price={price}
         setPrice={setPrice}
         dispatch={dispatch}
@@ -74,6 +80,9 @@ const Shop = () => {
         cat={cat}
         star={star}
         setStar={setStar}
+        subs={subs}
+        sub={sub}
+        setSub={setSub}
       />
       <ProductsContainer>
         {loading ? (

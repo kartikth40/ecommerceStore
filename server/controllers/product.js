@@ -224,8 +224,18 @@ const handleStars = (req, res, stars) => {
     })
 }
 
+const handleSubs = async (req, res, subs) => {
+  const products = await Product.find({ subs })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec()
+
+  res.json(products)
+}
+
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars } = req.body
+  const { query, price, category, stars, subs } = req.body
 
   // by price
   if (parseInt(price)) {
@@ -245,8 +255,14 @@ exports.searchFilters = async (req, res) => {
   // by stars
   else if (stars) {
     console.log('STARS -->', stars)
-    await handleStars(req, res, stars)
+    handleStars(req, res, stars)
+  }
+  // by subs
+  else if (subs) {
+    console.log('SUBS -->', subs)
+    await handleSubs(req, res, subs)
   } else {
+    console.log('LOAD ALL PRODUCTS', req.body)
     await getAllProducts(req, res)
   }
 }
