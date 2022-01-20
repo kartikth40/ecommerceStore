@@ -30,6 +30,7 @@ const Shop = () => {
     'Blue',
   ])
   const [colorsSelected, setColorsSelected] = useState([])
+  const [shipping, setShipping] = useState('')
 
   const [loading, setLoading] = useState(false)
 
@@ -51,10 +52,15 @@ const Shop = () => {
       fetchProducts({ query: text })
     }, 300)
     if (text.length) {
+      // ------------------------ resetting
       setPrice(0)
-      setStar(0)
       setCategoriesSelected([])
-      // resetting
+      setStar(0)
+      setSub([])
+      setBrandsSelected([])
+      setColorsSelected([])
+      setShipping('')
+      // ------------------------ resetting
     }
 
     return () => clearTimeout(delayed)
@@ -107,6 +113,8 @@ const Shop = () => {
         colors={colors}
         colorsSelected={colorsSelected}
         setColorsSelected={setColorsSelected}
+        shipping={shipping}
+        setShipping={setShipping}
       />
       <ProductsContainer>
         {loading ? (
@@ -133,6 +141,7 @@ const Shop = () => {
 export default Shop
 
 const Container = styled.div`
+  position: relative;
   margin-top: 70px;
   display: flex;
 `
@@ -141,6 +150,7 @@ const ProductsContainer = styled.div`
   width: calc(100vw - 300px);
   height: 100%;
   margin: 2rem;
+  margin-left: calc(300px + 2rem);
 `
 const Heading = styled.h2``
 const ProductsList = styled.div`

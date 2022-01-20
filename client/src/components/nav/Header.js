@@ -134,6 +134,8 @@ const HeaderContainer = styled.div`
   z-index: 10;
   display: flex;
   align-items: center;
+  border-bottom: black solid 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 `
 const NavItems = styled.div`
   display: inline-block;

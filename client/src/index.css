@@ -37,3 +37,15 @@
 .carousel .carousel-status {
   font-size: 15px !important;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #acacac;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(47, 47, 47);
+}

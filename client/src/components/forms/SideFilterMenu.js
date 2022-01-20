@@ -22,6 +22,8 @@ const SideFilterMenu = ({
   colors,
   colorsSelected,
   setColorsSelected,
+  shipping,
+  setShipping,
 }) => {
   const formatPrice = (price) => {
     if (price < 100000) {
@@ -34,26 +36,36 @@ const SideFilterMenu = ({
   }
 
   const handleSlider = (e) => {
+    // ------------------------ resetting
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
-    setSub([])
     setCategoriesSelected([])
-    setStar(0) // resetting
+    setStar(0)
+    setSub([])
+    setBrandsSelected([])
+    setColorsSelected([])
+    setShipping('')
+    // ------------------------ resetting
 
     setPrice(e.target.value)
     setOk((prev) => !prev)
   }
 
   const handleCategory = (e) => {
+    // ------------------------ resetting
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
-    setSub([])
     setPrice(0)
-    setStar(0) // resetting
+    setStar(0)
+    setSub([])
+    setBrandsSelected([])
+    setColorsSelected([])
+    setShipping('')
+    // ------------------------ resetting
 
     let inTheState = [...categoriesSelected]
     let justChecked = e.target.value
@@ -70,41 +82,54 @@ const SideFilterMenu = ({
   }
 
   const handleSubSelect = (s) => {
-    setSub(s)
-
+    // ------------------------ resetting
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
     setPrice(0)
+    setCategoriesSelected([])
     setStar(0)
-    setCategoriesSelected([]) // resetting
+    setBrandsSelected([])
+    setColorsSelected([])
+    setShipping('')
+    // ------------------------ resetting
 
+    setSub(s)
     fetchProducts({ subs: s })
   }
 
   const handleStarClick = (num) => {
+    // ------------------------ resetting
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
-    setSub([])
     setPrice(0)
-    setCategoriesSelected([]) // resetting
+    setCategoriesSelected([])
+    setSub([])
+    setBrandsSelected([])
+    setColorsSelected([])
+    setShipping('')
+    // ------------------------ resetting
 
     setStar(num)
     fetchProducts({ stars: num })
   }
 
   const handleBrand = (e) => {
+    // ------------------------ resetting
     dispatch({
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     })
-    setSub([])
     setPrice(0)
+    setCategoriesSelected([])
     setStar(0)
-    setCategoriesSelected([]) // resetting
+    setSub([])
+    setColorsSelected([])
+    setShipping('')
+    // ------------------------ resetting
 
     let inTheState = [...brandsSelected]
     let justChecked = e.target.value
@@ -118,6 +143,52 @@ const SideFilterMenu = ({
 
     setBrandsSelected(inTheState)
     fetchProducts({ brand: inTheState })
+  }
+  const handleColor = (e) => {
+    // ------------------------ resetting
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    })
+    setPrice(0)
+    setCategoriesSelected([])
+    setStar(0)
+    setSub([])
+    setBrandsSelected([])
+    setShipping('')
+    // ------------------------ resetting
+
+    let inTheState = [...colorsSelected]
+    let justChecked = e.target.value
+    let foundInTheState = inTheState.indexOf(justChecked)
+
+    if (foundInTheState === -1) {
+      inTheState.push(justChecked)
+    } else {
+      inTheState.splice(foundInTheState, 1)
+    }
+
+    setColorsSelected(inTheState)
+    fetchProducts({ color: inTheState })
+  }
+
+  const handleShipping = (e) => {
+    // ------------------------ resetting
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    })
+    setPrice(0)
+    setCategoriesSelected([])
+    setStar(0)
+    setSub([])
+    setBrandsSelected([])
+    setColorsSelected([])
+    // ------------------------ resetting
+
+    let shippingValueSelected = e.target.value
+    setShipping(shippingValueSelected)
+    fetchProducts({ shipping: shippingValueSelected })
   }
 
   return (
@@ -214,6 +285,51 @@ const SideFilterMenu = ({
           ))}
         </BrandsList>
       </BrandFilter>
+      <ColorFilter>
+        <StyledHeading>Color</StyledHeading>
+        <ColorsList>
+          {colors.map((c) => (
+            <ColorSelect key={c}>
+              <Checkbox
+                type="checkbox"
+                id={c}
+                value={c}
+                className="brands"
+                onChange={handleColor}
+                checked={colorsSelected.includes(c)}
+              />
+              <Label for={c}>{c}</Label>
+            </ColorSelect>
+          ))}
+        </ColorsList>
+      </ColorFilter>
+      <ShippingFilter>
+        <StyledHeading>Shipping</StyledHeading>
+        <ShippingOptions>
+          <ShippingSelect>
+            <Radio
+              type="radio"
+              id="shipping-yes"
+              value="Yes"
+              className="shipping"
+              onChange={handleShipping}
+              checked={shipping === 'Yes'}
+            />
+            <Label for="shipping-yes">Yes</Label>
+          </ShippingSelect>
+          <ShippingSelect>
+            <Radio
+              type="radio"
+              id="shipping-no"
+              value="No"
+              className="shipping"
+              onChange={handleShipping}
+              checked={shipping === 'No'}
+            />
+            <Label for="shipping-no">No</Label>
+          </ShippingSelect>
+        </ShippingOptions>
+      </ShippingFilter>
     </Container>
   )
 }
@@ -222,8 +338,9 @@ export default SideFilterMenu
 
 const Container = styled.div`
   width: 300px;
-  position: relative;
-  border: black solid 2px;
+  height: calc(100vh - 75px);
+  position: fixed;
+  overflow-y: scroll;
   padding: 1rem;
 `
 
@@ -307,3 +424,16 @@ const BrandFilter = styled.div`
 `
 const BrandsList = styled.div``
 const BrandSelect = styled.div``
+const ColorFilter = styled.div`
+  margin-top: 15px;
+`
+const ColorsList = styled.div``
+const ColorSelect = styled.div``
+
+const ShippingFilter = styled.div`margin-top 15px;
+`
+const ShippingOptions = styled.div``
+const ShippingSelect = styled.div``
+const Radio = styled.input`
+  margin: 5px;
+`
