@@ -9,13 +9,19 @@ const SideFilterMenu = ({
   dispatch,
   setOk,
   categories,
-  setCat,
-  cat,
+  setCategoriesSelected,
+  categoriesSelected,
   star,
   setStar,
   subs,
   sub,
   setSub,
+  brands,
+  brandsSelected,
+  setBrandsSelected,
+  colors,
+  colorsSelected,
+  setColorsSelected,
 }) => {
   const formatPrice = (price) => {
     if (price < 100000) {
@@ -33,8 +39,7 @@ const SideFilterMenu = ({
       payload: { text: '' },
     })
     setSub([])
-    changeSubColor(0)
-    setCat([])
+    setCategoriesSelected([])
     setStar(0) // resetting
 
     setPrice(e.target.value)
@@ -47,11 +52,10 @@ const SideFilterMenu = ({
       payload: { text: '' },
     })
     setSub([])
-    changeSubColor(0)
     setPrice(0)
     setStar(0) // resetting
 
-    let inTheState = [...cat]
+    let inTheState = [...categoriesSelected]
     let justChecked = e.target.value
     let foundInTheState = inTheState.indexOf(justChecked)
 
@@ -61,23 +65,12 @@ const SideFilterMenu = ({
       inTheState.splice(foundInTheState, 1)
     }
 
-    setCat(inTheState)
+    setCategoriesSelected(inTheState)
     fetchProducts({ category: inTheState })
   }
 
-  const changeSubColor = (s) => {
-    let subs = document.querySelectorAll('.subs')
-    subs.forEach((sub) => {
-      sub.style.backgroundColor = 'white'
-      sub.style.color = 'black'
-    })
-    if (s === 0) return
-    document.getElementById(`${s._id}`).style.backgroundColor = 'black'
-    document.getElementById(`${s._id}`).style.color = 'white'
-  }
   const handleSubSelect = (s) => {
     setSub(s)
-    changeSubColor(s)
 
     dispatch({
       type: 'SEARCH_QUERY',
@@ -85,7 +78,7 @@ const SideFilterMenu = ({
     })
     setPrice(0)
     setStar(0)
-    setCat([]) // resetting
+    setCategoriesSelected([]) // resetting
 
     fetchProducts({ subs: s })
   }
@@ -96,12 +89,35 @@ const SideFilterMenu = ({
       payload: { text: '' },
     })
     setSub([])
-    changeSubColor(0)
     setPrice(0)
-    setCat([]) // resetting
+    setCategoriesSelected([]) // resetting
 
     setStar(num)
     fetchProducts({ stars: num })
+  }
+
+  const handleBrand = (e) => {
+    dispatch({
+      type: 'SEARCH_QUERY',
+      payload: { text: '' },
+    })
+    setSub([])
+    setPrice(0)
+    setStar(0)
+    setCategoriesSelected([]) // resetting
+
+    let inTheState = [...brandsSelected]
+    let justChecked = e.target.value
+    let foundInTheState = inTheState.indexOf(justChecked)
+
+    if (foundInTheState === -1) {
+      inTheState.push(justChecked)
+    } else {
+      inTheState.splice(foundInTheState, 1)
+    }
+
+    setBrandsSelected(inTheState)
+    fetchProducts({ brand: inTheState })
   }
 
   return (
@@ -138,7 +154,7 @@ const SideFilterMenu = ({
                 value={c._id}
                 className="categories"
                 onChange={handleCategory}
-                checked={cat.includes(c._id)}
+                checked={categoriesSelected.includes(c._id)}
               />
               <Label for={c._id}>{c.name}</Label>
             </CategorySelect>
@@ -180,6 +196,24 @@ const SideFilterMenu = ({
           ))}
         </SubsList>
       </SubsFilter>
+      <BrandFilter>
+        <StyledHeading>Brand</StyledHeading>
+        <BrandsList>
+          {brands.map((b) => (
+            <BrandSelect key={b}>
+              <Checkbox
+                type="checkbox"
+                id={b}
+                value={b}
+                className="brands"
+                onChange={handleBrand}
+                checked={brandsSelected.includes(b)}
+              />
+              <Label for={b}>{b}</Label>
+            </BrandSelect>
+          ))}
+        </BrandsList>
+      </BrandFilter>
     </Container>
   )
 }
@@ -255,10 +289,21 @@ const SubsList = styled.div`
   display: flex;
   flex-wrap: wrap;
 `
-const SubsSelect = styled.div`
+const SubsSelect = styled.button`
   border: 1px solid black;
   margin: 2px;
   padding: 2px 5px;
   border-radius: 20px;
   cursor: pointer;
+
+  &:active,
+  &:focus {
+    background-color: black;
+    color: white;
+  }
 `
+const BrandFilter = styled.div`
+  margin-top: 15px;
+`
+const BrandsList = styled.div``
+const BrandSelect = styled.div``

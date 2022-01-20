@@ -10,10 +10,27 @@ import { getSubs } from '../functions/sub'
 const Shop = () => {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
-  const [cat, setCat] = useState([])
+  const [categoriesSelected, setCategoriesSelected] = useState([])
   const [subs, setSubs] = useState([])
   const [sub, setSub] = useState([])
   const [star, setStar] = useState(0)
+  const [brands, setBrands] = useState([
+    'Apple',
+    'Microsoft',
+    'Samsung',
+    'Lenovo',
+    'Asus',
+  ])
+  const [brandsSelected, setBrandsSelected] = useState([])
+  const [colors, setColors] = useState([
+    'Black',
+    'Brown',
+    'Silver',
+    'White',
+    'Blue',
+  ])
+  const [colorsSelected, setColorsSelected] = useState([])
+
   const [loading, setLoading] = useState(false)
 
   const [price, setPrice] = useState(0)
@@ -36,7 +53,8 @@ const Shop = () => {
     if (text.length) {
       setPrice(0)
       setStar(0)
-      setCat([]) // resetting
+      setCategoriesSelected([])
+      // resetting
     }
 
     return () => clearTimeout(delayed)
@@ -76,13 +94,19 @@ const Shop = () => {
         dispatch={dispatch}
         setOk={setOk}
         categories={categories}
-        setCat={setCat}
-        cat={cat}
+        setCategoriesSelected={setCategoriesSelected}
+        categoriesSelected={categoriesSelected}
         star={star}
         setStar={setStar}
         subs={subs}
         sub={sub}
         setSub={setSub}
+        brands={brands}
+        brandsSelected={brandsSelected}
+        setBrandsSelected={setBrandsSelected}
+        colors={colors}
+        colorsSelected={colorsSelected}
+        setColorsSelected={setColorsSelected}
       />
       <ProductsContainer>
         {loading ? (

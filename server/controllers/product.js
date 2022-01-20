@@ -234,8 +234,39 @@ const handleSubs = async (req, res, subs) => {
   res.json(products)
 }
 
+const handShipping = async (req, res, shipping) => {
+  const products = await Product.find({ shipping })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec()
+
+  res.json(products)
+}
+
+const handleColor = async (req, res, color) => {
+  const products = await Product.find({ color })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec()
+
+  res.json(products)
+}
+
+const handleBrand = async (req, res, brand) => {
+  const products = await Product.find({ brand })
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .populate('postedBy', '_id name')
+    .exec()
+
+  res.json(products)
+}
+
 exports.searchFilters = async (req, res) => {
-  const { query, price, category, stars, subs } = req.body
+  const { query, price, category, stars, subs, shipping, color, brand } =
+    req.body
 
   // by price
   if (parseInt(price)) {
@@ -261,6 +292,21 @@ exports.searchFilters = async (req, res) => {
   else if (subs) {
     console.log('SUBS -->', subs)
     await handleSubs(req, res, subs)
+  }
+  // by shipping
+  else if (shipping) {
+    console.log('SHIPPING -->', shipping)
+    await handleShipping(req, res, shipping)
+  }
+  // by color
+  else if (color) {
+    console.log('COLOR -->', color)
+    await handleColor(req, res, color)
+  }
+  // by brand
+  else if (brand) {
+    console.log('BRAND -->', brand)
+    await handleBrand(req, res, brand)
   } else {
     console.log('LOAD ALL PRODUCTS', req.body)
     await getAllProducts(req, res)
