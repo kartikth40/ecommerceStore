@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Card,
   Cover,
@@ -15,11 +15,17 @@ import { FaShoppingBag } from 'react-icons/fa'
 import styled from 'styled-components'
 import StarRatings from 'react-star-ratings'
 import getAverageRatings from '../../functions/getAverageRatings'
+import { useSelector, useDispatch } from 'react-redux'
 
 const ProductCard = ({ product }) => {
   const { _id, title, description, images, slug, price } = product
 
+  const [tooltip, setTooltip] = useState('Click To Add')
+
   const [avgRating, noOfUsers] = getAverageRatings(product)
+
+  const { user, cart } = useSelector((state) => ({ ...state }))
+  const dispatch = useDispatch()
 
   const handleAddToCart = () => {
     // create cart array
@@ -40,6 +46,14 @@ const ProductCard = ({ product }) => {
           array.findIndex((p) => p._id == product._id) == index
       )
       localStorage.setItem('cart', JSON.stringify(cart))
+      // show Tooltip
+      setTooltip('Added To Cart')
+
+      //add to redux state
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      })
     }
   }
 
@@ -73,7 +87,8 @@ const ProductCard = ({ product }) => {
         <ViewProductBTN to={`/product/${slug}`}>
           <ViewIcon /> View Product
         </ViewProductBTN>
-        <AddToCartBTN onClick={handleAddToCart}>
+
+        <AddToCartBTN tooltip={tooltip} onClick={handleAddToCart}>
           <CartIcon /> Add To Cart
         </AddToCartBTN>
       </Buttons>
@@ -89,9 +104,58 @@ const ViewProductBTN = styled(ButtonWithLink)`
   justify-content: center;
 ` // same layout
 const AddToCartBTN = styled(CardButton)`
+  --c: '${(props) => props.tooltip}';
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  text-align: '';
+
+  &:before,
+  &:after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    border-radius: 5px;
+    opacity: 0;
+    transition: 0.3s all;
+  }
+  &:hover:before,
+  &:hover:after {
+    opacity: 1;
+  }
+
+  &:hover:before {
+    transform: translateY(-20px) scale(1);
+  }
+  &:hover:after {
+    transform: translate(-50%, -15px) rotate(45deg) scale(1);
+  }
+
+  &:before {
+    content: var(--c);
+    bottom: 100%;
+    transform: translateY(20px) scale(0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, 10px) rotate(45deg) scale(0);
+    border-radius: 0;
+
+    border-bottom: 6px solid black;
+    border-right: 6px solid black;
+    border-left: 6px solid transparent;
+    border-top: 6px solid transparent;
+  }
 ` // same layout
 const StarRatingsContainer = styled.div`
   margin: 10px auto 0;
@@ -116,3 +180,4 @@ const ViewIcon = styled(AiOutlineEye)`
   margin-right: 7px;
   font-size: 15px;
 `
+export { AddToCartBTN }

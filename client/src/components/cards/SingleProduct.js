@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
@@ -11,11 +11,48 @@ import { FaShoppingBag, FaClipboardCheck, FaStar } from 'react-icons/fa'
 
 import RatingButton from '../buttons/RatingButton'
 import getAverageRatings from '../../functions/getAverageRatings'
+import { AddToCartBTN } from './ProductCard'
+import { useSelector, useDispatch } from 'react-redux'
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product
 
+  const [tooltip, setTooltip] = useState('Click To Add')
+
   const [avgRating, noOfUsers] = getAverageRatings(product)
+
+  const { user, cart } = useSelector((state) => ({ ...state }))
+  const dispatch = useDispatch()
+
+  const handleAddToCart = () => {
+    // create cart array
+    let cart = []
+    if (window) {
+      // check if cart is already in localStorage
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'))
+      }
+      // push new product
+      cart.push({
+        ...product,
+        count: 1,
+      })
+      // remove duplicates
+      cart = cart.filter(
+        (product, index, array) =>
+          array.findIndex((p) => p._id == product._id) == index
+      )
+      localStorage.setItem('cart', JSON.stringify(cart))
+      // show Tooltip
+      setTooltip('Added To Cart')
+
+      //add to redux state
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      })
+    }
+  }
 
   return (
     <Container>
@@ -50,7 +87,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             <WishListBTN to={`/product`}>
               <WishListIcon /> Add To Wishlist
             </WishListBTN>
-            <AddToCartBTN onClick={() => {}}>
+            <AddToCartBTN tooltip={tooltip} onClick={handleAddToCart}>
               <CartIcon /> Add To Cart
             </AddToCartBTN>
             <RatingButton _id={_id} onStarClick={onStarClick} star={star} />
@@ -104,11 +141,7 @@ const WishListBTN = styled(ButtonWithLink)`
   align-items: center;
   justify-content: center;
 `
-const AddToCartBTN = styled(CardButton)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
+
 const StarRatingsContainer = styled.div`
   margin-top: 20px;
   display: flex;

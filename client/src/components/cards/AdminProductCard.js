@@ -75,12 +75,12 @@ const Buttons = styled.div`
     padding: 10px;
     width: 100%;
     text-align: center;
-    transition: 0.15s all;
+    transition: 0.05s all;
     &:hover {
-      opacity: 0.85;
+      transform: scale(1.03);
     }
     &:active {
-      opacity: 0.5;
+      transform: scale(0.95);
     }
   }
 `
