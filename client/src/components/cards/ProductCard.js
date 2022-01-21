@@ -20,6 +20,29 @@ const ProductCard = ({ product }) => {
   const { _id, title, description, images, slug, price } = product
 
   const [avgRating, noOfUsers] = getAverageRatings(product)
+
+  const handleAddToCart = () => {
+    // create cart array
+    let cart = []
+    if (window) {
+      // check if cart is already in localStorage
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'))
+      }
+      // push new product
+      cart.push({
+        ...product,
+        count: 1,
+      })
+      // remove duplicates
+      cart = cart.filter(
+        (product, index, array) =>
+          array.findIndex((p) => p._id == product._id) == index
+      )
+      localStorage.setItem('cart', JSON.stringify(cart))
+    }
+  }
+
   return (
     <Card>
       <StarRatingsContainer>
@@ -50,7 +73,7 @@ const ProductCard = ({ product }) => {
         <ViewProductBTN to={`/product/${slug}`}>
           <ViewIcon /> View Product
         </ViewProductBTN>
-        <AddToCartBTN onClick={() => {}}>
+        <AddToCartBTN onClick={handleAddToCart}>
           <CartIcon /> Add To Cart
         </AddToCartBTN>
       </Buttons>
