@@ -5,14 +5,14 @@ import styled from 'styled-components'
 import firebase from 'firebase'
 import Search from '../forms/Search'
 import { AiOutlineUserAdd, AiOutlineUser } from 'react-icons/ai'
-import { FaHome, FaShoppingBag } from 'react-icons/fa'
+import { FaHome, FaShoppingBag, FaShoppingCart } from 'react-icons/fa'
 import { TiUser } from 'react-icons/ti'
 
 function Header() {
   const [current, setCurrent] = useState('Home-nav') // currently selected nav item
 
   const dispatch = useDispatch() // dispatch state into redux
-  const { user } = useSelector((state) => ({ ...state })) // get state from redux
+  const { user, cart } = useSelector((state) => ({ ...state })) // get state from redux
   const history = useHistory()
   const location = useLocation()
 
@@ -21,6 +21,7 @@ function Header() {
     if (
       path !== '/' &&
       !path.includes('/shop') &&
+      !path.includes('/cart') &&
       !path.includes('/register') &&
       !path.includes('/login')
     ) {
@@ -28,6 +29,7 @@ function Header() {
     }
     if (path === '/') setCurrent('Home-nav')
     if (path.includes('/shop')) setCurrent('Shop-nav')
+    if (path.includes('/cart')) setCurrent('Cart-nav')
     if (path.includes('/register')) setCurrent('Register-nav')
     if (path.includes('/login')) setCurrent('Login-nav')
 
@@ -68,6 +70,15 @@ function Header() {
           <NavLink to="/shop">
             <ShopIcon />
             <span>Shop</span>
+          </NavLink>
+        </NavItems>
+        <NavItems id="Cart-nav" className="nav-item" onClick={handleClick}>
+          <NavLink to="/cart">
+            <CartIcon />
+            <span>
+              Cart{' '}
+              {cart.length > 0 && <CartQuantity>{cart.length}</CartQuantity>}
+            </span>
           </NavLink>
         </NavItems>
       </NavLeft>
@@ -232,4 +243,16 @@ const LoginIcon = styled(AiOutlineUser)`
 `
 const UserIcon = styled(TiUser)`
   margin-right: 5px;
+`
+const CartIcon = styled(FaShoppingCart)`
+  margin-right: 5px;
+`
+const CartQuantity = styled.span`
+  display: inline-block;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
 `
