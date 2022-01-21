@@ -36,6 +36,7 @@ import { currentUser } from './functions/auth'
 import Product from './pages/Product'
 import SubHome from './pages/sub/SubHome'
 import Shop from './pages/Shop'
+import Cart from './pages/Cart'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -134,6 +135,9 @@ const App = () => {
         </Route>
         <Route exact path="/shop">
           <Shop />
+        </Route>
+        <Route exact path="/cart">
+          <Cart />
         </Route>
       </Switch>
     </>
