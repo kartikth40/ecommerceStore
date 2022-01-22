@@ -10,7 +10,6 @@
 .selected > a {
   color: white;
   background-color: rgba(0, 0, 0, 0.9);
-  transform: scale(95%);
 }
 
 .slider img {

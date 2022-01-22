@@ -21,9 +21,10 @@ const Login = () => {
     let intended = history.location.state
     if (intended) {
       return
-    } else if (user && user.token) {
-      history.push('/')
     }
+    //  else if (user && user.token) {
+    //   history.push('/')
+    // }
   }, [user, history])
 
   const roleBasedRedirect = (res) => {
