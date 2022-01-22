@@ -51,6 +51,11 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         type: 'ADD_TO_CART',
         payload: cart,
       })
+      //show cart items inside drawer
+      dispatch({
+        type: 'SET_VISIBLE',
+        payload: true,
+      })
     }
   }
 

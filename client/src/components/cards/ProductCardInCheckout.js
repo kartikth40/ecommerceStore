@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import laptop from '../../images/laptop.jpg'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
+import { FaTimesCircle, FaCheckCircle } from 'react-icons/fa'
+import { MdDeleteForever } from 'react-icons/md'
 
 const ProductCardInCheckout = ({ p }) => {
   const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue']
@@ -34,8 +37,11 @@ const ProductCardInCheckout = ({ p }) => {
     let count = e.target.value
     if (e.target.value < 1) {
       count = 1
-    } else if (e.target.value > 10) {
-      count = 10
+    }
+
+    if (count > p.quantity) {
+      toast.error(`Max available quantity: ${p.quantity}`)
+      return
     }
 
     let cart = []
@@ -58,6 +64,29 @@ const ProductCardInCheckout = ({ p }) => {
       })
     }
   }
+
+  const handleRemove = () => {
+    let cart = []
+
+    if (window) {
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'))
+      }
+
+      cart.map((product, index) => {
+        if (product._id === p._id) {
+          cart.splice(index, 1)
+        }
+      })
+
+      localStorage.setItem('cart', JSON.stringify(cart))
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      })
+    }
+  }
+
   return (
     <Tbody>
       <Tr>
@@ -96,8 +125,10 @@ const ProductCardInCheckout = ({ p }) => {
             onChange={handleQuantityChange}
           />
         </Td>
-        <Td>Shipping Icon</Td>
-        <Td>Remove Icon</Td>
+        <Td>{p.shipping === 'Yes' ? <CheckIcon /> : <TimesIcon />}</Td>
+        <Td>
+          <DeleteIcon onClick={handleRemove} />
+        </Td>
       </Tr>
     </Tbody>
   )
@@ -111,6 +142,7 @@ const Td = styled.td`
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 10px;
   max-width: 120px;
+  text-align: center;
 `
 const Image = styled.img`
   width: 100px;
@@ -127,6 +159,7 @@ const StyledLink = styled(Link)`
 const Select = styled.select`
   border: 1px solid rgba(0, 0, 0, 0.5);
   font-size: 15px;
+  cursor: pointer;
 `
 const Option = styled.option``
 const Input = styled.input`
@@ -134,4 +167,17 @@ const Input = styled.input`
   border: 1px solid rgba(0, 0, 0, 0.5);
   padding: 0 5px;
   font-size: 15px;
+  cursor: text;
+`
+const CheckIcon = styled(FaCheckCircle)`
+  color: rgba(0, 255, 0, 0.6);
+  font-size: 25px;
+`
+const TimesIcon = styled(FaTimesCircle)`
+  color: rgba(255, 0, 0, 0.6);
+  font-size: 25px;
+`
+const DeleteIcon = styled(MdDeleteForever)`
+  font-size: 30px;
+  cursor: pointer;
 `

@@ -37,6 +37,7 @@ import Product from './pages/Product'
 import SubHome from './pages/sub/SubHome'
 import Shop from './pages/Shop'
 import Cart from './pages/Cart'
+import SideDrawer from './components/drawer/SideDrawer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -71,6 +72,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <SideDrawer />
       <ToastContainer />
       <Switch>
         <Route exact path={['/', '/home']}>
