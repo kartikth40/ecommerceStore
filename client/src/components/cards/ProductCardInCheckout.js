@@ -29,6 +29,35 @@ const ProductCardInCheckout = ({ p }) => {
       })
     }
   }
+
+  const handleQuantityChange = (e) => {
+    let count = e.target.value
+    if (e.target.value < 1) {
+      count = 1
+    } else if (e.target.value > 10) {
+      count = 10
+    }
+
+    let cart = []
+
+    if (window) {
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'))
+      }
+
+      cart.map((product, index) => {
+        if (product._id === p._id) {
+          cart[index].count = count
+        }
+      })
+
+      localStorage.setItem('cart', JSON.stringify(cart))
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      })
+    }
+  }
   return (
     <Tbody>
       <Tr>
@@ -60,7 +89,13 @@ const ProductCardInCheckout = ({ p }) => {
             </Select>
           }
         </Td>
-        <Td>{p.count}</Td>
+        <Td>
+          <Input
+            type="number"
+            value={p.count}
+            onChange={handleQuantityChange}
+          />
+        </Td>
         <Td>Shipping Icon</Td>
         <Td>Remove Icon</Td>
       </Tr>
@@ -91,7 +126,12 @@ const StyledLink = styled(Link)`
 `
 const Select = styled.select`
   border: 1px solid rgba(0, 0, 0, 0.5);
-  outline: none;
   font-size: 15px;
 `
 const Option = styled.option``
+const Input = styled.input`
+  width: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0 5px;
+  font-size: 15px;
+`
