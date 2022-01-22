@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
+import { userCart } from '../functions/user'
 
 const Cart = () => {
   const { cart, user } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
@@ -14,7 +16,13 @@ const Cart = () => {
     }, 0)
   }
 
-  const saveOrderToDb = () => {}
+  const saveOrderToDb = () => {
+    userCart((cart, user.token))
+      .then((res) => {
+        if (res.data.ok) history.push('/checkout')
+      })
+      .catch((err) => console.log('cart save err', err))
+  }
 
   const showCartItems = () => (
     <Table>

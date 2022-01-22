@@ -38,6 +38,7 @@ import SubHome from './pages/sub/SubHome'
 import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import SideDrawer from './components/drawer/SideDrawer'
+import Checkout from './pages/Checkout'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -140,6 +141,9 @@ const App = () => {
         </Route>
         <Route exact path="/cart">
           <Cart />
+        </Route>
+        <Route exact path="/checkout">
+          <Checkout />
         </Route>
       </Switch>
     </>
