@@ -17,7 +17,7 @@ const Cart = () => {
   }
 
   const saveOrderToDb = () => {
-    userCart((cart, user.token))
+    userCart(cart, user.token)
       .then((res) => {
         if (res.data.ok) history.push('/checkout')
       })
