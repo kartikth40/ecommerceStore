@@ -99,9 +99,9 @@ const ProductCardInCheckout = ({ p }) => {
             )}
           </StyledLink>
         </Td>
-        <Td>
+        <TitleTd>
           <StyledLink to={`/product/${p.slug}`}>{p.title}</StyledLink>
-        </Td>
+        </TitleTd>
         <Td>{p.price}</Td>
         <Td>{p.brand}</Td>
         <Td>
@@ -126,9 +126,9 @@ const ProductCardInCheckout = ({ p }) => {
           />
         </Td>
         <Td>{p.shipping === 'Yes' ? <CheckIcon /> : <TimesIcon />}</Td>
-        <Td>
-          <DeleteIcon onClick={handleRemove} />
-        </Td>
+        <RemoveTd onClick={handleRemove}>
+          <DeleteIcon />
+        </RemoveTd>
       </Tr>
     </Tbody>
   )
@@ -143,6 +143,18 @@ const Td = styled.td`
   padding: 10px;
   max-width: 120px;
   text-align: center;
+`
+const TitleTd = styled(Td)`
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`
+const RemoveTd = styled(Td)`
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.2);
+  }
 `
 const Image = styled.img`
   width: 100px;

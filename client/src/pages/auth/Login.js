@@ -21,17 +21,19 @@ const Login = () => {
     let intended = history.location.state
     if (intended) {
       return
+    } else if (user && user.token) {
+      history.push('/')
     }
-    //  else if (user && user.token) {
-    //   history.push('/')
-    // }
   }, [user, history])
 
   const roleBasedRedirect = (res) => {
     // check if intended - if user wants to go to the same page after a login
     let intended = history.location.state
     if (intended) {
-      history.push(intended.from)
+      history.push({
+        pathname: `${intended.from}`,
+        state: { from: `${intended.from}` },
+      })
     } else {
       if (res.data.role === 'admin') {
         history.push('/admin/dashboard')

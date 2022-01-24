@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
@@ -6,6 +6,8 @@ import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
 import { userCart } from '../functions/user'
 
 const Cart = () => {
+  const [loading, setLoading] = useState(false)
+
   const { cart, user } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
   const history = useHistory()
@@ -17,11 +19,16 @@ const Cart = () => {
   }
 
   const saveOrderToDb = () => {
+    setLoading(true)
     userCart(cart, user.token)
       .then((res) => {
+        setLoading(false)
         if (res.data.ok) history.push('/checkout')
       })
-      .catch((err) => console.log('cart save err', err))
+      .catch((err) => {
+        setLoading(false)
+        console.log('cart save err', err)
+      })
   }
 
   const showCartItems = () => (
@@ -59,11 +66,18 @@ const Cart = () => {
       <OrderSummaryContainer>
         <Heading>Order Summary</Heading>
         <SubHeading>Products</SubHeading>
+        <hr />
         {cart.map((p, i) => (
           <div key={i}>
             <Calc>
-              {p.title} <Multiplier>x{p.count} </Multiplier> ={' '}
-              <CurrencySymbol>&#8377; </CurrencySymbol> {p.price * p.count}
+              <Left>
+                {p.title} <Multiplier>x{p.count} </Multiplier>
+              </Left>
+              <Right>
+                <div>
+                  <CurrencySymbol>&#8377; </CurrencySymbol> {p.price * p.count}
+                </div>
+              </Right>
             </Calc>
           </div>
         ))}
@@ -75,7 +89,7 @@ const Cart = () => {
         <Hr />
         {user ? (
           <CheckoutButton onClick={saveOrderToDb} disabled={!cart.length}>
-            Proceed To Checkout
+            {loading ? 'please wait...' : 'Proceed To Checkout'}
           </CheckoutButton>
         ) : (
           <CheckoutButton>
@@ -101,24 +115,37 @@ const Container = styled.div`
   display: flex;
 `
 const Heading = styled.h1`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `
 const CartItemsContainer = styled.div`
   margin: 2rem;
   padding: 0 1rem;
-  width: 70vw;
+  width: 60vw;
   min-height: calc(100vh - 4rem - 70px);
 `
 const OrderSummaryContainer = styled.div`
   margin: 2rem 0;
   padding: 0 1rem;
-  width: calc(30vw - 6rem);
+  width: calc(40vw - 6rem);
 `
-const SubHeading = styled.h3``
+const SubHeading = styled.h2`
+  margin-bottom: 1rem;
+`
 const Calc = styled.p`
-  margin: 10px 0;
+  font-size: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  justify-content: space-between;
+  font-size: 20px;
+  margin: 10px;
 `
+const Left = styled.span`
+  font-weight: bold;
+`
+const Right = styled.span``
+
 const CheckoutButton = styled.button`
+  width: 180px;
   padding: 10px;
   background-color: black;
   color: white;
@@ -140,6 +167,7 @@ const CheckoutButton = styled.button`
     cursor: not-allowed;
   }
 `
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
@@ -149,6 +177,8 @@ const CurrencySymbol = styled.span`
 `
 const Multiplier = styled.span`
   font-weight: bold;
+  font-size: 15px;
+  padding: 3px;
 `
 const Hr = styled.hr`
   margin: 1rem 0;
