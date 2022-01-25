@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserCart, emptyUserCart, saveUserAddress } from '../functions/user'
+import {
+  getUserCart,
+  emptyUserCart,
+  saveUserAddress,
+  applyCoupon,
+} from '../functions/user'
 import { toast } from 'react-toastify'
 
 const Checkout = () => {
@@ -11,6 +16,9 @@ const Checkout = () => {
   const [address, setAddress] = useState('')
   const [addressSaved, setAddressSaved] = useState(false)
   const [coupon, setCoupon] = useState('')
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState('')
+  const [couponError, setCouponError] = useState('')
+  const [couponApplied, setCouponApplied] = useState(false)
 
   const [loading, setLoading] = useState(false)
 
@@ -80,7 +88,18 @@ const Checkout = () => {
   }
 
   const handleCouponApply = () => {
-    console.log(coupon)
+    applyCoupon(user.token, coupon).then((res) => {
+      if (!res.data.err) {
+        setTotalAfterDiscount(res.data)
+        setCouponApplied(true)
+        console.log('Valid Coupon', res.data)
+        // push to redux
+      } else if (res.data.err) {
+        setCouponError(res.data.err)
+        setCouponApplied(false)
+        // update redux state
+      }
+    })
   }
 
   return (
@@ -109,13 +128,19 @@ const Checkout = () => {
           <CouponInput
             type="text"
             value={coupon}
-            onChange={(e) => setCoupon(e.target.value)}
+            onChange={(e) => {
+              setCoupon(e.target.value)
+              setCouponError('')
+              setCouponApplied(false)
+            }}
           />
           <CouponApplyButton
             onClick={handleCouponApply}
-            disabled={coupon.length < 6}
+            disabled={coupon.length < 6 || couponError || couponApplied}
+            couponError={couponError}
+            couponApplied={couponApplied}
           >
-            Apply
+            {!couponApplied ? (couponError ? couponError : 'Apply') : 'Applied'}
           </CouponApplyButton>
         </CouponContainer>
       </LeftContainer>
@@ -284,24 +309,33 @@ const CouponInput = styled.input`
 const CouponApplyButton = styled.button`
   width: 180px;
   padding: 10px;
+  font-size: 20px;
   background-color: white;
-  border: 1px solid black;
+  border: 2px solid black;
   cursor: pointer;
   transition: 0.1s all;
   &:hover:enabled {
     border-radius: 5px;
     transform: scale(1.05);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 255, 0, 0.2);
   }
   &:active:enabled {
     transform: scale(0.97);
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 255, 0, 0.5);
   }
   &:disabled,
   &[disabled] {
-    background-color: white;
-    color: grey;
+    background-color: ${(props) =>
+      props.couponError
+        ? 'rgba(255, 0, 0, 0.8)'
+        : props.couponApplied
+        ? 'rgba(0, 255, 0, 0.8)'
+        : 'white'};
+
+    color: ${(props) =>
+      props.couponError ? 'white' : props.couponApplied ? 'black' : 'grey'};
     cursor: not-allowed;
-    border: solid 1px grey;
+    border: ${(props) =>
+      props.couponError || props.couponApplied ? 'none' : 'grey solid 1px'};
   }
 `
