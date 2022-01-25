@@ -87,16 +87,15 @@ exports.applyCouponToUserCart = async (req, res) => {
     })
   }
 
+  const discount = validCoupon.discount
+
   const user = await User.findOne({ email: req.user.email }).exec()
 
   let { products, cartTotal } = await Cart.findOne({ orderedBy: user._id })
     .populate('products.product', '_id title price')
     .exec()
 
-  let totalAfterDiscount = (
-    cartTotal -
-    (cartTotal * validCoupon.discount) / 100
-  ).toFixed(2)
+  let totalAfterDiscount = (cartTotal - (cartTotal * discount) / 100).toFixed(2)
 
   Cart.findOneAndUpdate(
     { orderedBy: user._id },
@@ -104,5 +103,5 @@ exports.applyCouponToUserCart = async (req, res) => {
     { new: true }
   )
 
-  res.json(totalAfterDiscount)
+  res.json({ totalAfterDiscount, discount })
 }

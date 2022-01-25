@@ -16,7 +16,8 @@ const Checkout = () => {
   const [address, setAddress] = useState('')
   const [addressSaved, setAddressSaved] = useState(false)
   const [coupon, setCoupon] = useState('')
-  const [totalAfterDiscount, setTotalAfterDiscount] = useState('')
+  const [totalAfterDiscount, setTotalAfterDiscount] = useState(0)
+  const [discount, setDiscount] = useState(0)
   const [couponError, setCouponError] = useState('')
   const [couponApplied, setCouponApplied] = useState(false)
 
@@ -90,14 +91,22 @@ const Checkout = () => {
   const handleCouponApply = () => {
     applyCoupon(user.token, coupon).then((res) => {
       if (!res.data.err) {
-        setTotalAfterDiscount(res.data)
+        setTotalAfterDiscount(res.data.totalAfterDiscount)
+        setDiscount(res.data.discount)
         setCouponApplied(true)
-        console.log('Valid Coupon', res.data)
-        // push to redux
+        // update redux coupon
+        dispatch({
+          type: 'COUPON_APPLIED',
+          payload: true,
+        })
       } else if (res.data.err) {
         setCouponError(res.data.err)
         setCouponApplied(false)
-        // update redux state
+        // update redux coupon
+        dispatch({
+          type: 'COUPON_APPLIED',
+          payload: false,
+        })
       }
     })
   }
@@ -171,11 +180,24 @@ const Checkout = () => {
         <Hr />
         <TotalPay>
           Cart Total = <CurrencySymbol> &#8377;</CurrencySymbol>
-          {total}
+          {totalAfterDiscount > 0 && couponApplied ? (
+            <>
+              {totalAfterDiscount}
+              <DiscountContainer>
+                <Strike>{total}</Strike>
+                <Discount>{discount}% OFF</Discount>
+              </DiscountContainer>
+            </>
+          ) : (
+            total
+          )}
         </TotalPay>
         <Hr />
         <Buttons>
-          <PlaceOrderButton disabled={!products.length || !addressSaved}>
+          <PlaceOrderButton
+            onClick={() => history.push('/payment')}
+            disabled={!products.length || !addressSaved}
+          >
             Place Order
           </PlaceOrderButton>
           <EmptyCartButton onClick={emptyCart} disabled={!products.length}>
@@ -295,6 +317,7 @@ const Hr = styled.hr`
 const TotalPay = styled.div`
   font-weight: bold;
   font-size: 30px;
+  display: flex;
 `
 const CouponContainer = styled.div`
   display: flex;
@@ -338,4 +361,21 @@ const CouponApplyButton = styled.button`
     border: ${(props) =>
       props.couponError || props.couponApplied ? 'none' : 'grey solid 1px'};
   }
+`
+const DiscountContainer = styled.span`
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  font-weight: lighter;
+`
+const Strike = styled.s`
+  color: black;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  font-size: 20px;
+`
+const Discount = styled.span`
+  font-size: 20px;
+  background-color: rgba(0, 255, 0, 0.8);
+  padding: 5px;
 `
