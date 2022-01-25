@@ -10,6 +10,7 @@ const Checkout = () => {
   const [total, setTotal] = useState(0)
   const [address, setAddress] = useState('')
   const [addressSaved, setAddressSaved] = useState(false)
+  const [coupon, setCoupon] = useState('')
 
   const [loading, setLoading] = useState(false)
 
@@ -77,6 +78,11 @@ const Checkout = () => {
         console.log('SAVE ADDRESS ERR -->', err)
       })
   }
+
+  const handleCouponApply = () => {
+    console.log(coupon)
+  }
+
   return (
     <Container>
       <LeftContainer>
@@ -99,7 +105,19 @@ const Checkout = () => {
         <br />
         <h4>Got Coupon ?</h4>
         <br />
-        coupon input and apply button
+        <CouponContainer>
+          <CouponInput
+            type="text"
+            value={coupon}
+            onChange={(e) => setCoupon(e.target.value)}
+          />
+          <CouponApplyButton
+            onClick={handleCouponApply}
+            disabled={coupon.length < 6}
+          >
+            Apply
+          </CouponApplyButton>
+        </CouponContainer>
       </LeftContainer>
       <OrderSummaryContainer>
         {loading ? (
@@ -252,4 +270,38 @@ const Hr = styled.hr`
 const TotalPay = styled.div`
   font-weight: bold;
   font-size: 30px;
+`
+const CouponContainer = styled.div`
+  display: flex;
+`
+const CouponInput = styled.input`
+  width: 200px;
+  font-size: 20px;
+  padding: 4px;
+  margin-right: 20px;
+  text-transform: uppercase;
+`
+const CouponApplyButton = styled.button`
+  width: 180px;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: 0.1s all;
+  &:hover:enabled {
+    border-radius: 5px;
+    transform: scale(1.05);
+    background: rgba(0, 0, 0, 0.2);
+  }
+  &:active:enabled {
+    transform: scale(0.97);
+    background: rgba(0, 0, 0, 0.2);
+  }
+  &:disabled,
+  &[disabled] {
+    background-color: white;
+    color: grey;
+    cursor: not-allowed;
+    border: solid 1px grey;
+  }
 `
