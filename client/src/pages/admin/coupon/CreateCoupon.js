@@ -6,9 +6,10 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import AdminNav from '../../../components/nav/AdminNav'
 import { Container, Content, Heading } from '../AdminDashboard'
+import { TiDelete } from 'react-icons/ti'
 import {
   getCoupons,
-  removeCoupons,
+  removeCoupon,
   createCoupon,
 } from '../../../functions/coupon'
 
@@ -45,6 +46,13 @@ const CreateCoupon = () => {
     setLoading(true)
     createCoupon({ name, expiry, discount }, user.token)
       .then((res) => {
+        getCoupons()
+          .then((res) => {
+            setCoupons(res.data)
+          })
+          .catch((err) => {
+            console.log('Error getting coupons list', err)
+          })
         setLoading(false)
         setName('')
         setDiscount('')
@@ -56,6 +64,28 @@ const CreateCoupon = () => {
         toast.error('Error in creating this coupon')
         console.log('create coupon error', err)
       })
+  }
+
+  const handleRemove = (couponId) => {
+    if (window.confirm('Delete ?')) {
+      setLoading(true)
+      removeCoupon(couponId, user.token)
+        .then((res) => {
+          getCoupons()
+            .then((res) => {
+              setCoupons(res.data)
+            })
+            .catch((err) => {
+              console.log('Error getting coupons list', err)
+            })
+          setLoading(false)
+          toast.error(`Coupon "${res.data.name}" deleted`)
+        })
+        .catch((err) => {
+          console.log('Error removing Coupon', err)
+          setLoading(false)
+        })
+    }
   }
 
   return (
@@ -111,7 +141,8 @@ const CreateCoupon = () => {
                 <Name>{c.name}</Name>
                 <Discount>{c.discount} % OFF</Discount>
               </div>
-              <DeleteButton>Delete</DeleteButton>
+
+              <DeleteIcon onClick={() => handleRemove(c._id)} />
             </Card>
           ))}
         </CouponsList>
@@ -214,16 +245,22 @@ const Discount = styled.div`
   padding: 5px 10px;
   font-size: 20px;
 `
-const DeleteButton = styled.button`
-  background-color: rgba(255, 0, 0, 1);
-  color: white;
-  margin-top: 20px;
-  width: 80px;
-  border-radius: 20px;
-  border: none;
-  padding: 10px;
+const DeleteIcon = styled(TiDelete)`
+  font-size: 40px;
+  color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  cursor: pointer;
+  transition: 0.2s;
 
+  ${Card}:hover & {
+    transform: translate(-50%, 45px);
+    opacity: 1;
+  }
   &:hover {
-    background-color: rgba(255, 0, 0, 0.8);
+    font-size: 50px;
   }
 `
