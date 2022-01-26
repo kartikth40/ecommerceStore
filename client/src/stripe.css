@@ -4,6 +4,41 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 70px);
+}
+
+.heading {
+  margin: 2rem;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.coupon-applied {
+  background-color: rgba(0, 255, 0, 0.5);
+  width: 100%;
+  font-size: 20px;
+  padding: 1rem;
+  margin: 1rem auto;
+  text-align: center;
+}
+.TotalPayable {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #5469d4;
+}
+.TotalPayable > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .stripe-form {
   width: 40vw;
   align-self: center;
