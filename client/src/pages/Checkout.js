@@ -195,7 +195,12 @@ const Checkout = () => {
         <Hr />
         <Buttons>
           <PlaceOrderButton
-            onClick={() => history.push('/payment')}
+            onClick={() =>
+              history.push({
+                pathname: '/payment',
+                state: { from: `chekout` },
+              })
+            }
             disabled={!products.length || !addressSaved}
           >
             Place Order

@@ -3,13 +3,16 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { createPaymentIntent } from '../functions/stripe'
+import { createOrder, emptyUserCart } from '../functions/user'
 import { AiOutlineDollarCircle, AiOutlineCheckCircle } from 'react-icons/ai'
 import '../stripe.css'
 
 const StripeCheckout = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
-  const { user, coupon } = useSelector((state) => ({ ...state }))
+  const { user, coupon, cart } = useSelector((state) => ({ ...state }))
 
+  const [loading, setLoading] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(false)
   const [processing, setProcessing] = useState(false)
@@ -23,12 +26,21 @@ const StripeCheckout = () => {
   const elements = useElements()
 
   useEffect(() => {
+    if (
+      !cart.length ||
+      !history.location.state ||
+      !history.location.state === 'checkout'
+    )
+      history.push('/')
+
+    setLoading(true)
     createPaymentIntent(user.token, coupon).then((res) => {
       setClientSecret(res.data.clientSecret)
       // additional response receives on successful payment
-      setCartTotal(res.data.cartTotal)
+      setCartTotal(res.data.cartTotal.toFixed(2))
       setTotalAfterDiscount(res.data.totalAfterDiscount)
       setPayable((res.data.payable / 100).toFixed(2))
+      setLoading(false)
     })
   }, [])
 
@@ -48,6 +60,20 @@ const StripeCheckout = () => {
     if (payload.error) {
       setError(`Payment failed ${payload.error.message}`)
     } else {
+      createOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          if (window) localStorage.removeItem('cart')
+          dispatch({
+            type: 'ADD_TO_CART',
+            payload: [],
+          })
+          dispatch({
+            type: 'COUPON_APPLIED',
+            payload: false,
+          })
+          emptyUserCart(user.token)
+        }
+      })
       setError(null)
       setProcessing(false)
       setSucceeded(true)
@@ -78,55 +104,75 @@ const StripeCheckout = () => {
     },
   }
 
+  const inrCurrencyFormat = (amount) => {
+    return amount.replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,') // to indian currency formatting - commas
+  }
   return (
     <div className="container">
-      <h1 className="heading">
-        {succeeded ? 'Ordered successful' : 'Complete your purchase'}
-      </h1>
-      {coupon && totalAfterDiscount && (
-        <p className="coupon-applied">
-          Total after discount: &#8377;{totalAfterDiscount}
-        </p>
-      )}
-      <div className="TotalPayable">
-        <div>
-          <AiOutlineDollarCircle />
-          Total: &#8377;{cartTotal}
-        </div>
-        <div>
-          <AiOutlineCheckCircle />
-          Payable: &#8377;{payable}
-        </div>
-      </div>
-      <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
-        <CardElement
-          id="card-element"
-          options={cardStyle}
-          onChange={handleChange}
-        />
-        <button
-          id="submit"
-          className="stripe-button"
-          disabled={processing || disabled || succeeded}
-        >
-          <span id="button-text">
-            {processing ? (
-              <div className="spinner" id="spinner"></div>
-            ) : (
-              'Pay now'
-            )}
-          </span>
-        </button>
-        {error && (
-          <div id="card-error" role="alert">
-            {error}
+      {loading ? (
+        <div className="spinner black" id="spinner"></div>
+      ) : (
+        <>
+          <h1 className="heading">
+            {succeeded ? 'Ordered successful' : 'Complete your purchase'}
+          </h1>
+          {coupon && totalAfterDiscount ? (
+            <p className="coupon-applied">
+              Total after discount: &#8377;
+              {inrCurrencyFormat(totalAfterDiscount)}
+            </p>
+          ) : (
+            <p className="coupon-applied">
+              Total amount: &#8377;{inrCurrencyFormat(payable)}
+            </p>
+          )}
+          <div className="TotalPayable">
+            <div>
+              <AiOutlineDollarCircle />
+              Total: &#8377;{inrCurrencyFormat(cartTotal)}
+            </div>
+            <div>
+              <AiOutlineCheckCircle />
+              Payable: &#8377;{inrCurrencyFormat(payable)}
+            </div>
           </div>
-        )}
+          <form
+            id="payment-form"
+            className="stripe-form"
+            onSubmit={handleSubmit}
+          >
+            <CardElement
+              id="card-element"
+              options={cardStyle}
+              onChange={handleChange}
+            />
+            <button
+              id="submit"
+              className="stripe-button"
+              disabled={processing || disabled || succeeded}
+            >
+              <span id="button-text">
+                {processing ? (
+                  <div className="spinner" id="spinner"></div>
+                ) : (
+                  'Pay now'
+                )}
+              </span>
+            </button>
+            {error && (
+              <div id="card-error" role="alert">
+                {error}
+              </div>
+            )}
 
-        <p className={succeeded ? 'result-message' : 'result-message hidden'}>
-          Payment succeeded
-        </p>
-      </form>
+            <p
+              className={succeeded ? 'result-message' : 'result-message hidden'}
+            >
+              Payment succeeded
+            </p>
+          </form>
+        </>
+      )}
     </div>
   )
 }
