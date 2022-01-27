@@ -7,7 +7,7 @@ import laptop from '../../images/laptop.jpg'
 import ProductInfo from './ProductInfo'
 import StarRatings from 'react-star-ratings'
 
-import { FaShoppingBag, FaClipboardCheck, FaStar } from 'react-icons/fa'
+import { FaShoppingCart, FaClipboardCheck } from 'react-icons/fa'
 
 import RatingButton from '../buttons/RatingButton'
 import getAverageRatings from '../../functions/getAverageRatings'
@@ -164,7 +164,7 @@ const WishListIcon = styled(FaClipboardCheck)`
   font-size: 15px;
   margin-right: 5px;
 `
-const CartIcon = styled(FaShoppingBag)`
+const CartIcon = styled(FaShoppingCart)`
   font-size: 15px;
   margin-right: 5px;
 `

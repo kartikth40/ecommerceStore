@@ -10,7 +10,7 @@ import {
 } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
 import { AiOutlineEye } from 'react-icons/ai'
-import { FaShoppingBag } from 'react-icons/fa'
+import { FaShoppingCart } from 'react-icons/fa'
 
 import styled from 'styled-components'
 import StarRatings from 'react-star-ratings'
@@ -93,8 +93,18 @@ const ProductCard = ({ product }) => {
           <ViewIcon /> View Product
         </ViewProductBTN>
 
-        <AddToCartBTN tooltip={tooltip} onClick={handleAddToCart}>
-          <CartIcon /> Add To Cart
+        <AddToCartBTN
+          disabled={product.quantity < 1}
+          tooltip={product.quantity < 1 ? 'Will be available soon' : tooltip}
+          onClick={handleAddToCart}
+        >
+          {product.quantity < 1 ? (
+            'Out of stock'
+          ) : (
+            <>
+              <CartIcon /> Add To Cart
+            </>
+          )}
         </AddToCartBTN>
       </Buttons>
     </Card>
@@ -107,6 +117,12 @@ const ViewProductBTN = styled(ButtonWithLink)`
   display: flex;
   align-items: center;
   justify-content: center;
+  &:hover:enabled {
+    transform: scale(1.05);
+  }
+  &:active:enabled {
+    transform: scale(1.05);
+  }
 ` // same layout
 const AddToCartBTN = styled(CardButton)`
   --c: '${(props) => props.tooltip}';
@@ -114,13 +130,13 @@ const AddToCartBTN = styled(CardButton)`
   align-items: center;
   justify-content: center;
   position: relative;
-  text-align: '';
 
   &:before,
   &:after {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: max-content;
+    padding: 10px;
     background-color: black;
     border-radius: 5px;
     opacity: 0;
@@ -140,6 +156,8 @@ const AddToCartBTN = styled(CardButton)`
 
   &:before {
     content: var(--c);
+    font-weight: 100;
+    font-size: 15px;
     bottom: 100%;
     transform: translateY(20px) scale(0);
     display: flex;
@@ -177,7 +195,7 @@ const CurrencySymbol = styled.span`
   text-align: center;
   margin-left: 10px;
 `
-const CartIcon = styled(FaShoppingBag)`
+const CartIcon = styled(FaShoppingCart)`
   margin-right: 7px;
   font-size: 13px;
 `

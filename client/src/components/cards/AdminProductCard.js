@@ -76,11 +76,11 @@ const Buttons = styled.div`
     width: 100%;
     text-align: center;
     transition: 0.05s all;
-    &:hover {
-      transform: scale(1.03);
+    &:hover:enabled {
+      transform: scale(1.05);
     }
-    &:active {
-      transform: scale(0.95);
+    &:active:enabled {
+      transform: scale(1.05);
     }
   }
 `
@@ -92,6 +92,12 @@ const CardButton = styled.button`
   font-size: 10px;
   font-weight: bold;
   cursor: pointer;
+  &:hover:enabled {
+    transform: scale(1.05);
+  }
+  &:active:enabled {
+    transform: scale(1.05);
+  }
 `
 const DeleteBTN = CardButton
 const ButtonWithLink = styled(Link)`
@@ -101,6 +107,12 @@ const ButtonWithLink = styled(Link)`
   color: rgb(255, 255, 255);
   font-size: 10px;
   font-weight: bold;
+  &:hover {
+    transform: scale(1.05);
+  }
+  &:active {
+    transform: scale(1.05);
+  }
 `
 const EditBTN = ButtonWithLink
 export default AdminProductCard
