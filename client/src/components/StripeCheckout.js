@@ -105,8 +105,9 @@ const StripeCheckout = () => {
   }
 
   const inrCurrencyFormat = (amount) => {
-    return amount.replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,') // to indian currency formatting - commas
+    return amount.toString().replace(/(\d)(?=(\d{2})+\d\.)/g, '$1,') // to indian currency formatting - commas
   }
+
   return (
     <div className="container">
       {loading ? (
