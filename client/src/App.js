@@ -41,6 +41,7 @@ import SideDrawer from './components/drawer/SideDrawer'
 import Checkout from './pages/Checkout'
 import CreateCoupon from './pages/admin/coupon/CreateCoupon'
 import Payment from './pages/Payment'
+import OrderDetails from './pages/OrderDetails'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -102,6 +103,9 @@ const App = () => {
         </UserRoute>
         <UserRoute exact path="/user/wishlist">
           <Wishlist />
+        </UserRoute>
+        <UserRoute exact path="/user/orderDetails/:orderId">
+          <OrderDetails />
         </UserRoute>
         <UserRoute exact path="/payment">
           <Payment />
