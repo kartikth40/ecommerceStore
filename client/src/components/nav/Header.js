@@ -76,8 +76,12 @@ function Header() {
           <NavLink to="/cart">
             <CartIcon />
             <span>
-              Cart{' '}
-              {cart.length > 0 && <CartQuantity>{cart.length}</CartQuantity>}
+              <span>Cart</span>
+              {cart.length > 0 && (
+                <CartQuantity>
+                  <span>{cart.length}</span>
+                </CartQuantity>
+              )}
             </span>
           </NavLink>
         </NavItems>
@@ -90,7 +94,7 @@ function Header() {
           <DropDownMenu>
             <DropDownBtn>
               <UserIcon />
-              {user.email && user.email.split('@')[0]}
+              <span>{user.email && user.email.split('@')[0]}</span>
             </DropDownBtn>
             <DropDownContent>
               {user && user.role === 'subscriber' && (
@@ -162,10 +166,11 @@ const NavRight = styled.div`
   margin-left: auto;
 `
 const NavLink = styled(Link)`
+  height: 35px;
   display: flex;
   align-items: center;
-  padding: 10px;
-  font-weight: bold;
+  padding: 0 10px;
+  font-weight: 400;
   font-size: 16px;
   border: 2px solid black;
   cursor: pointer;
@@ -175,8 +180,13 @@ const NavLink = styled(Link)`
   pointer-events: all;
   transition: 0.1s all;
   &:hover {
-    border-radius: 7px;
-    transform: scale(1.1);
+    border: 2px solid white;
+    border-bottom: 2px solid black;
+  }
+  & > span {
+    display: flex;
+    align-items: flex-end;
+    transform: translateY(3px);
   }
 `
 
@@ -187,9 +197,14 @@ const DropDownBtn = styled.button`
   background-color: white;
   padding: 10px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 400;
   border: 2px solid black;
   cursor: pointer;
+  & > span {
+    display: flex;
+    align-items: flex-end;
+    transform: translateY(3px);
+  }
 `
 const DropDownContent = styled.div`
   display: none;
@@ -231,9 +246,11 @@ const SearchBar = styled.div`
 `
 const HomeIcon = styled(FaHome)`
   margin-right: 5px;
+  font-size: 15px;
 `
 const ShopIcon = styled(FaShoppingBag)`
   margin-right: 5px;
+  font-size: 15px;
 `
 const RegisterIcon = styled(AiOutlineUserAdd)`
   margin-right: 5px;
@@ -246,13 +263,22 @@ const UserIcon = styled(TiUser)`
 `
 const CartIcon = styled(FaShoppingCart)`
   margin-right: 5px;
+  font-size: 15px;
 `
 const CartQuantity = styled.span`
   display: inline-block;
-  text-align: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
+  position: relative;
+  margin-left: 25px;
+  & span {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: -20px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    color: white;
+  }
 `

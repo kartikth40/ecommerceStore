@@ -364,15 +364,16 @@ const PriceTag = styled.span`
   justify-content: center;
   align-items: center;
   position: absolute;
-  padding: 5px 10px;
+  padding: 10px 10px 5px;
   right: 0;
   font-size: 15px;
-  font-weight: light;
+  font-weight: 400;
   transform: translateY(-100%);
   width: max-content;
   min-width: 50px;
   height: 20px;
-  border: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.7);
   border-radius: 20px;
 `
 const CurrencySymbol = styled.span`
@@ -394,7 +395,9 @@ const StarsFilter = styled.div`
   margin-top: 15px;
   position: relative;
 `
-const StarsTag = styled(PriceTag)``
+const StarsTag = styled(PriceTag)`
+  padding: 5px 10px 3px;
+`
 const Stars = styled.span`
   margin-inline: 5px;
 `

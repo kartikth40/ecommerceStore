@@ -201,7 +201,6 @@ const SubmitButton = styled.button`
 `
 const CouponsList = styled.div`
   color: white;
-  font-family: 'DM Mono', monospace;
   display: flex;
   padding: 3rem;
   overflow-x: scroll;

@@ -1,15 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;400;700&family=Lobster&display=swap');
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .selected > a {
   color: white;
   background-color: rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+.selected > a:hover {
+  border: 2px solid black;
+}
+.selected > a > span {
+  animation: select 0.5s ease;
+}
+@keyframes select {
+  0% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(0, 50px);
+  }
+  31% {
+    transform: translate(200%, 50px);
+  }
+  32% {
+    transform: translate(200%, -50px);
+  }
+  33% {
+    transform: translate(0, -50px);
+  }
+  70% {
+    transform: translate(0, 10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 .slider img {

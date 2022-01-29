@@ -90,7 +90,7 @@ const ProductCard = ({ product }) => {
       }`}</Desc>
       <Buttons>
         <ViewProductBTN to={`/product/${slug}`}>
-          <ViewIcon /> View Product
+          <ViewIcon /> <span>View Product</span>
         </ViewProductBTN>
 
         <AddToCartBTN
@@ -102,7 +102,8 @@ const ProductCard = ({ product }) => {
             'Out of stock'
           ) : (
             <>
-              <CartIcon /> Add To Cart
+              <CartIcon />
+              <span>Add To Cart</span>
             </>
           )}
         </AddToCartBTN>
@@ -117,6 +118,9 @@ const ViewProductBTN = styled(ButtonWithLink)`
   display: flex;
   align-items: center;
   justify-content: center;
+  & > span {
+    transform: translateY(2px);
+  }
   &:hover:enabled {
     transform: scale(1.05);
   }
@@ -130,6 +134,9 @@ const AddToCartBTN = styled(CardButton)`
   align-items: center;
   justify-content: center;
   position: relative;
+  & > span {
+    transform: translateY(2px);
+  }
 
   &:before,
   &:after {
@@ -156,7 +163,7 @@ const AddToCartBTN = styled(CardButton)`
 
   &:before {
     content: var(--c);
-    font-weight: 100;
+    font-weight: 400;
     font-size: 15px;
     bottom: 100%;
     transform: translateY(20px) scale(0);

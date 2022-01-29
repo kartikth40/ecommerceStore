@@ -47,6 +47,10 @@ const JumboHeading = styled.div`
   font-size: 5rem;
   margin-bottom: 2rem;
   color: red;
+
+  & * {
+    font-family: 'Lobster', cursive;
+  }
 `
 
 const Section = styled.div`
