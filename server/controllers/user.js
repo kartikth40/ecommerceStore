@@ -78,10 +78,9 @@ exports.saveAddress = async (req, res) => {
   res.json({ ok: true })
 }
 
-exports.getUserAddress = async (req, res) => {
+exports.getAddress = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec()
   const address = user.address
-  console.log(address)
 
   res.json(address)
 }

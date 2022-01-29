@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import UserNav from '../components/nav/UserNav'
 import { useParams } from 'react-router'
-import { getOrder, getUserAddress } from '../functions/user'
+import { getOrder, getAddressFromDb } from '../functions/user'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import laptop from '../images/laptop.jpg'
@@ -14,17 +14,17 @@ const OrderDetails = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // getOrder(orderId, user.token)
-    //   .then((res) => {
-    //     console.log(res.data.order)
-    //     setOrder(res.data.order)
-    //     setLoading(false)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //     setLoading(false)
-    //   })
-    getUserAddress(user.token)
+    getOrder(orderId, user.token)
+      .then((res) => {
+        console.log(res.data.order)
+        setOrder(res.data.order)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
+    getAddressFromDb(user.token).then((res) => setAddress(res.data))
   }, [])
 
   const { user } = useSelector((state) => ({ ...state }))
@@ -72,8 +72,10 @@ const OrderDetails = () => {
     }
   }
 
-  const getAddress = (add) => {
-    return add.split('<br>').join('\n').split('&nbsp;').join(' ')
+  const getFormateedAddress = () => {
+    let add = address.split('&nbsp;').join(' ').split('<br>')
+    if (add.length < 2) return add
+    return add.map((line) => <p>{line}</p>)
   }
 
   const inrCurrencyFormat = (amount) => {
@@ -108,8 +110,6 @@ const OrderDetails = () => {
     )
     return grandTotal
   }
-
-  const getUserAddress = () => {}
 
   const showOrderedProducts = (order) => (
     <OrderProductsContainer>
@@ -157,7 +157,7 @@ const OrderDetails = () => {
         <OrderDetailsContainer>
           <ShippingAddress>
             <SubHeading>Shipping Address</SubHeading>
-            <Address>{getUserAddress}</Address>
+            <Address>{getFormateedAddress()}</Address>
           </ShippingAddress>
           <PaymentMethod>
             <SubHeading>Payment Method</SubHeading>
@@ -233,6 +233,9 @@ const ShippingAddress = styled.div`
 `
 const Address = styled.div`
   font-weight: 400;
+  & > p {
+    margin-bottom: 3px;
+  }
 `
 const SubHeading = styled.div`
   font-size: 20px;
@@ -257,6 +260,7 @@ const Payments = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin: 5px 0;
 `
 const GrandTotal = styled.div`
   display: flex;

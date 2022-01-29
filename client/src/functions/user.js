@@ -40,8 +40,7 @@ export const saveUserAddress = async (authtoken, address) => {
   )
 }
 
-export const getUserAddress = async (authtoken) => {
-  console.log('noooooooo')
+export const getAddressFromDb = async (authtoken) => {
   return await axios.get(`${process.env.REACT_APP_API}/user/address`, {
     headers: {
       authtoken,
