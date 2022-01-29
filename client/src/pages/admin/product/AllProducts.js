@@ -6,6 +6,7 @@ import AdminProductCard from '../../../components/cards/AdminProductCard'
 import { removeProduct } from '../../../functions/product'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { Container, Content, Heading } from '../AdminDashboard'
 
 const AllProducts = () => {
   const [products, setProducts] = useState([])
@@ -67,21 +68,6 @@ const AllProducts = () => {
 
 export default AllProducts
 
-const Container = styled.div`
-  margin-top: 70px;
-  display: flex;
-  font-weight: bold;
-  font-size: 3rem;
-`
-const Content = styled.div`
-  width: calc(100vw - 300px);
-  height: 100%;
-  margin: 2rem;
-  display: flex;
-  font-size: 1rem;
-  flex-direction: column;
-`
-const Heading = styled.h2``
 const ProductsContainer = styled.div`
   display: flex;
   justify-content: space-around;

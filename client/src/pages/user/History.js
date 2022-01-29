@@ -9,6 +9,7 @@ import laptop from '../../images/laptop.jpg'
 
 const History = () => {
   const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
   const { user } = useSelector((state) => ({ ...state }))
 
   const dispatch = useDispatch()
@@ -18,9 +19,16 @@ const History = () => {
   }, [])
 
   const loadUserOrders = () => {
-    getUserOrders(user.token).then((res) => {
-      setOrders(res.data)
-    })
+    getUserOrders(user.token)
+      .then((res) => {
+        setOrders(res.data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log(err)
+        toast.error('Error in getting your previous orders')
+      })
   }
 
   const getOrderedTime = (order) => {
@@ -131,7 +139,11 @@ const History = () => {
       <UserNav />
       <Content>
         <Heading>
-          {orders.length ? 'Your Orders' : 'No previous orders'}
+          {loading
+            ? 'Loading Your Orders...'
+            : orders.length
+            ? 'Your Orders'
+            : 'No previous orders'}
         </Heading>
         {showEachOrders()}
       </Content>

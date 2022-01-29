@@ -104,7 +104,12 @@ function Header() {
               )}
               {user && user.role === 'admin' && (
                 <span onClick={() => history.push('/admin/dashboard')}>
-                  Dashboard
+                  Admin Dashboard
+                </span>
+              )}
+              {user && user.role === 'admin' && (
+                <span onClick={() => history.push('/user/history')}>
+                  User Dashboard
                 </span>
               )}
               <span onClick={logout}>LogOut</span>
@@ -191,6 +196,7 @@ const NavLink = styled(Link)`
 `
 
 const DropDownBtn = styled.button`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -200,6 +206,7 @@ const DropDownBtn = styled.button`
   font-weight: 400;
   border: 2px solid black;
   cursor: pointer;
+  color: black;
   & > span {
     display: flex;
     align-items: flex-end;
@@ -211,7 +218,7 @@ const DropDownContent = styled.div`
   position: absolute;
   right: 0;
   background-color: #f9f9f9;
-  min-width: 160px;
+  width: 100%;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   border: 2px solid black;
   cursor: pointer;
@@ -222,6 +229,7 @@ const DropDownContent = styled.div`
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    font-size: 15px;
   }
   & span:hover {
     background-color: rgba(0, 0, 0, 0.2);
@@ -230,6 +238,7 @@ const DropDownContent = styled.div`
 const DropDownMenu = styled.div`
   position: relative;
   display: inline-block;
+  width: max-content;
   &:hover ${DropDownContent} {
     display: block;
   }

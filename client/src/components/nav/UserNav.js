@@ -32,6 +32,7 @@ const NavList = styled.ul`
 const ListItem = styled(Link)`
   display: flex;
   font-size: 1.5rem;
+  font-weight: bold;
   text-transform: uppercase;
   flex-direction: column;
   text-decoration: none;
