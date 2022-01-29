@@ -73,9 +73,19 @@ const Checkout = () => {
       })
   }
 
+  const handleAddressChange = (e) => {
+    let address = e.target.value
+    setAddress(address)
+  }
+
   const saveAddressToDb = (e) => {
     e.preventDefault()
-    saveUserAddress(user.token, address)
+    let addressToSave = address
+      .split('\n')
+      .join('<br>')
+      .split(' ')
+      .join('&nbsp;')
+    saveUserAddress(user.token, addressToSave)
       .then((res) => {
         if (res.data.ok) {
           setAddressSaved(true)
@@ -119,7 +129,7 @@ const Checkout = () => {
           <AddressTextArea
             required={true}
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={handleAddressChange}
           ></AddressTextArea>
           <AddressSubmitButton
             disabled={!address.length}

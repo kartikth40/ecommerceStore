@@ -78,6 +78,14 @@ exports.saveAddress = async (req, res) => {
   res.json({ ok: true })
 }
 
+exports.getUserAddress = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec()
+  const address = user.address
+  console.log(address)
+
+  res.json(address)
+}
+
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body
 
@@ -139,6 +147,7 @@ exports.getOrders = async (req, res) => {
   let user = await User.findOne({ email: req.user.email }).exec()
 
   let userOrders = await Order.find({ orderedBy: user._id })
+    .sort({ createdAt: -1 })
     .populate('products.product')
     .exec()
 

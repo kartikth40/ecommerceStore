@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import UserNav from '../../components/nav/UserNav'
+import { Heading } from '../admin/AdminDashboard'
 
 const Wishlist = () => {
   return (
     <Container>
       <UserNav />
-      <Content>User Wishlist Page</Content>
+      <Content>
+        <Heading>User Wishlist Page</Heading>
+      </Content>
     </Container>
   )
 }
@@ -18,7 +21,7 @@ const Container = styled.div`
   display: flex;
 `
 const Content = styled.div`
-  text-align: center;
+  text-align: left;
   font-weight: bold;
-  font-size: 3rem;
+  width: 100%;
 `

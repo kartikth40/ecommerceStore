@@ -29,8 +29,9 @@ const Content = styled.div`
   font-size: 1rem;
   flex-direction: column;
 `
-const Heading = styled.h1`
-  margin-bottom: 1rem;
+const Heading = styled.h4`
+  margin: 1rem 0;
+  font-size: 3rem;
 `
 
 export { Container, Content, Heading }
