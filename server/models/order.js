@@ -26,6 +26,9 @@ const orderSchema = new mongoose.Schema(
         'Cancelled',
       ],
     },
+    deliveryDate: {
+      type: Date,
+    },
     orderedBy: {
       type: ObjectId,
       ref: 'User',

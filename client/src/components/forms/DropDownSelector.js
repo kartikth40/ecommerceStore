@@ -11,9 +11,9 @@ const DropDownSelector = ({
 }) => {
   return (
     <>
-      <Label>{label} :</Label>
+      {label && <Label>{label} :</Label>}
       <Select value={value} name={name} onChange={onChangeHandler}>
-        <Option>Select...</Option>
+        {!value && <Option>Select...</Option>}
         {elements.length &&
           elements.map((c) => {
             return (

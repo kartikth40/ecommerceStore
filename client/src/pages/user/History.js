@@ -32,13 +32,24 @@ const History = () => {
       })
   }
 
+  const convertUTCtoLocalDate = (someDate) => {
+    let d = new Date(someDate)
+    let date = d.getDate().toString()
+    let month = d.toLocaleString('default', { month: 'long' })
+    let year = d.getFullYear().toString()
+    d = `${date} ${month} ${year}`
+    return d
+  }
   const getOrderedTime = (order) => {
     let orderDate = new Date(order.createdAt)
-    let date = orderDate.getDate().toString()
-    let month = orderDate.toLocaleString('default', { month: 'long' })
-    let year = orderDate.getFullYear().toString()
-    orderDate = `${date} ${month} ${year}`
+    orderDate = convertUTCtoLocalDate(orderDate)
     return orderDate
+  }
+
+  const getDeliveryDate = (order) => {
+    let date = new Date(order.deliveryDate)
+    date = convertUTCtoLocalDate(date)
+    return date
   }
 
   const inrCurrencyFormat = (amount) => {
@@ -83,7 +94,11 @@ const History = () => {
 
   const showOrderedProducts = (order) => (
     <OrderProductsContainer>
-      <OrderStatus>{order.orderStatus} </OrderStatus>
+      <OrderStatus>
+        {order.orderStatus === 'Shipped' && order.deliveryDate
+          ? `Delivered ${getDeliveryDate(order)}`
+          : order.orderStatus}{' '}
+      </OrderStatus>
       {order.products.map((product) => (
         <ProductContainer key={product._id}>
           <ProductImage to={`/product/${product.product.slug}`}>
