@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -12,18 +11,19 @@ import {
   removeCoupon,
   createCoupon,
 } from '../../../functions/coupon'
+import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 
 const CreateCoupon = () => {
+  const [token, setToken] = useState('')
   const [name, setName] = useState('')
   const [expiry, setExpiry] = useState(new Date())
   const [discount, setDiscount] = useState('')
   const [loading, setLoading] = useState('')
   const [coupons, setCoupons] = useState([])
 
-  const { user } = useSelector((state) => ({ ...state }))
-
-  useEffect(() => {
+  useEffect(async () => {
     setLoading(true)
+    setToken(await getRefreshedIdToken())
     getCoupons()
       .then((res) => {
         setLoading(false)
@@ -44,7 +44,7 @@ const CreateCoupon = () => {
       return
     }
     setLoading(true)
-    createCoupon({ name, expiry, discount }, user.token)
+    createCoupon({ name, expiry, discount }, token)
       .then((res) => {
         getCoupons()
           .then((res) => {
@@ -69,7 +69,7 @@ const CreateCoupon = () => {
   const handleRemove = (couponId) => {
     if (window.confirm('Delete ?')) {
       setLoading(true)
-      removeCoupon(couponId, user.token)
+      removeCoupon(couponId, token)
         .then((res) => {
           getCoupons()
             .then((res) => {

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import UserNav from '../../components/nav/UserNav'
 import { getUserOrders } from '../../functions/user'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import laptop from '../../images/laptop.jpg'
+import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
 
 const History = () => {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
-  const { user } = useSelector((state) => ({ ...state }))
 
   const dispatch = useDispatch()
 
@@ -18,8 +18,9 @@ const History = () => {
     loadUserOrders()
   }, [])
 
-  const loadUserOrders = () => {
-    getUserOrders(user.token)
+  const loadUserOrders = async () => {
+    let token = await getRefreshedIdToken()
+    getUserOrders(token)
       .then((res) => {
         setOrders(res.data)
         setLoading(false)

@@ -2,15 +2,15 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import Resizer from 'react-image-file-resizer'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
 
 const FileUpload = ({ values, setValues, loading, setLoading }) => {
-  const { user } = useSelector((state) => ({ ...state }))
-  const fileUploadAndResize = (e) => {
+  const fileUploadAndResize = async (e) => {
     // resize
     let files = e.target.files
     let allUploadedFiles = values.images
 
+    let token = await getRefreshedIdToken()
     if (files) {
       setLoading(true)
       for (let i = 0; i < files.length; i++) {
@@ -28,7 +28,7 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
                 { image: url },
                 {
                   headers: {
-                    authtoken: user ? user.token : '',
+                    authtoken: token,
                   },
                 }
               )
@@ -51,15 +51,17 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
     // set url to images[] in parent component state
   }
 
-  const handleImageRemove = (public_id) => {
+  const handleImageRemove = async (public_id) => {
     setLoading(true)
+    let token = await getRefreshedIdToken()
+
     axios
       .post(
         `${process.env.REACT_APP_API}/removeimages`,
         { public_id },
         {
           headers: {
-            authtoken: user ? user.token : '',
+            authtoken: token,
           },
         }
       )

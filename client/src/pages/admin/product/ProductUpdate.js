@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
 import { getProduct, updateProduct } from '../../../functions/product'
 import { Container, Content, Heading } from '../AdminDashboard'
 import { getCategories, getCategorySubs } from '../../../functions/category'
 import FileUpload from '../../../components/forms/FileUpload'
 import ProductUpdateForm from '../../../components/forms/ProductUpdateForm'
+import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 
 const ProductUpdate = () => {
   const [values, setValues] = useState({
@@ -31,8 +31,6 @@ const ProductUpdate = () => {
   const [categories, setCategories] = useState([])
   const [arrayOfSubs, setArrayOfSubs] = useState([])
   const [loading, setLoading] = useState(false)
-
-  const { user } = useSelector((state) => ({ ...state }))
   //router
   const { slug } = useParams()
 
@@ -63,14 +61,14 @@ const ProductUpdate = () => {
       .catch((err) => console.log(err))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
 
     //all values are in values but not subs
     values.subs = arrayOfSubs
-
-    updateProduct(slug, values, user.token)
+    let token = await getRefreshedIdToken()
+    updateProduct(slug, values, token)
       .then((res) => {
         setLoading(false)
         toast.success(`${res.data.title} is updated.`)

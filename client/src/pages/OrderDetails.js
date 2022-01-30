@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import UserNav from '../components/nav/UserNav'
 import { useParams } from 'react-router'
 import { getOrder, getAddressFromDb } from '../functions/user'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import laptop from '../images/laptop.jpg'
+import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const OrderDetails = () => {
   const { orderId } = useParams()
@@ -13,10 +14,10 @@ const OrderDetails = () => {
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    getOrder(orderId, user.token)
+  useEffect(async () => {
+    let userToken = await getRefreshedIdToken()
+    getOrder(orderId, userToken)
       .then((res) => {
-        console.log(res.data.order)
         setOrder(res.data.order)
         setLoading(false)
       })
@@ -24,10 +25,9 @@ const OrderDetails = () => {
         console.log(err)
         setLoading(false)
       })
-    getAddressFromDb(user.token).then((res) => setAddress(res.data))
+    getAddressFromDb(userToken).then((res) => setAddress(res.data))
   }, [])
 
-  const { user } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
 
   const getOrderedTime = (order) => {

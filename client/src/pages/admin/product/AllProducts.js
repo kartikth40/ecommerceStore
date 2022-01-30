@@ -4,15 +4,13 @@ import AdminNav from '../../../components/nav/AdminNav'
 import { getProductsByCount } from '../../../functions/product'
 import AdminProductCard from '../../../components/cards/AdminProductCard'
 import { removeProduct } from '../../../functions/product'
-import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Container, Content, Heading } from '../AdminDashboard'
+import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 
 const AllProducts = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
-
-  const { user } = useSelector((state) => ({ ...state }))
 
   useEffect(() => {
     loadAllProducts()
@@ -31,9 +29,10 @@ const AllProducts = () => {
       })
   }
 
-  const handleRemove = (slug) => {
+  const handleRemove = async (slug) => {
     if (window.confirm('Delete ?')) {
-      removeProduct(slug, user.token)
+      let token = await getRefreshedIdToken()
+      removeProduct(slug, token)
         .then((res) => {
           loadAllProducts()
           toast.error(`${res.data.title} is deleted`)

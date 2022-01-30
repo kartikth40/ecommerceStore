@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { createPaymentIntent } from '../functions/stripe'
 import { createOrder, emptyUserCart } from '../functions/user'
 import { AiOutlineDollarCircle, AiOutlineCheckCircle } from 'react-icons/ai'
 import '../stripe.css'
+import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const StripeCheckout = () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const { user, coupon, cart } = useSelector((state) => ({ ...state }))
+  const { coupon, cart } = useSelector((state) => ({ ...state }))
 
+  const [token, setToken] = useState('')
   const [loading, setLoading] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState(false)
@@ -25,7 +27,7 @@ const StripeCheckout = () => {
   const stripe = useStripe()
   const elements = useElements()
 
-  useEffect(() => {
+  useEffect(async () => {
     if (
       !cart.length ||
       !history.location.state ||
@@ -34,7 +36,8 @@ const StripeCheckout = () => {
       history.push('/')
 
     setLoading(true)
-    createPaymentIntent(user.token, coupon).then((res) => {
+    setToken(await getRefreshedIdToken())
+    createPaymentIntent(token, coupon).then((res) => {
       setClientSecret(res.data.clientSecret)
       // additional response receives on successful payment
       setCartTotal(res.data.cartTotal.toFixed(2))
@@ -60,7 +63,7 @@ const StripeCheckout = () => {
     if (payload.error) {
       setError(`Payment failed ${payload.error.message}`)
     } else {
-      createOrder(payload, user.token).then((res) => {
+      createOrder(payload, token).then((res) => {
         if (res.data.ok) {
           if (window) localStorage.removeItem('cart')
           dispatch({
@@ -71,7 +74,7 @@ const StripeCheckout = () => {
             type: 'COUPON_APPLIED',
             payload: false,
           })
-          emptyUserCart(user.token)
+          emptyUserCart(token)
         }
       })
       setError(null)

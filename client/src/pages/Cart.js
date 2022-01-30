@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
 import { userCart } from '../functions/user'
+import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const Cart = () => {
   const [loading, setLoading] = useState(false)
 
   const { cart, user } = useSelector((state) => ({ ...state }))
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const getTotal = () => {
@@ -18,9 +18,10 @@ const Cart = () => {
     }, 0)
   }
 
-  const saveOrderToDb = () => {
+  const saveOrderToDb = async () => {
     setLoading(true)
-    userCart(cart, user.token)
+    let token = await getRefreshedIdToken()
+    userCart(cart, token)
       .then((res) => {
         setLoading(false)
         if (res.data.ok) history.push('/checkout')

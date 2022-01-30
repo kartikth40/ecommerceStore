@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
 import {
   createCategory,
   getCategories,
@@ -12,16 +11,18 @@ import LocalSearch from '../../../components/forms/LocalSearch'
 import ListOfElements from '../../../components/forms/ListOfElements'
 
 import { Container, Content, Heading } from '../AdminDashboard'
+import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 
 const CategoryCreate = () => {
+  const [token, setToken] = useState('')
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
-  const { user } = useSelector((state) => ({ ...state }))
   // searching / filtering
   const [keyword, setKeyword] = useState('')
 
-  useEffect(() => {
+  useEffect(async () => {
+    setToken(await getRefreshedIdToken())
     loadCategories()
   }, [categories])
 
@@ -33,7 +34,7 @@ const CategoryCreate = () => {
   const handleRemove = async (slug) => {
     if (window.confirm('Delete ?')) {
       setLoading(true)
-      removeCategory(slug, user.token)
+      removeCategory(slug, token)
         .then((res) => {
           setLoading(false)
           toast.error(`${res.data.name} deleted.`)
@@ -51,7 +52,7 @@ const CategoryCreate = () => {
     e.preventDefault()
     setLoading(true)
 
-    createCategory({ name }, user.token)
+    createCategory({ name }, token)
       .then((res) => {
         setLoading(false)
         setName('')

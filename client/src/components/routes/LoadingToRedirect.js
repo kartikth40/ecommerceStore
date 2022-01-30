@@ -16,13 +16,23 @@ const LoadingToRedirect = () => {
     return () => clearInterval(interval)
   }, [count, history])
 
-  return <Container>Redirecting you in {count} seconds...</Container>
+  return (
+    <Container>
+      <Heading>
+        Checking Admin Authorization or Redirecting you in {count} seconds...
+      </Heading>
+    </Container>
+  )
 }
 
 export default LoadingToRedirect
 
 const Container = styled.div`
-  margin-top: 70px;
+  margin: 100px auto 0;
+  width: 700px;
+`
+const Heading = styled.h1`
+  width: 100%;
   text-align: center;
   font-weight: bold;
   font-size: 3rem;

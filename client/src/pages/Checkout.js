@@ -9,8 +9,10 @@ import {
   applyCoupon,
 } from '../functions/user'
 import { toast } from 'react-toastify'
+import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const Checkout = () => {
+  const [token, setToken] = useState('')
   const [products, setProducts] = useState([])
   const [total, setTotal] = useState(0)
   const [address, setAddress] = useState('')
@@ -25,12 +27,12 @@ const Checkout = () => {
 
   const dispatch = useDispatch()
   const history = useHistory()
-  const { user } = useSelector((state) => ({ ...state }))
 
-  useEffect(() => {
+  useEffect(async () => {
     setLoading(true)
+    setToken(await getRefreshedIdToken())
     try {
-      getUserCart(user.token)
+      getUserCart(token)
         .then((res) => {
           setLoading(false)
           setProducts(res.data.products)
@@ -60,7 +62,7 @@ const Checkout = () => {
     })
 
     //remove from backend
-    emptyUserCart(user.token)
+    emptyUserCart(token)
       .then((res) => {
         setProducts([])
         setTotal(0)
@@ -85,7 +87,7 @@ const Checkout = () => {
       .join('<br>')
       .split(' ')
       .join('&nbsp;')
-    saveUserAddress(user.token, addressToSave)
+    saveUserAddress(token, addressToSave)
       .then((res) => {
         if (res.data.ok) {
           setAddressSaved(true)
@@ -99,7 +101,7 @@ const Checkout = () => {
   }
 
   const handleCouponApply = () => {
-    applyCoupon(user.token, coupon).then((res) => {
+    applyCoupon(token, coupon).then((res) => {
       if (!res.data.err) {
         setTotalAfterDiscount(res.data.totalAfterDiscount)
         setDiscount(res.data.discount)

@@ -7,6 +7,7 @@ import SingleProduct from '../components/cards/SingleProduct'
 import { productStar } from '../functions/product'
 import { getRelated } from '../functions/product'
 import ProductCard from '../components/cards/ProductCard'
+import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const Product = () => {
   const [loading, setLoading] = useState(false)
@@ -38,9 +39,10 @@ const Product = () => {
     }
   }, [product, user])
 
-  const onStarClick = (newRating, name) => {
+  const onStarClick = async (newRating, name) => {
     setStar(newRating)
-    productStar(name, newRating, user.token).then((res) => {
+    let token = await getRefreshedIdToken()
+    productStar(name, newRating, token).then((res) => {
       console.log('rating clicked', res.data)
       // loadSingleProduct()
     })

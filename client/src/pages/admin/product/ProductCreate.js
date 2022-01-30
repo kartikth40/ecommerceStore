@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
 import { createProduct } from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import { Container, Content, Heading } from '../AdminDashboard'
 import { getCategories, getCategorySubs } from '../../../functions/category'
 import FileUpload from '../../../components/forms/FileUpload'
+import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 
 const ProductCreate = () => {
-  const { user } = useSelector((state) => ({ ...state }))
   const history = useHistory()
 
   useEffect(() => {
@@ -41,11 +40,11 @@ const ProductCreate = () => {
   const [showSub, setShowSub] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-
-    createProduct(values, user.token)
+    let token = await getRefreshedIdToken()
+    createProduct(values, token)
       .then((res) => {
         setLoading(false)
         toast.success(`"${res.data.title}" is created`)

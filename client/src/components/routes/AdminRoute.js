@@ -3,14 +3,16 @@ import { Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import LoadingToRedirect from './LoadingToRedirect'
 import { currentAdmin } from '../../functions/auth'
+import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
 
 const AdminRoute = ({ children, ...rest }) => {
   const { user } = useSelector((state) => ({ ...state }))
   const [ok, setOk] = useState(false)
 
-  useEffect(() => {
+  useEffect(async () => {
+    let token = await getRefreshedIdToken()
     if (user && user.token) {
-      currentAdmin(user.token)
+      currentAdmin(token)
         .then((res) => {
           console.log('CURRENT ADMIN RES: ', res)
           setOk(true)

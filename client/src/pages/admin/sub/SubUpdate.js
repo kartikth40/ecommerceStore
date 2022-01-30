@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
-import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { updateSub, getSub } from '../../../functions/sub'
 import SimpleInputForm from '../../../components/forms/SimpleInputForm'
 
 import { Container, Content, Heading } from '../AdminDashboard'
+import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 
 const SubUpdate = () => {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const history = useHistory()
-  const { user } = useSelector((state) => ({ ...state }))
   const { slug } = useParams()
 
   useEffect(() => {
@@ -24,11 +23,11 @@ const SubUpdate = () => {
     loadSub()
   }, [slug])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-
-    updateSub(slug, { name }, user.token)
+    let token = await getRefreshedIdToken()
+    updateSub(slug, { name }, token)
       .then((res) => {
         setLoading(false)
         setName('')
