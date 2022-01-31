@@ -15,11 +15,19 @@ const {
   createOrder,
   getOrders,
   getOrder,
+  addToWishlist,
+  wishlist,
+  removeFromWishlist,
 } = require('../controllers/user')
 
 router.post('/user/cart', authCheck, userCart) // save cart
 router.get('/user/cart', authCheck, getUserCart) // get cart
 router.delete('/user/cart', authCheck, emptyCart) // empty cart
+
+router.post('/user/wishlist', authCheck, addToWishlist) // save in wishlist
+router.get('/user/wishlist', authCheck, wishlist) // get wishlist
+router.delete('/user/wishlist/productId', authCheck, removeFromWishlist) // remove product from wishlist
+
 router.post('/user/address', authCheck, saveAddress) // save address
 router.get('/user/address', authCheck, getAddress) // get address
 
