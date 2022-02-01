@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import UserNav from '../../components/nav/UserNav'
 import { Heading } from '../admin/AdminDashboard'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { getWishlist, removeWishlist } from '../../functions/user'
 import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
 import { toast } from 'react-toastify'
-import { MdDeleteForever } from 'react-icons/md'
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([])
@@ -17,6 +17,8 @@ const Wishlist = () => {
     setToken(await getRefreshedIdToken())
     loadWishlist()
   }, [token])
+
+  const dispatch = useDispatch()
 
   const loadWishlist = () => {
     if (!token) return
@@ -32,15 +34,50 @@ const Wishlist = () => {
       })
   }
 
-  const removeItemFromWishlist = (productId, title) => {
+  const removeItemFromWishlist = (productId) => {
     removeWishlist(productId, token)
       .then((res) => {
         loadWishlist()
-        toast.success(`Removed "${title}" from your wishlist`)
       })
       .catch((err) =>
         console.log('Error removing the item from user wishlist', err)
       )
+  }
+
+  const handleAddToCart = (product) => {
+    // create cart array
+    let cart = []
+    if (window) {
+      // check if cart is already in localStorage
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'))
+      }
+      // push new product
+      cart.push({
+        ...product,
+        count: 1,
+      })
+      // remove duplicates
+      cart = cart.filter(
+        (product, index, array) =>
+          array.findIndex((p) => p._id === product._id) === index
+      )
+      localStorage.setItem('cart', JSON.stringify(cart))
+
+      //add to redux state
+      dispatch({
+        type: 'ADD_TO_CART',
+        payload: cart,
+      })
+      //show cart items inside drawer
+      dispatch({
+        type: 'SET_VISIBLE',
+        payload: true,
+      })
+
+      //remove from wishlist
+      removeItemFromWishlist(product._id)
+    }
   }
   return (
     <Container>
@@ -59,13 +96,19 @@ const Wishlist = () => {
                 <ProductName to={`/product/${product.slug}`}>
                   {product.title}
                 </ProductName>
-                <RemoveItem
-                  onClick={() =>
-                    removeItemFromWishlist(product._id, product.title)
-                  }
-                >
-                  <RemoveIcon />
-                </RemoveItem>
+                <Buttons>
+                  <AddToCartBtn
+                    disabled={product.quantity < 1}
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to cart
+                  </AddToCartBtn>
+                  <RemoveItem
+                    onClick={() => removeItemFromWishlist(product._id)}
+                  >
+                    Remove
+                  </RemoveItem>
+                </Buttons>
               </ProductContainer>
             ))}
           </WishListContainer>
@@ -114,15 +157,21 @@ const ProductName = styled(Link)`
     text-decoration: underline;
   }
 `
-const RemoveItem = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 25px;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background-color: rgba(255, 0, 0, 0.8);
+const Buttons = styled.div`
+  text-align: center;
 `
-const RemoveIcon = styled(MdDeleteForever)``
+const AddToCartBtn = styled.button`
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  margin-bottom: 10px;
+`
+const RemoveItem = styled.div`
+  cursor: pointer;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.8);
+    text-decoration: underline;
+  }
+`
