@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { Buttons, ButtonWithLink, CardButton } from './AdminProductCard'
+import { Buttons, CardButton } from './AdminProductCard'
 import laptop from '../../images/laptop.jpg'
 import ProductInfo from './ProductInfo'
+import { toast } from 'react-toastify'
 import StarRatings from 'react-star-ratings'
+import { addToWishlist } from '../../functions/user'
+import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
 
 import { FaShoppingCart, FaClipboardCheck } from 'react-icons/fa'
 
@@ -21,8 +24,20 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 
   const [avgRating, noOfUsers] = getAverageRatings(product)
 
-  const { user, cart } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
+
+  const handleAddToWishlist = async () => {
+    let token = await getRefreshedIdToken()
+
+    addToWishlist(_id, token)
+      .then((res) => {
+        toast.success('Item added to your wishlist')
+      })
+      .catch((err) => {
+        toast.error('Not able to add this item to your wishlist')
+        console.log('ERROR ADDING TO WISHLIST -->', err)
+      })
+  }
 
   const handleAddToCart = () => {
     // create cart array
@@ -89,7 +104,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
           </StarRatingsContainer>
           <ProductInfo product={product} />
           <InfoButtons>
-            <WishListBTN to={`/product`}>
+            <WishListBTN onClick={handleAddToWishlist}>
               <WishListIcon /> Add To Wishlist
             </WishListBTN>
             <AddToCartBTN tooltip={tooltip} onClick={handleAddToCart}>
@@ -141,10 +156,14 @@ const ProductTitle = styled.div`
 const InfoButtons = styled(Buttons)`
   height: max-content;
 `
-const WishListBTN = styled(ButtonWithLink)`
+const WishListBTN = styled(CardButton)`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  & > span {
+    transform: translateY(2px);
+  }
 `
 
 const StarRatingsContainer = styled.div`

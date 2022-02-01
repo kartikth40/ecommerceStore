@@ -75,7 +75,7 @@ const History = () => {
       // remove duplicates
       cart = cart.filter(
         (product, index, array) =>
-          array.findIndex((p) => p._id == product._id) == index
+          array.findIndex((p) => p._id === product._id) === index
       )
       localStorage.setItem('cart', JSON.stringify(cart))
 
