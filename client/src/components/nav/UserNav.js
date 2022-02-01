@@ -7,8 +7,8 @@ const UserNav = () => {
     <Nav>
       <NavList>
         <ListItem to="/user/history">History</ListItem>
-        <ListItem to="/user/password">Password</ListItem>
         <ListItem to="/user/wishlist">Wishlist</ListItem>
+        <ListItem to="/user/password">Password</ListItem>
       </NavList>
     </Nav>
   )

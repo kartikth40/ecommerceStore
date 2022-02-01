@@ -11,7 +11,6 @@ const AdminDashboard = () => {
   const [token, setToken] = useState('')
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
-  const { user } = useSelector((state) => ({ ...state }))
 
   useEffect(async () => {
     setToken(await getRefreshedIdToken())

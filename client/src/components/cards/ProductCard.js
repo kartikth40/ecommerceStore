@@ -24,7 +24,6 @@ const ProductCard = ({ product }) => {
 
   const [avgRating, noOfUsers] = getAverageRatings(product)
 
-  const { user, cart } = useSelector((state) => ({ ...state }))
   const dispatch = useDispatch()
 
   const handleAddToCart = () => {

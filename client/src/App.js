@@ -76,7 +76,7 @@ const App = () => {
     <>
       <Header />
       <SideDrawer />
-      <ToastContainer />
+      <ToastContainer position="bottom-right" closeOnClick />
       <Switch>
         <Route exact path={['/', '/home']}>
           <Home />

@@ -24,10 +24,9 @@ const ModalContainer = styled.div`
 const Modal = styled.div`
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
   border: rgba(255, 0, 0, 0.5) solid 2px;
   position: absolute;
-  width: max-content;
+  width: 350px;
   bottom: 0;
   right: 0;
   z-index: 20;
@@ -38,14 +37,19 @@ const Modal = styled.div`
   }
 `
 const Close = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: rgba(255, 0, 0, 0.5);
   height: 20px;
+  width: 100%;
   &:hover {
     background: rgba(255, 0, 0, 1);
   }
 `
 const ModalTitle = styled.h2`
   color: black;
+  margin-top: 10px;
 `
 const ModalContent = styled.div`
   padding: 10px;
