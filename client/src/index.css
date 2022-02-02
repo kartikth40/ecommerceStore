@@ -77,3 +77,12 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(47, 47, 47);
 }
+.full-page {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 50vh;
+}
+
+.full-page .spinner {
+  transform: scale(2);
+}

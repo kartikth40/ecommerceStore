@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom' // helps enabling react routing
 import './index.css'
+import './stripe.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 

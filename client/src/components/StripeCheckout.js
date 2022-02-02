@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom'
 import { createPaymentIntent } from '../functions/stripe'
 import { createOrder, emptyUserCart } from '../functions/user'
 import { AiOutlineDollarCircle, AiOutlineCheckCircle } from 'react-icons/ai'
-import '../stripe.css'
 import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const StripeCheckout = () => {

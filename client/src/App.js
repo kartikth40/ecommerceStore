@@ -1,47 +1,48 @@
+import { useEffect, lazy, Suspense } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-import Login from './pages/auth/Login'
-import Register from './pages/auth/Register'
-import Home from './pages/Home'
-import Header from './components/nav/Header'
-import RegisterComplete from './pages/auth/RegisterComplete'
-import ForgotPassword from './pages/auth/ForgotPassword'
-
-import UserRoute from './components/routes/UserRoute'
-import History from './pages/user/History'
-import Password from './pages/user/Password'
-import Wishlist from './pages/user/Wishlist'
-
-import AdminRoute from './components/routes/AdminRoute'
-import AdminDashboard from './pages/admin/AdminDashboard'
-import CategoryCreate from './pages/admin/category/CategoryCreate'
-import CategoryUpdate from './pages/admin/category/CategoryUpdate'
-import SubCreate from './pages/admin/sub/SubCreate'
-import SubUpdate from './pages/admin/sub/SubUpdate'
-
-import ProductCreate from './pages/admin/product/ProductCreate'
-import AllProducts from './pages/admin/product/AllProducts'
-import ProductUpdate from './pages/admin/product/ProductUpdate'
-
-import CategoryHome from './pages/category/CategoryHome'
-
 import { auth } from './firebase'
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
 // currentUser function takes token of the user id token and sends the user info to the backend server
 import { currentUser } from './functions/auth'
 
-import Product from './pages/Product'
-import SubHome from './pages/sub/SubHome'
-import Shop from './pages/Shop'
-import Cart from './pages/Cart'
-import SideDrawer from './components/drawer/SideDrawer'
-import Checkout from './pages/Checkout'
-import CreateCoupon from './pages/admin/coupon/CreateCoupon'
-import Payment from './pages/Payment'
-import OrderDetails from './pages/OrderDetails'
+// using lazy
+
+const Login = lazy(() => import('./pages/auth/Login'))
+const Register = lazy(() => import('./pages/auth/Register'))
+const Home = lazy(() => import('./pages/Home'))
+const Header = lazy(() => import('./components/nav/Header'))
+const RegisterComplete = lazy(() => import('./pages/auth/RegisterComplete'))
+const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'))
+const UserRoute = lazy(() => import('./components/routes/UserRoute'))
+const History = lazy(() => import('./pages/user/History'))
+const Password = lazy(() => import('./pages/user/Password'))
+const Wishlist = lazy(() => import('./pages/user/Wishlist'))
+const AdminRoute = lazy(() => import('./components/routes/AdminRoute'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+const CategoryCreate = lazy(() =>
+  import('./pages/admin/category/CategoryCreate')
+)
+const CategoryUpdate = lazy(() =>
+  import('./pages/admin/category/CategoryUpdate')
+)
+const SubCreate = lazy(() => import('./pages/admin/sub/SubCreate'))
+const SubUpdate = lazy(() => import('./pages/admin/sub/SubUpdate'))
+const ProductCreate = lazy(() => import('./pages/admin/product/ProductCreate'))
+const AllProducts = lazy(() => import('./pages/admin/product/AllProducts'))
+const ProductUpdate = lazy(() => import('./pages/admin/product/ProductUpdate'))
+const CategoryHome = lazy(() => import('./pages/category/CategoryHome'))
+const Product = lazy(() => import('./pages/Product'))
+const SubHome = lazy(() => import('./pages/sub/SubHome'))
+const Shop = lazy(() => import('./pages/Shop'))
+const Cart = lazy(() => import('./pages/Cart'))
+const SideDrawer = lazy(() => import('./components/drawer/SideDrawer'))
+const Checkout = lazy(() => import('./pages/Checkout'))
+const CreateCoupon = lazy(() => import('./pages/admin/coupon/CreateCoupon'))
+const Payment = lazy(() => import('./pages/Payment'))
+const OrderDetails = lazy(() => import('./pages/OrderDetails'))
 
 const App = () => {
   const dispatch = useDispatch()
@@ -73,7 +74,13 @@ const App = () => {
     return () => unsubscribe()
   }, [dispatch])
   return (
-    <>
+    <Suspense
+      fallback={
+        <div className="full-page">
+          <div className="spinner black"></div>
+        </div>
+      }
+    >
       <Header />
       <SideDrawer />
       <ToastContainer position="bottom-right" closeOnClick />
@@ -160,7 +167,7 @@ const App = () => {
           <Payment />
         </Route>
       </Switch>
-    </>
+    </Suspense>
   )
 }
 
