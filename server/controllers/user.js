@@ -3,6 +3,7 @@ const Product = require('../models/product')
 const Cart = require('../models/cart')
 const Coupon = require('../models/coupon')
 const Order = require('../models/order')
+const uniqueid = require('uniqueid')
 
 exports.userCart = async (req, res) => {
   const { cart } = req.body
@@ -138,6 +139,44 @@ exports.createOrder = async (req, res) => {
 
   let updated = Product.bulkWrite(bulkOption, {})
   console.log('QUANTITY-- AND SOLD++   -->', updated)
+
+  res.json({ ok: true })
+}
+
+exports.createCashOnDeliveryOrder = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec()
+
+  let userCart = await Cart.findOne({ orderedBy: user._id }).exec()
+
+  let cartTotal = userCart.totalAfterDiscount
+    ? userCart.totalAfterDiscount
+    : userCart.cartTotal
+
+  const paymentIntent = {
+    id: uniqueid(),
+    amount: cartTotal * 100,
+    payment_method_types: ['cash'],
+    status: 'Cash on Delivery',
+    created: Date.now(),
+  }
+
+  let newOrder = await new Order({
+    products: userCart.products,
+    paymentIntent,
+    orderedBy: user._id,
+  }).save()
+
+  // decrement quantity and increment sold
+  let bulkOption = userCart.products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item.product._id },
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    }
+  })
+
+  let updated = Product.bulkWrite(bulkOption, {})
 
   res.json({ ok: true })
 }

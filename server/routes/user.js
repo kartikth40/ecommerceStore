@@ -18,6 +18,7 @@ const {
   addToWishlist,
   wishlist,
   removeFromWishlist,
+  createCashOnDeliveryOrder,
 } = require('../controllers/user')
 
 router.post('/user/cart', authCheck, userCart) // save cart
@@ -34,6 +35,7 @@ router.get('/user/address', authCheck, getAddress) // get address
 router.post('/user/cart/coupon', authCheck, applyCouponToUserCart) // apply coupon
 
 router.post('/user/order', authCheck, createOrder) // create order after successful purchase
+router.post('/user/cash-order', authCheck, createCashOnDeliveryOrder) // create order after COD
 router.get('/user/orders', authCheck, getOrders) // get all orders
 router.get('/user/orderDetails/:orderId', authCheck, getOrder) // get particular order
 

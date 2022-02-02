@@ -13,7 +13,6 @@ const Orders = ({ orders, handleStatusChange }) => {
     'Cancelled',
   ]
   const getOrderedTime = (order) => {
-    console.log(orders)
     let orderDate = new Date(order.createdAt)
     let date = orderDate.getDate().toString()
     let month = orderDate.toLocaleString('default', { month: 'long' })
@@ -140,7 +139,7 @@ const OrderLeftHeader = styled.div`
   align-items: center;
   & div {
     text-align: left;
-    margin-right: 20px;
+    margin-right: 16px;
   }
 `
 

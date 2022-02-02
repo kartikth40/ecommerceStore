@@ -7,6 +7,7 @@ import {
   emptyUserCart,
   saveUserAddress,
   applyCoupon,
+  createCashOnDeliveryOrder,
 } from '../functions/user'
 import { toast } from 'react-toastify'
 import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
@@ -25,9 +26,6 @@ const Checkout = () => {
 
   const [loading, setLoading] = useState(false)
 
-  const dispatch = useDispatch()
-  const history = useHistory()
-
   useEffect(async () => {
     setLoading(true)
     setToken(await getRefreshedIdToken())
@@ -44,6 +42,10 @@ const Checkout = () => {
         console.log('Error getting User Cart from database -> ', err)
       })
   }, [])
+
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { cod } = useSelector((state) => ({ ...state }))
 
   const emptyCart = () => {
     //remove from local storage
@@ -87,7 +89,6 @@ const Checkout = () => {
       .then((res) => {
         if (res.data.ok) {
           setAddressSaved(true)
-          toast.success('Address saved')
         }
       })
       .catch((err) => {
@@ -117,6 +118,31 @@ const Checkout = () => {
         })
       }
     })
+  }
+
+  const createCashOrder = () => {
+    createCashOnDeliveryOrder(token)
+      .then((res) => {
+        if (res.data.ok) {
+          if (window) localStorage.removeItem('cart')
+          dispatch({
+            type: 'ADD_TO_CART',
+            payload: [],
+          })
+          dispatch({
+            type: 'COUPON_APPLIED',
+            payload: false,
+          })
+          emptyUserCart(token)
+          toast.success('Ordered successfully')
+        }
+      })
+      .catch((err) => {
+        console.log('Error creating cash on delivery ORDER --> ', err)
+        toast.error('Failed to order through cash on delivery!')
+      })
+
+    history.push('/')
   }
 
   return (
@@ -203,12 +229,16 @@ const Checkout = () => {
         <Hr />
         <Buttons>
           <PlaceOrderButton
-            onClick={() =>
+            onClick={() => {
+              if (cod) {
+                createCashOrder()
+                return
+              }
               history.push({
                 pathname: '/payment',
-                state: { from: `chekout` },
+                state: { from: `checkout` },
               })
-            }
+            }}
             disabled={!products.length || !addressSaved}
           >
             Place Order

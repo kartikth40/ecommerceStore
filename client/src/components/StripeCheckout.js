@@ -28,16 +28,17 @@ const StripeCheckout = () => {
   const elements = useElements()
 
   useEffect(async () => {
+    console.log('STATE FROM -->', history.location.state.from === 'checkout')
     if (
       !cart.length ||
       !history.location.state ||
-      !history.location.state === 'checkout'
+      !history.location.state.from === 'checkout'
     )
-      history.push('/')
+      history.push('/cart')
 
     setLoading(true)
     setToken(await getRefreshedIdToken())
-    createPaymentIntent(token, coupon).then((res) => {
+    createPaymentIntent(await getRefreshedIdToken(), coupon).then((res) => {
       setClientSecret(res.data.clientSecret)
       // additional response receives on successful payment
       setCartTotal(res.data.cartTotal.toFixed(2))

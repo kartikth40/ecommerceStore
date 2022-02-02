@@ -86,7 +86,7 @@ const OrderDetails = () => {
     let total = 0
 
     order.products.forEach((p) => {
-      total += p.product.price
+      total += p.product.price * p.count
     })
     return inrCurrencyFormat(total.toFixed(2))
   }
@@ -95,12 +95,12 @@ const OrderDetails = () => {
     let total = 0
 
     order.products.forEach((p) => {
-      total += p.product.price
+      total += p.product.price * p.count
     })
 
     let grandTotal = order.paymentIntent.amount / 100
 
-    let couponAmount = grandTotal - total
+    let couponAmount = total - grandTotal
 
     return inrCurrencyFormat(couponAmount.toFixed(2))
   }

@@ -23,6 +23,7 @@
     "nodemon": "^2.0.12",
     "react-image-file-resizer": "^0.4.7",
     "slugify": "^1.6.0",
-    "stripe": "^8.200.0"
+    "stripe": "^8.200.0",
+    "uniqueid": "^1.0.0"
   }
 }
