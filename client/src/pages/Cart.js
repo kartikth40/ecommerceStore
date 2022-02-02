@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
 import { userCart } from '../functions/user'
 import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const Cart = () => {
-  const [loading, setLoading] = useState(false)
+  const [loadingCard, setLoadingCard] = useState(false)
+  const [loadingCash, setLoadingCash] = useState(false)
 
   const { cart, user } = useSelector((state) => ({ ...state }))
   const history = useHistory()
+
+  const dispatch = useDispatch()
 
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
@@ -18,7 +21,7 @@ const Cart = () => {
     }, 0)
   }
 
-  const saveOrderToDb = async () => {
+  const saveOrderToDb = async (setLoading, cod) => {
     setLoading(true)
     let token = await getRefreshedIdToken()
     userCart(cart, token)
@@ -30,6 +33,11 @@ const Cart = () => {
         setLoading(false)
         console.log('cart save err', err)
       })
+
+    dispatch({
+      type: 'COD',
+      payload: !!cod,
+    })
   }
 
   const showCartItems = () => (
@@ -89,9 +97,22 @@ const Cart = () => {
         </TotalPay>
         <Hr />
         {user ? (
-          <CheckoutButton onClick={saveOrderToDb} disabled={!cart.length}>
-            {loading ? 'please wait...' : 'Proceed To Checkout'}
-          </CheckoutButton>
+          <BtnContainer>
+            <CheckoutButton
+              onClick={() => saveOrderToDb(setLoadingCard)}
+              disabled={!cart.length || loadingCash}
+            >
+              {loadingCard ? 'please wait...' : 'Pay by card'}
+            </CheckoutButton>
+            <CashOnDeliveryBtn
+              onClick={() => {
+                saveOrderToDb(setLoadingCash, true)
+              }}
+              disabled={!cart.length || loadingCard}
+            >
+              {loadingCash ? 'please wait...' : 'Pay Cash on Delivery'}
+            </CashOnDeliveryBtn>
+          </BtnContainer>
         ) : (
           <CheckoutButton>
             <StyledLink
@@ -144,7 +165,10 @@ const Left = styled.span`
   font-weight: bold;
 `
 const Right = styled.span``
-
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 const CheckoutButton = styled.button`
   width: 180px;
   padding: 10px;
@@ -168,7 +192,29 @@ const CheckoutButton = styled.button`
     cursor: not-allowed;
   }
 `
+const CashOnDeliveryBtn = styled.button`
+  width: 180px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.1s all;
+  &:hover:enabled {
+    border-radius: 5px;
+    transform: scale(1.05);
+  }
+  &:active:enabled {
+    transform: scale(0.97);
+  }
 
+  &:disabled,
+  &[disabled] {
+    background-color: white;
+    color: grey;
+    cursor: not-allowed;
+  }
+`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;

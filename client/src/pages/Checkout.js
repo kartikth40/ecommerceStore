@@ -31,22 +31,18 @@ const Checkout = () => {
   useEffect(async () => {
     setLoading(true)
     setToken(await getRefreshedIdToken())
-    try {
-      getUserCart(token)
-        .then((res) => {
-          setLoading(false)
-          setProducts(res.data.products)
-          setTotal(res.data.cartTotal)
-        })
-        .catch((err) => {
-          setLoading(false)
-          console.log('Error getting User Cart from database -> ', err)
-        })
-    } catch (err) {
-      console.log(err)
-      // usually if user refreshes the checkout page
-      history.push('/cart')
-    }
+
+    getUserCart(await getRefreshedIdToken())
+      .then((res) => {
+        setLoading(false)
+        setProducts(res.data.products)
+        setTotal(res.data.cartTotal)
+      })
+      .catch((err) => {
+        setLoading(false)
+        history.push('/cart')
+        console.log('Error getting User Cart from database -> ', err)
+      })
   }, [])
 
   const emptyCart = () => {
