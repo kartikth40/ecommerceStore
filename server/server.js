@@ -14,7 +14,7 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => console.log('DB CONNECTED.'))
-  .catch((err) => console.log(`DB CONNECTION ERROR ${err}`))
+  .catch((err) => console.log(`DB CONNECTION ERROR --> ${err}`))
 
 //app
 const app = express()
