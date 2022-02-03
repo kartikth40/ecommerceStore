@@ -49,7 +49,7 @@ const ForgotPassword = () => {
         } else {
           toast.error(error.message)
         }
-        console.log(error)
+        console.log('ERROR SENDING PASSWORD RESET EMAIL --> ', error)
         setLoading(false)
       })
   }

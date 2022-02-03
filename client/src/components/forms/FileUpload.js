@@ -33,13 +33,12 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
                 }
               )
               .then((res) => {
-                console.log('IMAGE UPLOAD RES DATA', res)
                 setLoading(false)
                 allUploadedFiles.push(res.data)
                 setValues({ ...values, images: allUploadedFiles })
               })
               .catch((err) => {
-                console.log('CLOUDINARY UPLOAD ERROR.')
+                console.log('CLOUDINARY UPLOAD ERROR -->', err)
                 setLoading(false)
               })
           },
@@ -66,7 +65,6 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
         }
       )
       .then((res) => {
-        console.log('success')
         setLoading(false)
         const { images } = values
         let filterImages = images.filter((item) => {
@@ -75,7 +73,7 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
         setValues({ ...values, images: filterImages })
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERROR IN REMOVING PRODUCT IMAGE -->', err)
         setLoading(false)
       })
   }

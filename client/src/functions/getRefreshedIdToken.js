@@ -8,7 +8,7 @@ export const getRefreshedIdToken = async () => {
       return idToken
     })
     .catch(function (error) {
-      console.log('Error getting refreshed firebase verified token', error)
+      console.log('ERRO IN GETTING FIREBASE REFRESHED AUTH TOKEN -->', error)
       return ''
     })
 

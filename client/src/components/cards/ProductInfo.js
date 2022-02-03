@@ -79,6 +79,7 @@ const Right = styled.span`
   margin-left: 20px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   flex-wrap: wrap;
 `
 const CurrencySymbol = styled.span`
@@ -90,6 +91,7 @@ const CurrencySymbol = styled.span`
   background-color: rgba(0, 0, 0, 1);
   border-radius: 50%;
   margin-right: 10px;
+  padding-top: 5px;
 `
 const StyledLink = styled(Link)`
   margin: 1px;

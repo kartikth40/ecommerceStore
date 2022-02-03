@@ -19,7 +19,7 @@ const SubUpdate = () => {
     const loadSub = () =>
       getSub(slug)
         .then((s) => setName(s.data.name))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log('ERROR LOADING ALL THE SUBS --> ', err))
     loadSub()
   }, [slug])
 
@@ -36,7 +36,7 @@ const SubUpdate = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log('ERROR UPDATING A SUB --> ', err)
         if (err.response.status === 400) {
           toast.error(err.response.data)
         }

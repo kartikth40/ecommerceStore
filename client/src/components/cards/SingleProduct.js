@@ -15,7 +15,7 @@ import { FaShoppingCart, FaClipboardCheck } from 'react-icons/fa'
 import RatingButton from '../buttons/RatingButton'
 import getAverageRatings from '../../functions/getAverageRatings'
 import { AddToCartBTN } from './ProductCard'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const SingleProduct = ({ product, onStarClick, star }) => {
   const { title, images, description, _id } = product
@@ -55,7 +55,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       // remove duplicates
       cart = cart.filter(
         (product, index, array) =>
-          array.findIndex((p) => p._id == product._id) == index
+          array.findIndex((p) => p._id === product._id) === index
       )
       localStorage.setItem('cart', JSON.stringify(cart))
       // show Tooltip
@@ -151,6 +151,7 @@ const ProductTitle = styled.div`
   background-color: rgba(0, 0, 0, 1);
   color: rgba(255, 255, 255, 1);
   font-weight: bold;
+  padding: 10px 0;
   text-align: center;
 `
 const InfoButtons = styled(Buttons)`
@@ -177,7 +178,8 @@ const RatingCountContainer = styled.div`
 const Description = styled.div`
   width: 100%;
   padding: 30px 10px;
-  text-align: center;
+  text-align: left;
+  word-wrap: break-word;
 `
 const WishListIcon = styled(FaClipboardCheck)`
   font-size: 15px;

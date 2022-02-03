@@ -21,15 +21,18 @@ const CategoryCreate = () => {
   // searching / filtering
   const [keyword, setKeyword] = useState('')
 
-  useEffect(async () => {
-    setToken(await getRefreshedIdToken())
-    loadCategories()
+  useEffect(() => {
+    const load = async () => {
+      setToken(await getRefreshedIdToken())
+      loadCategories()
+    }
+    load()
   }, [categories])
 
   const loadCategories = () =>
     getCategories()
       .then((c) => setCategories(c.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('ERROR IN LOADING CATEGORIES LIST -->', err))
 
   const handleRemove = async (slug) => {
     if (window.confirm('Delete ?')) {
@@ -60,7 +63,7 @@ const CategoryCreate = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log('ERROR CREATING A NEW PRODUCT CATEGORY -->', err)
         if (err.response.status === 400) {
           toast.error(err.response.data)
         }

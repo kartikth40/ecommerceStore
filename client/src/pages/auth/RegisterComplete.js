@@ -52,7 +52,12 @@ const RegisterComplete = () => {
               },
             })
           })
-          .catch((err) => console.log(err.message))
+          .catch((err) =>
+            console.log(
+              'ERROR CREATING NEW USER ACCOUNT WITH THE GIVEN EMAIL AND PASSOWORD --> ',
+              err.message
+            )
+          )
 
         // redirect
         history.push('/')

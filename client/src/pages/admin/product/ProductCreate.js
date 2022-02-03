@@ -12,14 +12,6 @@ import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
 const ProductCreate = () => {
   const history = useHistory()
 
-  useEffect(() => {
-    const loadCategories = () =>
-      getCategories()
-        .then((c) => setValues({ ...values, categories: c.data }))
-        .catch((err) => console.log(err))
-    loadCategories()
-  }, [])
-
   const [values, setValues] = useState({
     title: '',
     description: '',
@@ -35,6 +27,15 @@ const ProductCreate = () => {
     color: '',
     brand: '',
   })
+  useEffect(() => {
+    const loadCategories = () =>
+      getCategories()
+        .then((c) => setValues((values) => ({ ...values, categories: c.data })))
+        .catch((err) =>
+          console.log('ERROR LOADING ALL THE CATEGORIES --> ', err)
+        )
+    loadCategories()
+  }, [])
 
   const [subOptions, setSubOptions] = useState([])
   const [showSub, setShowSub] = useState(false)
@@ -52,7 +53,7 @@ const ProductCreate = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log('ERROR CREATING A NEW PRODUCT --> ', err)
         toast.error(err.response.data.err)
       })
   }
@@ -71,7 +72,7 @@ const ProductCreate = () => {
       })
       .catch((err) => {
         toast.error(err)
-        console.log(err)
+        console.log('ERROR LOADING ALL THE CATEGORY SUBS --> ', err)
       })
     setShowSub(true)
   }

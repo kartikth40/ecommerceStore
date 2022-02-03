@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import UserNav from '../../components/nav/UserNav'
 import { Heading } from '../admin/AdminDashboard'
@@ -6,33 +6,34 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getWishlist, removeWishlist } from '../../functions/user'
 import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
-import { toast } from 'react-toastify'
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([])
   const [token, setToken] = useState('')
   const [loading, setLoading] = useState(true)
 
-  useEffect(async () => {
-    setToken(await getRefreshedIdToken())
-    loadWishlist()
-  }, [token])
-
-  const dispatch = useDispatch()
-
-  const loadWishlist = () => {
+  const loadWishlist = useCallback(() => {
     if (!token) return
     getWishlist(token)
       .then((res) => {
         setLoading(false)
-        console.log(res.data.wishlist)
         setWishlist(res.data.wishlist)
       })
       .catch((err) => {
         setLoading(false)
-        console.log('ERROR Getting the users wishlist from db', err)
+        console.log('ERROR LOADING USER WISHLIST -->', err)
       })
-  }
+  }, [token])
+
+  useEffect(() => {
+    const func = async () => {
+      setToken(await getRefreshedIdToken())
+      loadWishlist()
+    }
+    func()
+  }, [token, loadWishlist])
+
+  const dispatch = useDispatch()
 
   const removeItemFromWishlist = (productId) => {
     removeWishlist(productId, token)
@@ -40,7 +41,7 @@ const Wishlist = () => {
         loadWishlist()
       })
       .catch((err) =>
-        console.log('Error removing the item from user wishlist', err)
+        console.log('ERROR REMOVING THE ITEMS FROM THE WISHLIST -->', err)
       )
   }
 

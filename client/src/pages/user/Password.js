@@ -20,7 +20,7 @@ const Password = () => {
         toast.success('Password Updated Successfully.')
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERROR UPDATING THE USER PASSWORD -->', err)
         setLoading(false)
         toast.error(err.message)
       })

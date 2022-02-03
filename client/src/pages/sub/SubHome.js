@@ -14,12 +14,11 @@ const SubHome = () => {
   useEffect(() => {
     setLoading(true)
     getSub(slug).then((res) => {
-      console.log(res.data)
       setSub(res.data.sub)
       setProducts(res.data.products)
       setLoading(false)
     })
-  }, [])
+  }, [slug])
 
   return (
     <Container>
@@ -56,7 +55,7 @@ const Container = styled.div`
   width: 85vw;
   max-width: 100vw;
   height: 100%;
-  margin: 70px auto 0;
+  margin: 100px auto 0;
   padding: 2rem;
   display: flex;
   font-size: 1rem;

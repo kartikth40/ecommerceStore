@@ -26,25 +26,27 @@ const Checkout = () => {
 
   const [loading, setLoading] = useState(false)
 
-  useEffect(async () => {
-    setLoading(true)
-    setToken(await getRefreshedIdToken())
-
-    getUserCart(await getRefreshedIdToken())
-      .then((res) => {
-        setLoading(false)
-        setProducts(res.data.products)
-        setTotal(res.data.cartTotal)
-      })
-      .catch((err) => {
-        setLoading(false)
-        history.push('/cart')
-        console.log('Error getting User Cart from database -> ', err)
-      })
-  }, [])
+  const history = useHistory()
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true)
+      setToken(await getRefreshedIdToken())
+      getUserCart(await getRefreshedIdToken())
+        .then((res) => {
+          setLoading(false)
+          setProducts(res.data.products)
+          setTotal(res.data.cartTotal)
+        })
+        .catch((err) => {
+          setLoading(false)
+          history.push('/cart')
+          console.log('ERROR FETCHING USER CART DETAILS FROM DB -> ', err)
+        })
+    }
+    load()
+  }, [history])
 
   const dispatch = useDispatch()
-  const history = useHistory()
   const { cod } = useSelector((state) => ({ ...state }))
 
   const emptyCart = () => {
@@ -68,7 +70,7 @@ const Checkout = () => {
         history.push('/shop')
       })
       .catch((err) => {
-        console.log('Error Empty Cart -->', err)
+        console.log('ERROR WHILE CLEARING THE USER CART -->', err)
         toast.error('Error While Clearing the cart')
       })
   }
@@ -138,7 +140,7 @@ const Checkout = () => {
         }
       })
       .catch((err) => {
-        console.log('Error creating cash on delivery ORDER --> ', err)
+        console.log('ERROR IN CREATING CASH ON DELIVERY ORDER --> ', err)
         toast.error('Failed to order through cash on delivery!')
       })
 

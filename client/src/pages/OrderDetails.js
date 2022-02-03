@@ -14,19 +14,22 @@ const OrderDetails = () => {
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(true)
 
-  useEffect(async () => {
-    let userToken = await getRefreshedIdToken()
-    getOrder(orderId, userToken)
-      .then((res) => {
-        setOrder(res.data.order)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.log(err)
-        setLoading(false)
-      })
-    getAddressFromDb(userToken).then((res) => setAddress(res.data))
-  }, [])
+  useEffect(() => {
+    const load = async () => {
+      let userToken = await getRefreshedIdToken()
+      getOrder(orderId, userToken)
+        .then((res) => {
+          setOrder(res.data.order)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log('ERROR IN GETTING ORDER DETAILS FROM DB -->', err)
+          setLoading(false)
+        })
+      getAddressFromDb(userToken).then((res) => setAddress(res.data))
+    }
+    load()
+  }, [orderId])
 
   const dispatch = useDispatch()
 
@@ -55,7 +58,7 @@ const OrderDetails = () => {
       // remove duplicates
       cart = cart.filter(
         (product, index, array) =>
-          array.findIndex((p) => p._id == product._id) == index
+          array.findIndex((p) => p._id === product._id) === index
       )
       localStorage.setItem('cart', JSON.stringify(cart))
 

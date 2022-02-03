@@ -12,7 +12,7 @@ exports.create = async (req, res) => {
     }).save()
     res.json(sub)
   } catch (err) {
-    console.log(err)
+    console.log('ERROR CREATING NEW SUB -->', err)
     res.status(400).send('Create category failed.')
   }
 }
@@ -52,7 +52,7 @@ exports.remove = async (req, res) => {
     const deleted = await Sub.findOneAndDelete({ slug: req.params.slug })
     res.json(deleted)
   } catch (err) {
-    console.log(err)
+    console.log('ERROR DELETING A SUB', err)
     res.status(400).send('Sub delete failed')
   }
 }

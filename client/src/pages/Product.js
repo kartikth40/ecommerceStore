@@ -10,7 +10,6 @@ import ProductCard from '../components/cards/ProductCard'
 import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
 
 const Product = () => {
-  const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState({})
   const [star, setStar] = useState(0)
   const { slug } = useParams()
@@ -42,10 +41,7 @@ const Product = () => {
   const onStarClick = async (newRating, name) => {
     setStar(newRating)
     let token = await getRefreshedIdToken()
-    productStar(name, newRating, token).then((res) => {
-      console.log('rating clicked', res.data)
-      // loadSingleProduct()
-    })
+    productStar(name, newRating, token)
   }
 
   return (
@@ -62,11 +58,7 @@ const Product = () => {
         <RelatedProducts>
           {related.length ? (
             related.map((product) => (
-              <ProductCard
-                product={product}
-                key={product._id}
-                loading={loading}
-              />
+              <ProductCard product={product} key={product._id} />
             ))
           ) : (
             <NoProdFound>No related products found!</NoProdFound>

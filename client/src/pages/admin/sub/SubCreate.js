@@ -21,21 +21,26 @@ const SubCreate = () => {
   // searching / filtering
   const [keyword, setKeyword] = useState('')
 
-  useEffect(async () => {
-    setToken(await getRefreshedIdToken())
-    loadCategories()
-    loadSubs()
+  useEffect(() => {
+    const load = async () => {
+      setToken(await getRefreshedIdToken())
+      loadCategories()
+      loadSubs()
+    }
+    load()
   }, [subs])
 
   const loadCategories = () =>
     getCategories()
       .then((c) => setCategories(c.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('ERROR LOADING ALL THE CATEGORIES --> ', err))
 
   const loadSubs = () =>
     getSubs()
       .then((c) => setSubs(c.data))
-      .catch((err) => console.log(err))
+      .catch((err) =>
+        console.log('ERROR LOADING ALL THE CATEGORY SUBS --> ', err)
+      )
 
   const handleRemove = async (slug) => {
     if (window.confirm('Delete ?')) {
@@ -66,7 +71,7 @@ const SubCreate = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log('ERROR CREATING A NEW SUB --> ', err)
         if (err.response.status === 400) {
           toast.error(err.response.data)
         }

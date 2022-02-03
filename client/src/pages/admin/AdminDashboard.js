@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
 import { getOrders, changeStatus } from '../../functions/admin'
 import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
-import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import AdminNav from '../../components/nav/AdminNav'
 import Orders from '../../components/order/Orders'
@@ -12,12 +11,7 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(async () => {
-    setToken(await getRefreshedIdToken())
-    loadOrders()
-  }, [token])
-
-  const loadOrders = () => {
+  const loadOrders = useCallback(() => {
     if (!token) return
     getOrders(token)
       .then((res) => {
@@ -25,20 +19,27 @@ const AdminDashboard = () => {
         setOrders(res.data)
       })
       .catch((err) => {
-        console.log('Error getting all the orders -> ', err)
+        console.log('ERROR GETTING ALL THE USER ORDERS -> ', err)
         setLoading(false)
       })
-  }
+  }, [token])
+
+  useEffect(() => {
+    const load = async () => {
+      setToken(await getRefreshedIdToken())
+      loadOrders()
+    }
+    load()
+  }, [token, loadOrders])
 
   const handleStatusChange = (orderId, orderStatus) => {
-    console.log(orderId, orderStatus)
     changeStatus(orderId, orderStatus, token)
       .then((res) => {
         toast.success('Status updated')
         loadOrders()
       })
       .catch((err) => {
-        console.log('Error in changing user order status', err)
+        console.log('ERROR CHANGING USER ORDER STATUS -->', err)
         toast.error('Something went wrong, order status change failed!')
       })
   }

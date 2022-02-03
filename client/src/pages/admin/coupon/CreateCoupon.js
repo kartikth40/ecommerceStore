@@ -21,18 +21,21 @@ const CreateCoupon = () => {
   const [loading, setLoading] = useState('')
   const [coupons, setCoupons] = useState([])
 
-  useEffect(async () => {
-    setLoading(true)
-    setToken(await getRefreshedIdToken())
-    getCoupons()
-      .then((res) => {
-        setLoading(false)
-        setCoupons(res.data)
-      })
-      .catch((err) => {
-        console.log('Error getting coupons list', err)
-        setLoading(false)
-      })
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true)
+      setToken(await getRefreshedIdToken())
+      getCoupons()
+        .then((res) => {
+          setLoading(false)
+          setCoupons(res.data)
+        })
+        .catch((err) => {
+          console.log('ERROR LOADING COUPONS LIST -->', err)
+          setLoading(false)
+        })
+    }
+    load()
   }, [])
 
   const handleCreateCouponSubmit = (e) => {
@@ -51,7 +54,7 @@ const CreateCoupon = () => {
             setCoupons(res.data)
           })
           .catch((err) => {
-            console.log('Error getting coupons list', err)
+            console.log('ERROR LOADING COUPONS LIST -->', err)
           })
         setLoading(false)
         setName('')
@@ -62,7 +65,7 @@ const CreateCoupon = () => {
       .catch((err) => {
         setLoading(false)
         toast.error('Error in creating this coupon')
-        console.log('create coupon error', err)
+        console.log('ERROR CREATING A NEW COUPON -->', err)
       })
   }
 
@@ -76,13 +79,13 @@ const CreateCoupon = () => {
               setCoupons(res.data)
             })
             .catch((err) => {
-              console.log('Error getting coupons list', err)
+              console.log('ERROR LOADING COUPONS LIST -->', err)
             })
           setLoading(false)
           toast.error(`Coupon "${res.data.name}" deleted`)
         })
         .catch((err) => {
-          console.log('Error removing Coupon', err)
+          console.log('ERROR DELETING COUPON -->', err)
           setLoading(false)
         })
     }

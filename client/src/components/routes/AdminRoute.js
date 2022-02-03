@@ -9,18 +9,21 @@ const AdminRoute = ({ children, ...rest }) => {
   const { user } = useSelector((state) => ({ ...state }))
   const [ok, setOk] = useState(false)
 
-  useEffect(async () => {
-    let token = await getRefreshedIdToken()
-    if (user && user.token) {
-      currentAdmin(token)
-        .then((res) => {
-          setOk(true)
-        })
-        .catch((err) => {
-          console.log('ADMIN ROUTE ERROR: ', err)
-          setOk(false)
-        })
+  useEffect(() => {
+    const load = async () => {
+      let token = await getRefreshedIdToken()
+      if (user && user.token) {
+        currentAdmin(token)
+          .then((res) => {
+            setOk(true)
+          })
+          .catch((err) => {
+            console.log('ADMIN ROUTE ERROR: ', err)
+            setOk(false)
+          })
+      }
     }
+    load()
   }, [user])
 
   return ok ? (

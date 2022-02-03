@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router'
 import AdminNav from '../../../components/nav/AdminNav'
 import { toast } from 'react-toastify'
@@ -34,31 +34,32 @@ const ProductUpdate = () => {
   //router
   const { slug } = useParams()
 
-  useEffect(() => {
-    const loadProduct = () => {
-      getProduct(slug).then((product) => {
-        //load single product
-        setValues({ ...values, ...product.data })
-        //load single product category subs
-        getCategorySubs(product.data.category._id).then((res) => {
-          setSubOptions(res.data) // on first load
-        })
-        //prepare array of sub ids to show as default of values in subs select input
-        let arr = []
-        product.data.subs.forEach((s) => {
-          arr.push(s)
-        })
-        setArrayOfSubs((prev) => arr)
+  const loadProduct = useCallback(() => {
+    getProduct(slug).then((product) => {
+      //load single product
+      setValues({ ...values, ...product.data })
+      //load single product category subs
+      getCategorySubs(product.data.category._id).then((res) => {
+        setSubOptions(res.data) // on first load
       })
-    }
+      //prepare array of sub ids to show as default of values in subs select input
+      let arr = []
+      product.data.subs.forEach((s) => {
+        arr.push(s)
+      })
+      setArrayOfSubs((prev) => arr)
+    })
+  }, [slug, values])
+
+  useEffect(() => {
     loadProduct()
     loadCategories()
-  }, [])
+  }, [loadProduct])
 
   const loadCategories = () => {
     getCategories()
       .then((c) => setCategories(c.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('ERROR LOADING ALL THE CATEGORIES --> ', err))
   }
 
   const handleSubmit = async (e) => {
@@ -76,7 +77,7 @@ const ProductUpdate = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err.response.data.err)
+        console.log('ERROR UPDATING A PRODUCT --> ', err.response.data.err)
         toast.error(err.response.data.err)
       })
   }
@@ -94,7 +95,7 @@ const ProductUpdate = () => {
       })
       .catch((err) => {
         toast.error(err)
-        console.log(err)
+        console.log('ERROR LOADING ALL THE CATEGORY SUBS --> ', err)
       })
     // clear subs
     setArrayOfSubs([])

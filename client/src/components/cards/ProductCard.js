@@ -15,7 +15,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import styled from 'styled-components'
 import StarRatings from 'react-star-ratings'
 import getAverageRatings from '../../functions/getAverageRatings'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const ProductCard = ({ product }) => {
   const { _id, title, description, images, slug, price } = product
@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
       // remove duplicates
       cart = cart.filter(
         (product, index, array) =>
-          array.findIndex((p) => p._id == product._id) == index
+          array.findIndex((p) => p._id === product._id) === index
       )
       localStorage.setItem('cart', JSON.stringify(cart))
       // show Tooltip

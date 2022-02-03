@@ -19,7 +19,7 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem('cart'))
       }
 
-      cart.map((product, index) => {
+      cart.forEach((product, index) => {
         if (product._id === p._id) {
           cart[index].color = e.target.value
         }
@@ -51,7 +51,7 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem('cart'))
       }
 
-      cart.map((product, index) => {
+      cart.forEach((product, index) => {
         if (product._id === p._id) {
           cart[index].count = count
         }
@@ -73,7 +73,7 @@ const ProductCardInCheckout = ({ p }) => {
         cart = JSON.parse(localStorage.getItem('cart'))
       }
 
-      cart.map((product, index) => {
+      cart.forEach((product, index) => {
         if (product._id === p._id) {
           cart.splice(index, 1)
         }
@@ -171,13 +171,14 @@ const StyledLink = styled(Link)`
 const Select = styled.select`
   border: 1px solid rgba(0, 0, 0, 0.5);
   font-size: 15px;
+  padding: 5px;
   cursor: pointer;
 `
 const Option = styled.option``
 const Input = styled.input`
   width: 50px;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  padding: 0 5px;
+  padding: 6px 5px;
   font-size: 15px;
   cursor: text;
 `

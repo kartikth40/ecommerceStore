@@ -24,7 +24,7 @@ const AllProducts = () => {
         setLoading(false)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERROR LOADING ALL THE PRODUCTS --> ', err)
         setLoading(false)
       })
   }
@@ -36,13 +36,12 @@ const AllProducts = () => {
         .then((res) => {
           loadAllProducts()
           toast.error(`${res.data.title} is deleted`)
-          console.log(res.data)
         })
         .catch((err) => {
           if (err.response.status === 400) {
             toast.error(err.response.data)
           }
-          console.log(err)
+          console.log('ERROR REMOVING A PRODUCT --> ', err)
         })
     }
   }

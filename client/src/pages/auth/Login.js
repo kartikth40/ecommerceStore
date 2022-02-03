@@ -70,9 +70,15 @@ const Login = () => {
               id: res.data._id,
             },
           })
+          setLoading(false)
           roleBasedRedirect(res)
         })
-        .catch((err) => console.log(err.message))
+        .catch((err) =>
+          console.log(
+            'ERROR CREATING NEW USER ACCOUNT WITH THE GIVEN EMAIL AND PASSOWORD --> ',
+            err.message
+          )
+        )
 
       // history.push('/')
     } catch (error) {
@@ -108,7 +114,12 @@ const Login = () => {
             })
             roleBasedRedirect(res)
           })
-          .catch((err) => console.log(err.message))
+          .catch((err) =>
+            console.log(
+              'ERROR CREATING NEW USER ACCOUNT WITH THE GIVEN GMAIL ACCOUNT --> ',
+              err.message
+            )
+          )
         //REDIRECT
         // history.push('/')
       })

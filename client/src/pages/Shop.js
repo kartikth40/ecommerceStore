@@ -14,21 +14,9 @@ const Shop = () => {
   const [subs, setSubs] = useState([])
   const [sub, setSub] = useState([])
   const [star, setStar] = useState(0)
-  const [brands, setBrands] = useState([
-    'Apple',
-    'Microsoft',
-    'Samsung',
-    'Lenovo',
-    'Asus',
-  ])
+  const brands = ['Apple', 'Microsoft', 'Samsung', 'Lenovo', 'Asus']
   const [brandsSelected, setBrandsSelected] = useState([])
-  const [colors, setColors] = useState([
-    'Black',
-    'Brown',
-    'Silver',
-    'White',
-    'Blue',
-  ])
+  const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue']
   const [colorsSelected, setColorsSelected] = useState([])
   const [shipping, setShipping] = useState('')
 
@@ -89,7 +77,7 @@ const Shop = () => {
       fetchProducts({ price })
     }, 300)
     return () => clearTimeout(delayed)
-  }, [ok])
+  }, [price, ok])
 
   return (
     <Container>

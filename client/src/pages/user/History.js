@@ -27,7 +27,7 @@ const History = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log('ERROR LOADING ALL THE USER ORDERS -->', err)
         toast.error('Error in getting your previous orders')
       })
   }

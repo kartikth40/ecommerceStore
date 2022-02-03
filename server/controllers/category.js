@@ -6,14 +6,13 @@ const slugify = require('slugify')
 exports.create = async (req, res) => {
   try {
     const { name } = req.body
-    console.log('name---', name)
     const category = await new Category({
       name: name,
       slug: slugify(name),
     }).save()
     res.json(category)
   } catch (err) {
-    console.log(err)
+    console.log('ERROR CREATING NEW CATEGORY -->', err)
     res.status(400).send('Create category failed.')
   }
 }
@@ -55,14 +54,14 @@ exports.remove = async (req, res) => {
     const deleted = await Category.findOneAndDelete({ slug: req.params.slug })
     res.json(deleted)
   } catch (err) {
-    console.log(err)
+    console.log('ERROR DELETING A CATEGORY', err)
     res.status(400).send('Category delete failed')
   }
 }
 
 exports.getSubs = (req, res) => {
   Sub.find({ parent: req.params._id }).exec((err, subs) => {
-    if (err) console.log(err)
+    if (err) console.log('ERROR GETTING ALL THE SUBS -->', err)
     res.json(subs)
   })
 }

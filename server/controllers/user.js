@@ -17,7 +17,6 @@ exports.userCart = async (req, res) => {
 
   if (cartExistByThisUser) {
     cartExistByThisUser.remove()
-    console.log('remove old cart')
   }
 
   let cartTotal = 0
@@ -37,15 +36,11 @@ exports.userCart = async (req, res) => {
     products.push(productObject)
   }
 
-  console.log('cartTotal -->', cartTotal)
-
   let newCart = await new Cart({
     products,
     cartTotal,
     orderedBy: user._id,
   }).save()
-
-  console.log('NEW CART SAVED -->', newCart)
 
   res.json({ ok: true })
 }
@@ -138,7 +133,6 @@ exports.createOrder = async (req, res) => {
   })
 
   let updated = Product.bulkWrite(bulkOption, {})
-  console.log('QUANTITY-- AND SOLD++   -->', updated)
 
   res.json({ ok: true })
 }

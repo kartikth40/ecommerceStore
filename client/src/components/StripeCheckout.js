@@ -26,25 +26,35 @@ const StripeCheckout = () => {
   const stripe = useStripe()
   const elements = useElements()
 
-  useEffect(async () => {
-    console.log('STATE FROM -->', history.location.state.from === 'checkout')
+  useEffect(() => {
     if (
       !cart.length ||
       !history.location.state ||
       !history.location.state.from === 'checkout'
-    )
+    ) {
       history.push('/cart')
+      return
+    }
 
-    setLoading(true)
-    setToken(await getRefreshedIdToken())
-    createPaymentIntent(await getRefreshedIdToken(), coupon).then((res) => {
-      setClientSecret(res.data.clientSecret)
-      // additional response receives on successful payment
-      setCartTotal(res.data.cartTotal.toFixed(2))
-      setTotalAfterDiscount(res.data.totalAfterDiscount)
-      setPayable((res.data.payable / 100).toFixed(2))
-      setLoading(false)
-    })
+    const load = async () => {
+      setLoading(true)
+      setToken(await getRefreshedIdToken())
+      createPaymentIntent(await getRefreshedIdToken(), coupon)
+        .then((res) => {
+          setClientSecret(res.data.clientSecret)
+          // additional response receives on successful payment
+          setCartTotal(res.data.cartTotal.toFixed(2))
+          setTotalAfterDiscount(res.data.totalAfterDiscount)
+          setPayable((res.data.payable / 100).toFixed(2))
+          setLoading(false)
+        })
+        .catch((err) => {
+          setLoading(false)
+          console.log('ERROR CREATING STRIPE PAYMENT INTENT -->', err)
+        })
+    }
+    load()
+    // eslint-disable-next-line
   }, [])
 
   const handleSubmit = async (e) => {
@@ -118,7 +128,7 @@ const StripeCheckout = () => {
       ) : (
         <>
           <h1 className="heading">
-            {succeeded ? 'Ordered successful' : 'Complete your purchase'}
+            {succeeded ? 'Ordered successfully' : 'Complete your purchase'}
           </h1>
           {coupon && totalAfterDiscount ? (
             <p className="coupon-applied">

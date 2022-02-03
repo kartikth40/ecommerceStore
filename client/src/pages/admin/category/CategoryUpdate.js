@@ -19,7 +19,7 @@ const CategoryUpdate = () => {
     const loadCategory = () =>
       getCategory(slug)
         .then((c) => setName(c.data.name))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log('ERROR LOADING CATEGORIES LIST -->', err))
     loadCategory()
   }, [slug])
 
@@ -36,7 +36,7 @@ const CategoryUpdate = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log(err)
+        console.log('ERROR UPDATING EXISTING PRODUCT CATEGORY -->', err)
         if (err.response.status === 400) {
           toast.error(err.response.data)
         }

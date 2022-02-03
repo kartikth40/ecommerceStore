@@ -31,7 +31,7 @@ const Cart = () => {
       })
       .catch((err) => {
         setLoading(false)
-        console.log('cart save err', err)
+        console.log('ERROR IN SAVING USER CART TO DB -->', err)
       })
 
     dispatch({
