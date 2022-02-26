@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useLocation, Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+import device from '../../mediaQueries'
 import firebase from 'firebase'
 import Search from '../forms/Search'
 import { AiOutlineUserAdd, AiOutlineUser } from 'react-icons/ai'
 import { FaHome, FaShoppingBag, FaShoppingCart } from 'react-icons/fa'
 import { TiUser } from 'react-icons/ti'
+import useWindowSize from '../../useWindowSize'
+import { size as devSize } from '../../mediaQueries'
 
 function Header() {
-  const [current, setCurrent] = useState('Home-nav') // currently selected nav item
+  let isLarge = useWindowSize() > devSize.tablet
 
+  const [current, setCurrent] = useState('Home-nav') // currently selected nav item
+  const [showNav, setShowNav] = useState(false)
+
+  let hamRef = useRef()
+  let navRef = useRef()
+  let profileRef = useRef()
+  let searchRef = useRef()
   const dispatch = useDispatch() // dispatch state into redux
   const { user, cart } = useSelector((state) => ({ ...state })) // get state from redux
   const history = useHistory()
@@ -45,6 +55,31 @@ function Header() {
     }
   }, [current, location])
 
+  useEffect(() => {
+    const hideMenu = (event) => {
+      if (
+        !hamRef.current.contains(event.target) &&
+        !navRef.current.contains(event.target) &&
+        !profileRef.current.contains(event.target) &&
+        !searchRef.current.contains(event.target)
+      ) {
+        hamClick()
+      } else if (
+        navRef.current.contains(event.target) &&
+        !profileRef.current.contains(event.target) &&
+        !searchRef.current.contains(event.target)
+      ) {
+        setTimeout(() => {
+          hamClick()
+        }, 500)
+      }
+    }
+    if (!isLarge && showNav) {
+      document.addEventListener('click', hideMenu)
+    }
+    return () => document.removeEventListener('click', hideMenu)
+  }, [isLarge, showNav])
+
   const handleClick = (e) => {
     setCurrent(e.target.parentElement.id)
   }
@@ -57,87 +92,103 @@ function Header() {
     })
     history.push('/login')
   }
+
+  const hamClick = () => {
+    setShowNav((prev) => !prev)
+    const ham = document.querySelector('.hamburger-menu')
+    ham.classList.toggle('clicked')
+    ham.classList.toggle('unclicked')
+  }
   return (
     <HeaderContainer>
-      <NavLeft>
-        <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/">
-            <HomeIcon />
-            <span>Home</span>
-          </NavLink>
-        </NavItems>
-        <NavItems id="Shop-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/shop">
-            <ShopIcon />
-            <span>Shop</span>
-          </NavLink>
-        </NavItems>
-        <NavItems id="Cart-nav" className="nav-item" onClick={handleClick}>
-          <NavLink to="/cart">
-            <CartIcon />
-            <span>
-              <span>Cart</span>
-              {cart.length > 0 && (
-                <CartQuantity>
-                  <span>{cart.length}</span>
-                </CartQuantity>
-              )}
-            </span>
-          </NavLink>
-        </NavItems>
-      </NavLeft>
-      <NavRight>
-        <SearchBar>
-          <Search />
-        </SearchBar>
-        {user && (
-          <DropDownMenu>
-            <DropDownBtn>
-              <UserIcon />
-              <span>{user.email && user.email.split('@')[0]}</span>
-            </DropDownBtn>
-            <DropDownContent>
-              {user && user.role === 'subscriber' && (
-                <span onClick={() => history.push('/user/history')}>
-                  Dashboard
-                </span>
-              )}
-              {user && user.role === 'admin' && (
-                <span onClick={() => history.push('/admin/dashboard')}>
-                  Admin Dashboard
-                </span>
-              )}
-              {user && user.role === 'admin' && (
-                <span onClick={() => history.push('/user/history')}>
-                  User Dashboard
-                </span>
-              )}
-              <span onClick={logout}>LogOut</span>
-            </DropDownContent>
-          </DropDownMenu>
-        )}
+      <HelperContainer>
+        <NavLeft>
+          <NavItems id="Home-nav" className="nav-item" onClick={handleClick}>
+            <NavLink to="/">
+              <HomeIcon />
+              <span>Home</span>
+            </NavLink>
+          </NavItems>
+          <NavItems id="Shop-nav" className="nav-item" onClick={handleClick}>
+            <NavLink to="/shop">
+              <ShopIcon />
+              <span>Shop</span>
+            </NavLink>
+          </NavItems>
+          <NavItems id="Cart-nav" className="nav-item" onClick={handleClick}>
+            <NavLink to="/cart">
+              <CartIcon />
+              <span>
+                <span>Cart</span>
+                {cart.length > 0 && (
+                  <CartQuantity>
+                    <span>{cart.length}</span>
+                  </CartQuantity>
+                )}
+              </span>
+            </NavLink>
+          </NavItems>
+        </NavLeft>
+        <HamContainer ref={hamRef} onClick={hamClick}>
+          <HamBurgerMenu className="hamburger-menu unclicked" />
+        </HamContainer>
+        <NavRight ref={navRef} className={showNav ? 'nav active' : 'nav'}>
+          <SearchBar ref={searchRef}>
+            <Search />
+          </SearchBar>
+          {user && (
+            <DropDownMenu>
+              <DropDownBtn ref={profileRef}>
+                <UserIcon />
+                <span>{user.email && user.email.split('@')[0]}</span>
+              </DropDownBtn>
+              <DropDownContent>
+                {user && user.role === 'subscriber' && (
+                  <span onClick={() => history.push('/user/history')}>
+                    Dashboard
+                  </span>
+                )}
+                {user && user.role === 'admin' && (
+                  <span onClick={() => history.push('/admin/dashboard')}>
+                    Admin Dashboard
+                  </span>
+                )}
+                {user && user.role === 'admin' && (
+                  <span onClick={() => history.push('/user/history')}>
+                    User Dashboard
+                  </span>
+                )}
+                <span onClick={logout}>LogOut</span>
+              </DropDownContent>
+            </DropDownMenu>
+          )}
 
-        {!user && (
-          <>
-            <NavItems
-              id="Register-nav"
-              className="nav-item"
-              onClick={handleClick}
-            >
-              <NavLink to="/register">
-                <RegisterIcon />
-                <span>Register</span>
-              </NavLink>
-            </NavItems>
-            <NavItems id="Login-nav" className="nav-item" onClick={handleClick}>
-              <NavLink to="/login">
-                <LoginIcon />
-                <span>Login</span>
-              </NavLink>
-            </NavItems>
-          </>
-        )}
-      </NavRight>
+          {!user && (
+            <>
+              <NavItems
+                id="Register-nav"
+                className="nav-item"
+                onClick={handleClick}
+              >
+                <NavLink to="/register">
+                  <RegisterIcon />
+                  <span>Register</span>
+                </NavLink>
+              </NavItems>
+              <NavItems
+                id="Login-nav"
+                className="nav-item"
+                onClick={handleClick}
+              >
+                <NavLink to="/login">
+                  <LoginIcon />
+                  <span>Login</span>
+                </NavLink>
+              </NavItems>
+            </>
+          )}
+        </NavRight>
+      </HelperContainer>
     </HeaderContainer>
   )
 }
@@ -157,6 +208,24 @@ const HeaderContainer = styled.div`
   border-bottom: black solid 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 `
+const HelperContainer = styled.div`
+  font-family: var(--secondary-font-family);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+
+  @media screen and ${device.tablet} {
+    background: white;
+  }
+  @media screen and ${device.mobile} {
+    padding: 20px 10px;
+  }
+`
 const NavItems = styled.div`
   display: inline-block;
   pointer-events: none;
@@ -165,10 +234,164 @@ const NavItems = styled.div`
 const NavLeft = styled.div`
   display: flex;
 `
+const HamContainer = styled.div`
+  width: 50px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+`
+const HamBurgerMenu = styled.button`
+  display: none;
+  position: relative;
+  height: 2px;
+  width: 30px;
+  background: black;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  transition: 0.25s transform 0.25s;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: black;
+    border-radius: 10px;
+    left: 0;
+    transition: 1s all;
+  }
+  &::before {
+    top: -10px;
+  }
+  &::after {
+    top: 10px;
+  }
+  &.clicked {
+    background: transparent;
+  }
+  &.clicked::before {
+    animation: upperLine 0.35s forwards ease;
+  }
+  &.clicked::after {
+    animation: lowerLine 0.35s forwards ease;
+  }
+
+  &.unclicked::before {
+    animation: upperLineReverse 0.35s forwards ease;
+  }
+  &.unclicked::after {
+    animation: lowerLineReverse 0.35s forwards ease;
+  }
+  @media screen and ${device.tablet} {
+    display: block;
+  }
+
+  @keyframes upperLine {
+    0% {
+      top: -10px;
+    }
+    30% {
+      top: 0px;
+    }
+    50% {
+      transform: rotate(0);
+    }
+    100% {
+      top: 0px;
+      transform: rotate(45deg);
+    }
+  }
+
+  @keyframes lowerLine {
+    0% {
+      top: 10px;
+    }
+    50% {
+      top: 0px;
+    }
+    80% {
+      transform: rotate(0);
+    }
+    100% {
+      top: 0px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  @keyframes upperLineReverse {
+    0% {
+      top: 0px;
+      transform: rotate(45deg);
+    }
+    50% {
+      transform: rotate(0);
+    }
+    80% {
+      top: 0px;
+    }
+    100% {
+      top: -10px;
+    }
+  }
+
+  @keyframes lowerLineReverse {
+    0% {
+      top: 0px;
+      transform: rotate(-45deg);
+    }
+    30% {
+      transform: rotate(0);
+    }
+    50% {
+      top: 0px;
+    }
+    100% {
+      top: 10px;
+    }
+  }
+`
 const NavRight = styled.div`
   display: flex;
   align-items: flex-end;
   margin-left: auto;
+  @media screen and ${device.tablet} {
+    background: white;
+    border-bottom: black solid 2px;
+    box-shadow: 0px 15px 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    height: max-content;
+    z-index: -1;
+    left: 150%;
+    top: 65px;
+    width: 100%;
+    padding: 20px 5px;
+
+    align-items: center;
+    justify-content: center;
+
+    transition: 500ms all;
+    &.active {
+      left: 0;
+    }
+
+    & button {
+      margin-top: 10px;
+    }
+  }
+
+  @media screen and ${device.tablet} {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 `
 const NavLink = styled(Link)`
   height: 35px;
@@ -252,6 +475,9 @@ const SearchBar = styled.div`
   height: 100%;
   padding-bottom: 0.3rem;
   border-bottom: 2px solid black;
+  & form {
+    width: max-content;
+  }
 `
 const HomeIcon = styled(FaHome)`
   margin-right: 5px;
