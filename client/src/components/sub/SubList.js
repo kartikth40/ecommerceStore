@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import device from '../../mediaQueries'
 import { Link } from 'react-router-dom'
 import { getSubs } from '../../functions/sub'
 
@@ -64,5 +65,16 @@ const SubButton = styled(Link)`
   &:hover {
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
+  }
+
+  @media screen and ${device.mobile} {
+    font-size: 15px;
+    padding: 10px;
+    margin: 2px;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
   }
 `

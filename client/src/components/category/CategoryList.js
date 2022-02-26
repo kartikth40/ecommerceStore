@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import device from '../../mediaQueries'
 import { Link } from 'react-router-dom'
 import { getCategories } from '../../functions/category'
 
@@ -64,5 +65,15 @@ const CategoryButton = styled(Link)`
   &:hover {
     background-color: rgba(0, 0, 0, 0.9);
     color: white;
+  }
+
+  @media screen and ${device.mobile} {
+    font-size: 20px;
+    padding: 20px;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
   }
 `
