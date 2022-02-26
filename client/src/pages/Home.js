@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import device from '../mediaQueries'
 import Jumbotron from '../components/cards/Jumbotron'
 import BestSellers from '../components/home/BestSellers'
 import NewArrivals from '../components/home/NewArrivals'
@@ -51,6 +52,11 @@ const JumboHeading = styled.div`
   & * {
     font-family: 'Lobster', cursive;
   }
+
+  @media screen and ${device.mobile} {
+    font-size: 2rem;
+    padding-top: 2rem;
+  }
 `
 
 const Section = styled.div`
@@ -64,6 +70,10 @@ const Section = styled.div`
   display: flex;
   font-size: 1rem;
   flex-direction: column;
+
+  @media screen and ${device.mobile} {
+    width: 90vw;
+  }
 `
 const SubHeading = styled.div`
   width: 100%;
@@ -71,4 +81,8 @@ const SubHeading = styled.div`
   font-size: 4rem;
   color: rgba(0, 0, 0);
   text-decoration: underline;
+
+  @media screen and ${device.mobile} {
+    font-size: 2rem;
+  }
 `

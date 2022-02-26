@@ -24,10 +24,8 @@ app.use(morgan('dev'))
 app.use(express.json({ limit: '2mb' }))
 app.use(cors())
 
-//routes middlewares
-// example - importing auth file from routes. The same will be done to all the files in routes by fs module
-// const authRoutes = require('./routes/auth')
-// app.use('/api', authRoutes)
+app.get('/', (req, res) => res.status(200).send('hello world!'))
+
 fs.readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)))
 
 //port
