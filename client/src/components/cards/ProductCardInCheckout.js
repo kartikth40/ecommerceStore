@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { FaTimesCircle, FaCheckCircle } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
+import device from '../../mediaQueries'
 
 const ProductCardInCheckout = ({ p }) => {
   const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue']
@@ -136,7 +137,11 @@ const ProductCardInCheckout = ({ p }) => {
 
 export default ProductCardInCheckout
 
-const Tbody = styled.tbody``
+const Tbody = styled.tbody`
+  @media screen and ${device.mobile} {
+    font-size: 10px;
+  }
+`
 const Tr = styled.tr``
 const Td = styled.td`
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -173,6 +178,9 @@ const Select = styled.select`
   font-size: 15px;
   padding: 5px;
   cursor: pointer;
+  @media screen and ${device.mobile} {
+    font-size: 10px;
+  }
 `
 const Option = styled.option``
 const Input = styled.input`
@@ -181,6 +189,9 @@ const Input = styled.input`
   padding: 6px 5px;
   font-size: 15px;
   cursor: text;
+  @media screen and ${device.mobile} {
+    font-size: 10px;
+  }
 `
 const CheckIcon = styled(FaCheckCircle)`
   color: rgba(0, 255, 0, 0.6);

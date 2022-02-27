@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom'
 import ProductCardInCheckout from '../components/cards/ProductCardInCheckout'
 import { userCart } from '../functions/user'
 import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
+import device from '../mediaQueries'
 
 const Cart = () => {
   const [loadingCard, setLoadingCard] = useState(false)
@@ -64,13 +65,15 @@ const Cart = () => {
     <Container>
       <CartItemsContainer>
         <Heading>Cart / {cart.length} Product</Heading>
-        {!cart.length ? (
-          <p>
-            No products in cart. <Link to="/shop">Continue Shopping.</Link>
-          </p>
-        ) : (
-          showCartItems()
-        )}
+        <div>
+          {!cart.length ? (
+            <p>
+              No products in cart. <Link to="/shop">Continue Shopping.</Link>
+            </p>
+          ) : (
+            showCartItems()
+          )}
+        </div>
       </CartItemsContainer>
       <OrderSummaryContainer>
         <Heading>Order Summary</Heading>
@@ -135,6 +138,10 @@ export default Cart
 const Container = styled.div`
   margin-top: 70px;
   display: flex;
+  overflow-x: hidden;
+  @media screen and (max-width: 1220px) {
+    flex-direction: column;
+  }
 `
 const Heading = styled.h1`
   margin-bottom: 1rem;
@@ -143,12 +150,24 @@ const CartItemsContainer = styled.div`
   margin: 2rem;
   padding: 0 1rem;
   width: 60vw;
-  min-height: calc(100vh - 4rem - 70px);
+  // min-height: calc(100vh - 4rem - 70px);
+  & > div {
+    overflow-x: auto;
+  }
+  @media screen and (max-width: 1220px) {
+    margin: 1rem 0.5rem 2rem;
+    width: 100%;
+  }
 `
 const OrderSummaryContainer = styled.div`
   margin: 2rem 0;
   padding: 0 1rem;
   width: calc(40vw - 6rem);
+
+  @media screen and (max-width: 1220px) {
+    margin: 0.5rem;
+    width: 100%;
+  }
 `
 const SubHeading = styled.h2`
   margin-bottom: 1rem;
@@ -242,6 +261,9 @@ const Table = styled.table`
 const Thead = styled.thead`
   font-size: 20px;
   background: rgba(0, 0, 0, 0.1);
+  @media screen and ${device.mobile} {
+    font-size: 10px;
+  }
 `
 const Tr = styled.tr``
 const Th = styled.th`

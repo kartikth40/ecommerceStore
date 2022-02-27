@@ -387,14 +387,15 @@ const FilterHeading = styled.h2`
     padding: 10px 20px;
     bottom: 0;
     z-index: 10;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    background-color: black;
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   }
 `
 const FilterDone = styled.div`
   font-size: 25px;
   display: inline-block;
-  border: 2px solid black;
+  border: 1px solid white;
   border-radius: 10px;
   padding: 7px 10px 5px 10px;
   cursor: pointer;
