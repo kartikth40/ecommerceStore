@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 import UserNav from '../../components/nav/UserNav'
 import { auth } from '../../firebase'
 import { toast } from 'react-toastify'
+import device from '../../mediaQueries'
 
 const Password = () => {
   const [password, setPassword] = useState('')
@@ -67,6 +68,10 @@ const Container = styled.div`
   margin-top: 70px;
   display: flex;
   height: calc(100vh - 70px);
+  @media screen and ${device.tablet} {
+    flex-direction: column;
+    margin-inline: 0.5rem;
+  }
 `
 const Content = styled.div`
   width: 100%;
@@ -79,12 +84,19 @@ const Content = styled.div`
 const PasswordHeading = styled.h2`
   font-size: 3rem;
   font-weight: bold;
+  @media screen and ${device.mobile} {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
 `
 const PasswordForm = styled.form`
   width: 300px;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @media screen and ${device.mobile} {
+    width: 250px;
+  }
 `
 const PasswordInput = styled.input`
   width: 100%;

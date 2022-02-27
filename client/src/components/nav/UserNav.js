@@ -35,12 +35,15 @@ const NavList = styled.ul`
   position: fixed;
   @media screen and ${device.tablet} {
     bottom: 0;
+    left: 0;
+    border: none;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 3rem;
     margin: 0;
     padding: 0.5rem;
+    z-index: 10;
     display: flex;
     justify-content: space-around;
     align-items: center;

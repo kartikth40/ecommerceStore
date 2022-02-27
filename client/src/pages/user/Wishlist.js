@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getWishlist, removeWishlist } from '../../functions/user'
 import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
+import device from '../../mediaQueries'
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([])
@@ -124,12 +125,20 @@ export default Wishlist
 const Container = styled.div`
   margin-top: 70px;
   display: flex;
+  // justify-content: center;
+  @media screen and ${device.tablet} {
+    flex-direction: column;
+    margin-inline: 0.5rem;
+  }
 `
 const Content = styled.div`
   text-align: left;
   font-weight: bold;
   width: 100%;
   margin-right: 5rem;
+  @media screen and ${device.tablet} {
+    margin: 0;
+  }
 `
 const WishListContainer = styled.div`
   width: 100%;
@@ -146,6 +155,8 @@ const ProductContainer = styled.div`
   justify-content: space-between;
 `
 const ProductName = styled(Link)`
+  width: 50vw;
+  word-wrap: break-word;
   display: block;
   font-weight: 400;
   font-size: 25px;
