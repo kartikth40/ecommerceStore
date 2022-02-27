@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import laptop from '../../images/laptop.jpg'
 import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
+import device from '../../mediaQueries'
 
 const History = () => {
   const [orders, setOrders] = useState([])
@@ -140,7 +141,8 @@ const History = () => {
             </OrderTotal>
           </OrderLeftHeader>
           <OrderRightHeader>
-            <p>ORDER# {order._id}</p>
+            <p>ORDER# </p>
+            <p>{order._id}</p>
             <StyledLink to={`/user/orderDetails/${order._id}`}>
               View order details
             </StyledLink>
@@ -172,12 +174,19 @@ export default History
 const Container = styled.div`
   margin-top: 70px;
   display: flex;
+  @media screen and ${device.tablet} {
+    flex-direction: column;
+    margin-inline: 0.5rem;
+  }
 `
 const Content = styled.div`
   text-align: center;
   font-weight: bold;
   margin-right: 5rem;
   width: 100%;
+  @media screen and ${device.tablet} {
+    margin-bottom: 3rem;
+  }
 `
 const Heading = styled.h4`
   margin: 1rem 0;
@@ -201,6 +210,10 @@ const OrderHeader = styled.div`
   background-color: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.6);
   font-weight: 500;
+
+  @media screen and ${device.mobile} {
+    font-size: 10px;
+  }
 `
 const OrderLeftHeader = styled.div`
   display: flex;
@@ -210,9 +223,14 @@ const OrderLeftHeader = styled.div`
 const OrderPlaced = styled.div`
   margin-right: 30px;
   text-align: left;
+  @media screen and ${device.mobile} {
+    margin-right: 10px;
+  }
 `
 const OrderTotal = styled.div`
   text-align: left;
+  margin-right: 10px;
+  font-weight: bold;
 `
 const OrderRightHeader = styled.div`
   text-align: right;
@@ -230,10 +248,12 @@ const ProductContainer = styled.div`
 `
 const ProductImage = styled(Link)`
   width: 100px;
-  height: 100px;
+  height: auto;
+  max-height: 150px;
   margin-right: 20px;
-  border-radius: 10px;
+  // border-radius: 10px;
   overflow: hidden;
+  flex-shrink: 0;
 `
 const Img = styled.img`
   width: 100%;
@@ -241,7 +261,7 @@ const Img = styled.img`
   object-fit: cover;
 `
 const ProductInfo = styled.div`
-  width: 400px;
+  // width: 400px;
   text-align: left;
 `
 const ProductName = styled(Link)`
@@ -255,6 +275,10 @@ const ProductName = styled(Link)`
   }
   &:hover {
     text-decoration: underline;
+  }
+
+  @media screen and ${device.mobile} {
+    font-size: 15px;
   }
 `
 const BuyAgainButton = styled.button`

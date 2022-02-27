@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import device from '../../mediaQueries'
 
 const UserNav = () => {
   return (
@@ -21,6 +22,10 @@ const Nav = styled.nav`
   position: relative;
   height: calc(100vh - 70px - 2rem);
   font-size: 2rem;
+  @media screen and ${device.tablet} {
+    width: 100%;
+    height: 0;
+  }
 `
 const NavList = styled.ul`
   height: 80%;
@@ -28,6 +33,18 @@ const NavList = styled.ul`
   padding-right: 1rem;
   border-right: 1px black solid;
   position: fixed;
+  @media screen and ${device.tablet} {
+    bottom: 0;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 3rem;
+    margin: 0;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
 `
 const ListItem = styled(Link)`
   display: flex;
@@ -42,5 +59,10 @@ const ListItem = styled(Link)`
 
   &:hover {
     opacity: 0.5;
+  }
+
+  @media screen and ${device.tablet} {
+    font-size: 1rem;
+    text-decoration: underline;
   }
 `

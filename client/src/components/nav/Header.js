@@ -416,6 +416,9 @@ const NavLink = styled(Link)`
     align-items: flex-end;
     transform: translateY(3px);
   }
+  @media screen and ${device.mobile} {
+    padding: 0 5px;
+  }
 `
 
 const DropDownBtn = styled.button`
