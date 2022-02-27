@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, Link } from 'react-router-dom'
-
+import device from '../../mediaQueries'
 import styled, { css } from 'styled-components'
 import { auth, googleAuthProvider } from '../../firebase'
 import { toast } from 'react-toastify'
@@ -182,6 +182,10 @@ const LoginForm = styled.form`
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+
+  @media screen and ${device.mobile} {
+    width: 300px;
+  }
 `
 const LoginInput = styled.input`
   width: 90%;
@@ -192,6 +196,11 @@ const LoginInput = styled.input`
   border: none;
   outline: none;
   border: 3px solid black;
+
+  @media screen and ${device.mobile} {
+    font-size: 15px;
+    border: 2px solid black;
+  }
 `
 const ForgotPassword = styled(Link)`
   width: 90%;
@@ -199,6 +208,9 @@ const ForgotPassword = styled(Link)`
   margin: 10px auto;
   text-align: center;
   color: red;
+  @media screen and ${device.mobile} {
+    font-size: 15px;
+  }
 `
 const LoginSubmit = styled.button`
   background-color: black;
@@ -211,11 +223,13 @@ const LoginSubmit = styled.button`
   font-weight: light;
   padding: 10px 20px;
   margin: 10px auto;
-  border: none;
+  border: 2px solid black;
+
   transition: 250ms all;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1rem;
+  box-sizing: border-box;
 
   &:hover {
     opacity: 0.85;
@@ -229,17 +243,28 @@ const LoginSubmit = styled.button`
   ${({ disable }) =>
     disable &&
     css`
-      opacity: 0.5;
+      background-color: white;
+      color: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(0, 0, 0, 0.4);
       cursor: auto;
       &:hover,
       &:focus {
-        opacity: 0.5;
+        background-color: white;
+        color: rgba(0, 0, 0, 0.4);
+        border: 2px solid rgba(0, 0, 0, 0.4);
         border-radius: 0;
       }
     `}
+  & span {
+    padding-top: 5px;
+  }
+  @media screen and ${device.mobile} {
+    font-size: 20px;
+  }
 `
 const LoginWithGoogle = styled(LoginSubmit)`
   background-color: red;
+  border: none;
 `
 const EmailIcon = styled(FaEnvelope)`
   margin-right: 40px;

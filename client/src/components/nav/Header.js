@@ -60,13 +60,13 @@ function Header() {
       if (
         !hamRef.current.contains(event.target) &&
         !navRef.current.contains(event.target) &&
-        !profileRef.current.contains(event.target) &&
+        !profileRef?.current?.contains(event.target) &&
         !searchRef.current.contains(event.target)
       ) {
         hamClick()
       } else if (
         navRef.current.contains(event.target) &&
-        !profileRef.current.contains(event.target) &&
+        !profileRef?.current?.contains(event.target) &&
         !searchRef.current.contains(event.target)
       ) {
         setTimeout(() => {
