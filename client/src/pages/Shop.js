@@ -6,6 +6,8 @@ import ProductCard from '../components/cards/ProductCard'
 import SideFilterMenu from '../components/forms/SideFilterMenu'
 import { getCategories } from '../functions/category'
 import { getSubs } from '../functions/sub'
+import device, { size as devSize } from '../mediaQueries'
+import useWindowSize from '../useWindowSize'
 
 const Shop = () => {
   const [products, setProducts] = useState([])
@@ -20,6 +22,8 @@ const Shop = () => {
   const [colorsSelected, setColorsSelected] = useState([])
   const [shipping, setShipping] = useState('')
 
+  const [filterClicked, setFilterClicked] = useState(false)
+
   const [loading, setLoading] = useState(false)
 
   const [price, setPrice] = useState(0)
@@ -28,6 +32,8 @@ const Shop = () => {
   const dispatch = useDispatch()
   let { search } = useSelector((state) => ({ ...state }))
   const { text } = search
+
+  let isLarge = useWindowSize() > devSize.tablet
 
   useEffect(() => {
     loadAllProducts()
@@ -79,9 +85,16 @@ const Shop = () => {
     return () => clearTimeout(delayed)
   }, [price, ok])
 
+  const handleFilterClick = () => {
+    setFilterClicked(true)
+    document.body.classList.add('hide-y')
+  }
+
   return (
     <Container>
       <SideFilterMenu
+        filterClicked={filterClicked}
+        setFilterClicked={setFilterClicked}
         fetchProducts={fetchProducts}
         price={price}
         setPrice={setPrice}
@@ -112,6 +125,9 @@ const Shop = () => {
             {products.length < 1 ? 'No Products Found!' : 'Products Found.'}
           </Heading>
         )}
+        {!isLarge && (
+          <FilterContainer onClick={handleFilterClick}>Filter</FilterContainer>
+        )}
         <ProductsList>
           {products.map((product) => (
             <ProductCard
@@ -139,8 +155,29 @@ const ProductsContainer = styled.div`
   height: 100%;
   margin: 2rem;
   margin-left: calc(300px + 2rem);
+  position: relative;
+
+  @media screen and ${device.tablet} {
+    margin: 2rem;
+    width: 100%;
+  }
 `
 const Heading = styled.h2``
+const FilterContainer = styled.button`
+  position: absolute;
+  top: -4px;
+  right: 0;
+  font-size: 20px;
+  padding: 2px 10px;
+  border: solid 1px black;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    background-color: black;
+    color: white;
+  }
+`
 const ProductsList = styled.div`
   display: flex;
   justify-content: space-around;

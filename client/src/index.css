@@ -86,3 +86,7 @@
 .full-page .spinner {
   transform: scale(2);
 }
+
+.hide-y {
+  overflow-y: hidden;
+}

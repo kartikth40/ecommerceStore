@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import StarRatings from 'react-star-ratings'
+import device from '../../mediaQueries'
 
 const SideFilterMenu = ({
+  filterClicked,
+  setFilterClicked,
   fetchProducts,
   price,
   setPrice,
@@ -192,8 +195,20 @@ const SideFilterMenu = ({
   }
 
   return (
-    <Container>
-      <FilterHeading>Filters</FilterHeading>
+    <Container show={filterClicked}>
+      <FilterHeading>
+        <span>Filters</span>{' '}
+        {filterClicked && (
+          <FilterDone
+            onClick={() => {
+              setFilterClicked(false)
+              document.body.classList.remove('hide-y')
+            }}
+          >
+            Done
+          </FilterDone>
+        )}
+      </FilterHeading>
       <PriceFilter>
         <StyledHeading>
           Price
@@ -338,15 +353,56 @@ export default SideFilterMenu
 
 const Container = styled.div`
   width: 300px;
-  height: calc(100vh - 75px);
+  height: calc(100vh - 70px);
   position: fixed;
+  z-index: 10;
   overflow-y: scroll;
   padding: 1rem;
+  transition: 0.5s all;
+
+  @media screen and ${device.tablet} {
+    padding-bottom: 100px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: ${(props) => (props.show ? '0' : '-150%')};
+    background-color: white;
+  }
 `
 
 const FilterHeading = styled.h2`
   font-weight: bold;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+
+  & span {
+    transform: translateY(5px);
+  }
+  @media screen and ${device.tablet} {
+    font-size: 40px;
+    width: 90%;
+    border-radius: 20px;
+    position: fixed;
+    padding: 10px 20px;
+    bottom: 0;
+    z-index: 10;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  }
+`
+const FilterDone = styled.div`
+  font-size: 25px;
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 7px 10px 5px 10px;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    background-color: black;
+    color: white;
+  }
 `
 const StyledHeading = styled.h3`
   position: relative;
