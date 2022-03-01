@@ -11,6 +11,7 @@ import {
 } from '../functions/user'
 import { toast } from 'react-toastify'
 import { getRefreshedIdToken } from '../functions/getRefreshedIdToken'
+import device from '../mediaQueries'
 
 const Checkout = () => {
   const [token, setToken] = useState('')
@@ -215,18 +216,21 @@ const Checkout = () => {
         ))}
         <Hr />
         <TotalPay>
-          Cart Total = <CurrencySymbol> &#8377;</CurrencySymbol>
-          {totalAfterDiscount > 0 && couponApplied ? (
-            <>
-              {totalAfterDiscount}
-              <DiscountContainer>
-                <Strike>{total}</Strike>
-                <Discount>{discount}% OFF</Discount>
-              </DiscountContainer>
-            </>
-          ) : (
-            total
-          )}
+          <span>Cart Total =</span>
+          <span>
+            <CurrencySymbol> &#8377;</CurrencySymbol>
+            {totalAfterDiscount > 0 && couponApplied ? (
+              <>
+                {totalAfterDiscount}
+                <DiscountContainer>
+                  <Strike>{total}</Strike>
+                  <Discount>{discount}% OFF</Discount>
+                </DiscountContainer>
+              </>
+            ) : (
+              total
+            )}
+          </span>
         </TotalPay>
         <Hr />
         <Buttons>
@@ -259,6 +263,9 @@ export default Checkout
 const Container = styled.div`
   margin-top: 70px;
   display: flex;
+  @media screen and ${device.tablet} {
+    flex-direction: column;
+  }
 `
 const Heading = styled.h1`
   margin-bottom: 1rem;
@@ -268,6 +275,13 @@ const LeftContainer = styled.div`
   padding: 0 1rem;
   width: 50vw;
   min-height: calc(100vh - 4rem - 70px);
+  @media screen and ${device.tablet} {
+    width: calc(100vw - 4rem);
+  }
+  @media screen and ${device.mobile} {
+    margin: 1rem;
+    width: calc(100vw - 2rem);
+  }
 `
 
 const AddressForm = styled.form``
@@ -302,6 +316,14 @@ const OrderSummaryContainer = styled.div`
   margin: 2rem 0;
   padding: 0 1rem;
   width: calc(50vw - 6rem);
+  @media screen and ${device.tablet} {
+    margin: 2rem;
+    width: calc(100vw - 4rem);
+  }
+  @media screen and ${device.mobile} {
+    margin: 1rem;
+    width: calc(100vw - 2rem);
+  }
 `
 const SubHeading = styled.h2`
   margin-bottom: 1rem;
@@ -317,7 +339,9 @@ const Calc = styled.p`
 const Left = styled.span`
   font-weight: bold;
 `
-const Right = styled.span``
+const Right = styled.span`
+  white-space: nowrap;
+`
 const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
@@ -363,6 +387,14 @@ const TotalPay = styled.div`
   font-weight: bold;
   font-size: 30px;
   display: flex;
+  @media screen and ${device.tablet} {
+    & span {
+      white-space: nowrap;
+    }
+  }
+  @media screen and ${device.mobile} {
+    font-size: 20px;
+  }
 `
 const CouponContainer = styled.div`
   display: flex;
@@ -412,6 +444,7 @@ const DiscountContainer = styled.span`
   display: flex;
   flex-direction: column;
   font-weight: lighter;
+  width: max-content;
 `
 const Strike = styled.s`
   color: black;

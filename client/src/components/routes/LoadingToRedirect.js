@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import device from '../../mediaQueries'
 
 const LoadingToRedirect = () => {
   const [count, setCount] = useState(5)
@@ -28,12 +29,18 @@ const LoadingToRedirect = () => {
 export default LoadingToRedirect
 
 const Container = styled.div`
-  margin: 100px auto 0;
-  width: 700px;
+  margin: 100px auto;
+  width: 100vw;
 `
 const Heading = styled.h1`
-  width: 100%;
+  width: 100vw;
   text-align: center;
   font-weight: bold;
   font-size: 3rem;
+  @media screen and ${device.tablet} {
+    font-size: 2rem;
+  }
+  @media screen and ${device.mobile} {
+    font-size: 1rem;
+  }
 `
