@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import laptop from '../../images/laptop.jpg'
 import DropDownSelector from '../forms/DropDownSelector'
+import device from '../../mediaQueries'
 
 const Orders = ({ orders, handleStatusChange }) => {
   const statusList = [
@@ -122,6 +123,7 @@ const OrderContainer = styled.div`
   width: 100%;
   overflow: hidden;
   margin: 1rem 0;
+  position: relative;
 `
 const OrderHeader = styled.div`
   border-bottom: solid 2px rgba(0, 0, 0, 0.2);
@@ -132,6 +134,9 @@ const OrderHeader = styled.div`
   background-color: rgba(0, 0, 0, 0.08);
   color: rgba(0, 0, 0, 0.6);
   font-weight: 500;
+  @media screen and ${device.tablet} {
+    font-size: 10px;
+  }
 `
 const OrderLeftHeader = styled.div`
   display: flex;
@@ -167,11 +172,24 @@ const StatusContainer = styled.div`
       background-color: white;
     }
   }
+
+  @media screen and ${device.tablet} {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    & select {
+      font-size: 10px;
+      padding: 2px;
+    }
+  }
 `
 const StatusChangeTitle = styled.span`
   font-size: 30px;
   font-weight: bold;
   margin-right: 20px;
+  @media screen and ${device.tablet} {
+    font-size: 10px;
+  }
 `
 const OrderProductsContainer = styled.div`
   padding: 10px 20px;
@@ -190,6 +208,7 @@ const ProductImage = styled(Link)`
   margin-right: 20px;
   border-radius: 10px;
   overflow: hidden;
+  flex-shrink: 0;
 `
 const Img = styled.img`
   width: 100%;
@@ -211,5 +230,9 @@ const ProductName = styled(Link)`
   }
   &:hover {
     text-decoration: underline;
+  }
+
+  @media screen and ${device.mobile} {
+    font-size: 15px;
   }
 `

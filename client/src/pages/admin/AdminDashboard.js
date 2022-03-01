@@ -5,6 +5,7 @@ import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
 import { toast } from 'react-toastify'
 import AdminNav from '../../components/nav/AdminNav'
 import Orders from '../../components/order/Orders'
+import device from '../../mediaQueries'
 
 const AdminDashboard = () => {
   const [token, setToken] = useState('')
@@ -74,6 +75,12 @@ const Content = styled.div`
   display: flex;
   font-size: 1rem;
   flex-direction: column;
+
+  @media screen and ${device.tablet} {
+    width: 100vw;
+    margin: 0;
+    padding: 1rem;
+  }
 `
 const Heading = styled.h4`
   margin: 1rem 0;
