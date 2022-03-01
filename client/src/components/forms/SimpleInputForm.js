@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import device from '../../mediaQueries'
 
 const SimpleInputForm = ({ label, value, setValue, handleSubmit }) => {
   return (
@@ -54,5 +55,9 @@ const Button = styled.button`
   &:active {
     opacity: 0.5;
     border-radius: 50px 50px 0 50px;
+  }
+
+  @media screen and ${device.mobile} {
+    font-size: 20px;
   }
 `
