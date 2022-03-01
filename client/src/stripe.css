@@ -12,6 +12,11 @@ body {
   justify-content: center;
   height: calc(100vh - 70px);
 }
+@media screen and (max-width: 880px) {
+  .container {
+    width: 80vw;
+  }
+}
 
 .heading {
   margin: 2rem;
@@ -56,7 +61,11 @@ body {
   border-radius: 7px;
   padding: 40px;
 }
-
+@media screen and (max-width: 880px) {
+  .stripe-form {
+    width: 350px;
+  }
+}
 .stripe-input {
   border-radius: 6px;
   margin-bottom: 6px;
