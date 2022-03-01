@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import Resizer from 'react-image-file-resizer'
 import axios from 'axios'
 import { getRefreshedIdToken } from '../../functions/getRefreshedIdToken'
+import device from '../../mediaQueries'
 
 const FileUpload = ({ values, setValues, loading, setLoading }) => {
   const fileUploadAndResize = async (e) => {
@@ -94,7 +95,7 @@ const FileUpload = ({ values, setValues, loading, setLoading }) => {
           })}
       </Images>
       <StyledLabel>
-        CHOOSE FILES
+        CHOOSE IMAGES
         <StyledInput
           type="file"
           multiple
@@ -185,6 +186,9 @@ const StyledLabel = styled.label`
   &:active {
     opacity: 0.25;
     border-radius: 50px 50px 0 50px;
+  }
+  @media screen and ${device.tablet} {
+    font-size: 20px;
   }
 `
 const StyledInput = styled.input``

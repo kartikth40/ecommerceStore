@@ -85,6 +85,9 @@ const Content = styled.div`
 const Heading = styled.h4`
   margin: 1rem 0;
   font-size: 3rem;
+  @media screen and ${device.tablet} {
+    font-size: 2rem;
+  }
 `
 
 export { Container, Content, Heading }

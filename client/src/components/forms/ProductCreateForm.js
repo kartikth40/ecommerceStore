@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Select from 'react-select'
 import DropDownSelector from './DropDownSelector'
+import device from '../../mediaQueries'
 
 const ProductCreateForm = ({
   loading,
@@ -134,6 +135,9 @@ const Input = styled.input`
   border: none;
   outline: none;
   border-bottom: 2px solid black;
+  @media screen and ${device.tablet} {
+    font-weight: lighter;
+  }
 `
 const Button = styled.button`
   background-color: black;
@@ -153,6 +157,10 @@ const Button = styled.button`
   &:active {
     opacity: 0.5;
     border-radius: 50px 50px 0 50px;
+  }
+
+  @media screen and ${device.mobile} {
+    font-size: 20px;
   }
 `
 const StyledSelect = styled(Select)`
