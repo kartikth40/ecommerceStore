@@ -12,6 +12,7 @@ import {
   createCoupon,
 } from '../../../functions/coupon'
 import { getRefreshedIdToken } from '../../../functions/getRefreshedIdToken'
+import device from '../../../mediaQueries'
 
 const CreateCoupon = () => {
   const [token, setToken] = useState('')
@@ -162,6 +163,9 @@ const CouponCreateForm = styled.form`
 
 const FormInput = styled.div`
   display: flex;
+  @media screen and ${device.tablet} {
+    flex-direction: column;
+  }
 `
 const FormGroup = styled.div`
   margin: 0 20px 20px 0;
@@ -201,6 +205,10 @@ const SubmitButton = styled.button`
     opacity: 0.5;
     border-radius: 50px 50px 0 50px;
   }
+
+  @media screen and ${device.mobile} {
+    font-size: 20px;
+  }
 `
 const CouponsList = styled.div`
   color: white;
@@ -208,6 +216,9 @@ const CouponsList = styled.div`
   padding: 3rem;
   overflow-x: scroll;
   // background: #17141d;
+  @media screen and ${device.tablet} {
+    margin-bottom: 5rem;
+  }
 `
 const Card = styled.div`
   display: flex;
