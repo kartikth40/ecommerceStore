@@ -1,10 +1,7 @@
 import axios from 'axios'
 
 export const getCategories = async () => {
-  let a = await axios.get(`${process.env.REACT_APP_API}/categories`)
-  console.log('----->', a)
-  console.log(process.env.REACT_APP_API)
-  return a
+  return await axios.get(`${process.env.REACT_APP_API}/categories`)
 }
 
 export const getCategory = async (slug) => {
