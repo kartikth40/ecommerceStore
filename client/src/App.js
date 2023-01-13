@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 // currentUser function takes token of the user id token and sends the user info to the backend server
 import { currentUser } from './functions/auth'
 
-// using lazy
+// using lazy loading
 
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
