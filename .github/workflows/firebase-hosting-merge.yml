@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: echo ${{ secrets.REACT_APP_API }} | sed -e 's/\(.\)/\1 /g'
       - run: npm ci && REACT_APP_REGISTER_REDIRECT_URL=${{ secrets.REACT_APP_REGISTER_REDIRECT_URL }} REACT_APP_FORGOT_PASSWORD_REDIRECT_URL=${{ secrets.REACT_APP_FORGOT_PASSWORD_REDIRECT_URL }} REACT_APP_API=${{ secrets.REACT_APP_API}} REACT_APP_STRIPE_KEY=${{ secrets.REACT_APP_STRIPE_KEY }} CI=false npm run build
         working-directory: ./client
       - uses: FirebaseExtended/action-hosting-deploy@v0
